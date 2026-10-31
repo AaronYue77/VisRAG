@@ -1,0 +1,212 @@
+项目操作记录：记录方法、操作、结果、验证、产物和问题关联。
+历史操作为依据实际产物补记；精确运行时间以 provenance.json 为准。
+
+[2026-10-31T23:00:15+08:00] OP-001
+操作：补齐/重建逐题 TXT
+执行时间：本次记录时刻
+方法：读取每个运行目录的原始 results.jsonl，逐字段导出 TXT；不改动原结果或配置。
+结果：[{"run": "dev50-a-retrieval-v1", "records": 50, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\dev50-a-retrieval-v1\\逐题结果.txt"}, {"run": "dev50-a-v1", "records": 50, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\dev50-a-v1\\逐题结果.txt"}, {"run": "smoke10-a-v1", "records": 10, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\smoke10-a-v1\\逐题结果.txt"}, {"run": "smoke10-a-v2", "records": 10, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\smoke10-a-v2\\逐题结果.txt"}]
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\逐题结果汇总.txt
+验证：TXT 数量与原 JSONL 记录数一致；含仅检索与完整问答的模式说明。
+关联问题：无
+状态：完成
+
+[2026-10-31T23:00:16+08:00] OP-002
+操作：开始 run
+执行时间：本次记录时刻
+方法：python run.py run --run-name txt-audit-check --limit 1；具体算法、模型、参数见运行 config.json。
+结果：开始执行，最终结果见后续完成或失败条目。
+输出：见本条说明
+验证：见输出文件
+关联问题：无
+状态：进行中
+
+[2026-10-31T23:00:34+08:00] OP-003
+操作：汇总运行 txt-audit-check
+执行时间：本次记录时刻
+方法：读取逐题 JSONL，宏平均检索/答案指标；导出逐题 TXT、汇总 TXT 和可阅读报告。
+结果：{"attempted": 1, "completed": 1, "errors": 0, "total_planned": 1, "metrics": {"hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 0.5, "normalized_em": 1.0, "token_f1": 1.0, "citation_gold_hit": 1.0, "json_parse_ok": 1.0}, "mean_generation_seconds": 2.7980556999973487, "peak_cuda_gib": 4.416642665863037, "score_note": "Lexical EM/F1 and citation-page overlap are diagnostics, not verified semantic correctness or proof of groundedness.", "run_config_sha256": "0336381fa5abdf85c78fe55109faf2ed6e7528e4005d992920a071915c46d0ac"}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\txt-audit-check\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\txt-audit-check\summary.json；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\txt-audit-check\运行报告.md
+验证：记录数量与计划题数对照；执行错误保留在分母中，不删除失败题。
+关联问题：无
+状态：完成
+
+[2026-10-31T23:00:34+08:00] OP-004
+操作：完成 run
+执行时间：本次记录时刻
+方法：python run.py run --run-name txt-audit-check --limit 1；具体算法、模型、参数见运行 config.json。
+结果：命令正常返回；指标、计数与数据校验见产物。
+输出：E:\大模型项目自学E\doc-vqa-assistant\data\a_baseline\smoke
+验证：命令执行无异常；run 的逐题与汇总结果另行记录。
+关联问题：无
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-005
+操作：历史操作补记：版本管理
+执行时间：2026-10-31 历史操作补记
+方法：检查 Git 仓库边界、读取连接账号、核对 Fork 元数据；建立开发与上游基准分支，保留 LICENSE。
+结果：origin=用户 Fork，upstream=OpenBMB/VisRAG；起点 7205787862e35d70cee7ebfd8f2b58d3eb5d563b。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline
+验证：依据已保存文件、Git 元数据、运行报告与问题记录补记；不伪造精确开始时间。
+关联问题：ISSUE-001/004/005
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-006
+操作：历史操作补记：技术文档准备
+执行时间：2026-10-31 历史操作补记
+方法：从 NeurIPS/PMLR 官方下载 Attention、CLIP；校验 PDF 文件并保存 SHA256。
+结果：2 份技术文档，11+16=27 页；被阻断的 OpenReview 入口未绕过。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline
+验证：依据已保存文件、Git 元数据、运行报告与问题记录补记；不伪造精确开始时间。
+关联问题：ISSUE-006/007/008
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-007
+操作：历史操作补记：人工冒烟题
+执行时间：2026-10-31 历史操作补记
+方法：对照这两份 PDF，人工编写数字/表格问题、答案别名与物理证据页；英文用于检索，中文用于阅读。
+结果：固定 10 道 smoke_dev 题，参考页已核对；不是未见测试集。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline
+验证：依据已保存文件、Git 元数据、运行报告与问题记录补记；不伪造精确开始时间。
+关联问题：无
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-008
+操作：历史操作补记：建立 A 基线
+执行时间：2026-10-31 历史操作补记
+方法：保留上游代码；新增 PyMuPDF 原生文本/OCR、BM25 Top-2、页面渲染、本地 Qwen3.5-2B 问答与严格 JSON 解析。
+结果：CPU 检索与单个 2B GPU 模型可在 8GB 显存运行；未实施 B 视觉检索或 C 微调。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline
+验证：依据已保存文件、Git 元数据、运行报告与问题记录补记；不伪造精确开始时间。
+关联问题：ISSUE-002/011
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-009
+操作：历史操作补记：公开评测准备
+执行时间：2026-10-31 历史操作补记
+方法：固定 HF revision，32 MiB 分块下载 ZIP，核对 LFS SHA256，读取选中成员并验证 CRC；按文档哈希分区、题型分层选题。
+结果：100 题、79 份文档，dev/test 各 50；规范账号 Qiuchen-Wang/ViDoSeek。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline
+验证：依据已保存文件、Git 元数据、运行报告与问题记录补记；不伪造精确开始时间。
+关联问题：ISSUE-009/010
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-010
+操作：历史操作补记：语料与标签检查
+执行时间：2026-10-31 历史操作补记
+方法：逐页提取文本，不足时 OCR 回退；检查所有标注页是否存在、文档是否跨分区；渲染检查 3 个无文本页。
+结果：1560 页，其中原生文本 1461、OCR 99、无文本 3；100 题页号及分区检查通过。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline
+验证：依据已保存文件、Git 元数据、运行报告与问题记录补记；不伪造精确开始时间。
+关联问题：ISSUE-016/018
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-011
+操作：历史操作补记：JSONL 读取修复
+执行时间：2026-10-31 历史操作补记
+方法：定位 splitlines 对 Unicode U+2028/U+0085 的错误分行；改为物理逐行读文件，新增回归测试。
+结果：原索引未改动即可成功读取；10 个当前保护测试通过。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline
+验证：依据已保存文件、Git 元数据、运行报告与问题记录补记；不伪造精确开始时间。
+关联问题：ISSUE-014/015
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-012
+操作：历史操作补记：格式提示改进
+执行时间：2026-10-31 历史操作补记
+方法：只给提示补充与标签无关的 JSON 示例，明确 citations 是字符串数组；不自动补 gold，不删除失败题。
+结果：10 题 v1→v2：JSON 解析 8/10→10/10，严格匹配 8/10→9/10；证据命中保持 9/10。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline
+验证：依据已保存文件、Git 元数据、运行报告与问题记录补记；不伪造精确开始时间。
+关联问题：ISSUE-012/013
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-013
+操作：历史操作补记：代码与实验发布
+执行时间：2026-10-31 历史操作补记
+方法：通过 GitHub 插件逐一创建 blob，比较本地 index blob SHA，复用上游 base tree 创建提交，并用 expected SHA 更新开发分支。
+结果：31 个文件的 blob SHA 与本地相同；远程树与本地树一致；初次提交 d759345。模型、PDF、凭证未上传。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline
+验证：依据已保存文件、Git 元数据、运行报告与问题记录补记；不伪造精确开始时间。
+关联问题：ISSUE-017/021/022/023
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-014
+操作：历史运行补记：smoke10-a-v1
+执行时间：2026-10-31T22:41:36+08:00
+方法：BM25 Top-2；Qwen3.5-2B，本地 BF16；每页最多 786432 像素，最多生成 96 token，关闭采样与 thinking。
+结果：{"attempted": 10, "completed": 10, "errors": 0, "total_planned": 10, "metrics": {"hit_at_k": 0.9, "recall_at_k": 0.9, "reciprocal_rank": 0.8, "normalized_em": 0.8, "token_f1": 0.84, "citation_gold_hit": 0.8, "json_parse_ok": 0.8}, "mean_generation_seconds": 2.0482038399961313, "peak_cuda_gib": 4.416581630706787, "score_note": "Lexical EM/F1 and citation-page overlap are diagnostics, not verified semantic correctness or proof of groundedness.", "run_config_sha256": "92dd002d217b8c73f266474e8de4a25dda1e7c9e641fd2ff3009c4a13dee8410"}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-a-v1\results.jsonl；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-a-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-a-v1\config.json
+验证：每道题均落盘；参考标签不进入模型输入；源代码快照与配置哈希已核对。
+关联问题：原始失败与质量问题见 ISSUE-012/013/020
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-015
+操作：历史运行补记：smoke10-a-v2
+执行时间：2026-10-31T22:42:56+08:00
+方法：BM25 Top-2；Qwen3.5-2B，本地 BF16；每页最多 786432 像素，最多生成 96 token，关闭采样与 thinking。
+结果：{"attempted": 10, "completed": 10, "errors": 0, "total_planned": 10, "metrics": {"hit_at_k": 0.9, "recall_at_k": 0.9, "reciprocal_rank": 0.8, "normalized_em": 0.9, "token_f1": 0.9, "citation_gold_hit": 0.9, "json_parse_ok": 1.0}, "mean_generation_seconds": 2.007916510000359, "peak_cuda_gib": 4.4166951179504395, "score_note": "Lexical EM/F1 and citation-page overlap are diagnostics, not verified semantic correctness or proof of groundedness.", "run_config_sha256": "938ee227713cb8972e8c27aa128a352507960d2b4a02051547ba18f0211ae4aa"}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-a-v2\results.jsonl；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-a-v2\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-a-v2\config.json
+验证：每道题均落盘；参考标签不进入模型输入；源代码快照与配置哈希已核对。
+关联问题：原始失败与质量问题见 ISSUE-012/013/020
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-016
+操作：历史运行补记：dev50-a-retrieval-v1
+执行时间：2026-10-31T22:47:16+08:00
+方法：BM25 Top-2；只评检索，不加载问答模型。
+结果：{"attempted": 50, "completed": 50, "errors": 0, "total_planned": 50, "metrics": {"hit_at_k": 0.64, "recall_at_k": 0.64, "reciprocal_rank": 0.61}, "mean_generation_seconds": 0.0, "peak_cuda_gib": 0.0, "score_note": "Lexical EM/F1 and citation-page overlap are diagnostics, not verified semantic correctness or proof of groundedness.", "run_config_sha256": "78570f9a95cece51282be80a42ee954ead93761dd7b81d307d8697bb04f9d582"}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\dev50-a-retrieval-v1\results.jsonl；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\dev50-a-retrieval-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\dev50-a-retrieval-v1\config.json
+验证：每道题均落盘；参考标签不进入模型输入；源代码快照与配置哈希已核对。
+关联问题：原始失败与质量问题见 ISSUE-012/013/020
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-017
+操作：历史运行补记：dev50-a-v1
+执行时间：2026-10-31T22:47:18+08:00
+方法：BM25 Top-2；Qwen3.5-2B，本地 BF16；每页最多 786432 像素，最多生成 96 token，关闭采样与 thinking。
+结果：{"attempted": 50, "completed": 50, "errors": 0, "total_planned": 50, "metrics": {"hit_at_k": 0.64, "recall_at_k": 0.64, "reciprocal_rank": 0.61, "normalized_em": 0.36, "token_f1": 0.4780350106156558, "citation_gold_hit": 0.64, "json_parse_ok": 1.0}, "mean_generation_seconds": 2.9957696119963657, "peak_cuda_gib": 4.434221267700195, "score_note": "Lexical EM/F1 and citation-page overlap are diagnostics, not verified semantic correctness or proof of groundedness.", "run_config_sha256": "9e4dce6bc189b8c0c90ff497e27e7ed15f02a3642e358abb94c9323784b90a65"}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\dev50-a-v1\results.jsonl；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\dev50-a-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\dev50-a-v1\config.json
+验证：每道题均落盘；参考标签不进入模型输入；源代码快照与配置哈希已核对。
+关联问题：原始失败与质量问题见 ISSUE-012/013/020
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-018
+操作：补齐历史和后续 TXT 记录机制
+执行时间：本次记录时刻
+方法：新增 audit.py；在 JSONL 刷新后追加 TXT；批次结束重建汇总。新增工作区 AGENTS.md；自动记录命令开始/结束/失败与操作结果。
+结果：[{"run": "dev50-a-retrieval-v1", "records": 50, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\dev50-a-retrieval-v1\\逐题结果.txt"}, {"run": "dev50-a-v1", "records": 50, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\dev50-a-v1\\逐题结果.txt"}, {"run": "smoke10-a-v1", "records": 10, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\smoke10-a-v1\\逐题结果.txt"}, {"run": "smoke10-a-v2", "records": 10, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\smoke10-a-v2\\逐题结果.txt"}, {"run": "txt-audit-check", "records": 1, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\txt-audit-check\\逐题结果.txt"}]
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\逐题结果汇总.txt；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline\docs\操作方法与结果记录.txt；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline\docs\问题与解决记录.txt
+验证：逐题 TXT 含全部约定字段；原始 JSONL、配置和历史源代码快照未覆盖。
+关联问题：ISSUE-024
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-019
+操作：Git 网络重试与连接方式核对
+执行时间：本次记录时刻
+方法：读取使用 HTTP/1.1 有界重试；写入优先使用已连接 GitHub 插件。
+结果：早期 fetch 最终成功；后续 push dry-run 再次遇到连接重置，因此不把它当成账号权限错误。插件写入已成功。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline\docs\问题与解决记录.txt
+验证：本地与远程初次开发提交一致；新改动另行提交。
+关联问题：ISSUE-023
+状态：完成
+
+[2026-10-31T23:01:39+08:00] OP-020
+操作：补齐/重建逐题 TXT
+执行时间：本次记录时刻
+方法：读取每个运行目录的原始 results.jsonl，逐字段导出 TXT；不改动原结果或配置。
+结果：[{"run": "dev50-a-retrieval-v1", "records": 50, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\dev50-a-retrieval-v1\\逐题结果.txt"}, {"run": "dev50-a-v1", "records": 50, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\dev50-a-v1\\逐题结果.txt"}, {"run": "smoke10-a-v1", "records": 10, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\smoke10-a-v1\\逐题结果.txt"}, {"run": "smoke10-a-v2", "records": 10, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\smoke10-a-v2\\逐题结果.txt"}, {"run": "txt-audit-check", "records": 1, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\a_baseline\\txt-audit-check\\逐题结果.txt"}]
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\逐题结果汇总.txt
+验证：TXT 数量与原 JSONL 记录数一致；含仅检索与完整问答的模式说明。
+关联问题：无
+状态：完成
+
+[2026-10-31T23:02:21+08:00] OP-021
+操作：验证 TXT 字段与自动落盘
+执行时间：本次记录时刻
+方法：10 个保护测试，加一次真实单题完整推理；逐批扫描 JSONL/TXT 数量及约定字段。
+结果：共 5 个运行批次、121 条实验记录，TXT 数量与原始 JSONL 一致，所有约定字段完整。
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\逐题结果汇总.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\txt-audit-check\逐题结果.txt
+验证：测试通过；单题输出 512、正确引用、无执行异常；原有 4 个批次原始配置与结果未修改。
+关联问题：ISSUE-024
+状态：完成

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import zipfile
 
-from common import WORKSPACE, CODE, write_json, write_jsonl, file_hash, issue
+from common import WORKSPACE, CODE, write_json, write_jsonl, file_hash, issue, operation
 from download_verified import download_verified
 
 SEED = "visrag-personal-a-v1-20261031"
@@ -84,11 +84,13 @@ def main():
     # Publish reproducible selection, not redistributed PDFs or all source annotations.
     write_json(CODE / "data/vidoseek-selection.json", {"protocol": protocol, "selected": [{"question_id": x["question_id"], "split": x["split"]} for x in rows]})
     print(json.dumps(protocol, ensure_ascii=False, indent=2), flush=True)
+    operation("准备固定公开评测子集", "分块下载并校验压缩包 SHA256；安全读取选中 ZIP 成员；按文档哈希分区后按题型固定抽样。", f"{len(rows)} 题、{len(records)} 份文档，dev/test 各 50 题。", [root / "questions.jsonl", root / "documents.json", root / "protocol.json"], "压缩包哈希与成员 CRC 通过；页号和跨文档分区由 index 命令继续校验。")
 
 
 if __name__ == "__main__":
     try:
         main()
     except Exception as error:
-        issue(f"ViDoSeek 准备失败：{type(error).__name__}: {error}", "按错误检查下载、压缩包和标注。", "保留分块文件，修复后重跑 benchmark_data.py。")
+        key = issue(f"ViDoSeek 准备失败：{type(error).__name__}: {error}", "按错误检查下载、压缩包和标注。", "保留分块文件，修复后重跑 benchmark_data.py。")
+        operation("公开评测子集准备失败", "benchmark_data.py 下载、抽样与解压", str(error), status="失败，待修复", related_issues=key)
         raise

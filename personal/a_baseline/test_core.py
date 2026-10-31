@@ -4,9 +4,20 @@ from pathlib import Path
 
 from core import answer_metrics, retrieval_metrics, verify_questions, build_messages, parse_answer
 from common import read_jsonl, write_jsonl
+from audit import format_question
 
 
 class EvaluationSafeguards(unittest.TestCase):
+    def test_txt_preserves_labels_and_configuration_without_fabricating_generation(self):
+        row = {"run_name": "test", "question_id": "q1", "question": "Which page?", "reference_answer": "gold answer",
+               "reference_pages": ["d:p0007"], "retrieved_pages": [{"page_id": "d:p0003", "rank": 1, "score": 2.5, "text_source": "pdf_text"}],
+               "retrieval_seconds": .01, "model": None, "model_revision": None, "config_sha256": "config123", "source_sha256": "source456", "status": "ok", "metrics": {"hit_at_k": 0.0}}
+        text = format_question(row)
+        for value in ["q1", "Which page?", "gold answer", "d:p0007", "d:p0003", "config123", "source456", "未运行生成（仅检索模式）"]:
+            self.assertIn(value, text)
+        self.assertIn("生成耗时（秒）：未运行或失败", text)
+        self.assertEqual(row["reference_pages"], ["d:p0007"])
+
     def test_pdf_unicode_separators_do_not_split_json_records(self):
         import tempfile
         with tempfile.TemporaryDirectory() as directory:

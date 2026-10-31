@@ -1,7 +1,7 @@
 """Small technical documents and authoritative public annotation download."""
 import json
 import hashlib
-from common import WORKSPACE, fetch, file_hash, write_json, issue
+from common import WORKSPACE, fetch, file_hash, write_json, issue, operation
 
 
 def main() -> None:
@@ -51,11 +51,13 @@ def main() -> None:
             raise RuntimeError("ViDoSeek annotation Git blob hash mismatch")
     write_json(target / "sources.json", {"documents": records, "annotation": {"repo": info["id"], "revision": revision, "url": url, "sha256": file_hash(path)}})
     print("ViDoSeek annotation ready", flush=True)
+    operation("准备技术文档与公开标注", "出版方官方 PDF 下载、PyMuPDF 后续校验；保存固定数据源 revision，并核对标注 Git blob/LFS 哈希。", "2 份技术文档和 ViDoSeek 标注已就绪；已存在文件保留并校验。", [target / "sources.json", target / "smoke/documents.json", target / "vidoseek/upstream.json"], "PDF 文件头与标注 JSON/哈希校验通过。")
 
 
 if __name__ == "__main__":
     try:
         main()
     except Exception as error:
-        issue(f"数据准备失败：{type(error).__name__}: {error}", "查看具体网络响应或数据校验异常。", "保留已下载文件，修正原因后重新运行 download_data.py。")
+        key = issue(f"数据准备失败：{type(error).__name__}: {error}", "查看具体网络响应或数据校验异常。", "保留已下载文件，修正原因后重新运行 download_data.py。")
+        operation("准备技术文档与公开标注失败", "download_data.py 下载与哈希检查", str(error), status="失败，待修复", related_issues=key)
         raise

@@ -10,7 +10,8 @@ import subprocess
 import shutil
 import time
 
-from common import WORKSPACE, CODE, REPO, read_jsonl, write_json, file_hash, timestamp, issue
+from common import WORKSPACE, CODE, REPO, read_jsonl, write_json, file_hash, timestamp, issue, operation
+from audit import append_question, export_existing_runs
 from core import build_pages, verify_questions, TextRetriever, VLMReader, retrieval_metrics, answer_metrics
 
 
@@ -40,6 +41,7 @@ def index(args):
               "document_split_validation": "No document appears in more than one question split.",
               "pages_sha256": file_hash(root / "pages.jsonl"), "questions_sha256": file_hash(root / "questions.jsonl")}
     write_json(root / "index-report.json", report)
+    operation(f"构建 {args.suite} 页面语料", "校验 PDF SHA256；逐页原生文本抽取，不足 20 字符时 OCR 回退；检查证据页存在与文档分区。", json.dumps(report, ensure_ascii=False), [root / "pages.jsonl", root / "index-report.json"], "参考页均存在且同一文档不会跨问题分区；空文本页仍完整保留。")
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
 
@@ -80,6 +82,8 @@ def summarize(run_dir: Path):
             lines.append(f"[输入页面：{Path(path).name}]({link})  ")
         lines.append("")
     (run_dir / "运行报告.md").write_text("\n".join(lines), "utf-8")
+    export_existing_runs()
+    operation(f"汇总运行 {run_dir.name}", "读取逐题 JSONL，宏平均检索/答案指标；导出逐题 TXT、汇总 TXT 和可阅读报告。", json.dumps(summary, ensure_ascii=False), [run_dir / "逐题结果.txt", run_dir / "summary.json", run_dir / "运行报告.md"], "记录数量与计划题数对照；执行错误保留在分母中，不删除失败题。")
     print(json.dumps(summary, ensure_ascii=False, indent=2), flush=True)
 
 
@@ -155,6 +159,7 @@ def run(args):
                     torch.cuda.empty_cache()
             stream.write(json.dumps(row, ensure_ascii=False) + "\n")
             stream.flush()
+            append_question(output, row)
             print(f"{position}/{len(pending)} {row['question_id']} status={row['status']} hit={metrics['hit_at_k']} answer={row.get('answer', 'N/A')} gen={row.get('generation_seconds', 0):.2f}s", flush=True)
     summarize(output)
 
@@ -178,10 +183,14 @@ def main():
     p.add_argument("--final-test", action="store_true")
     p.set_defaults(function=run)
     args = parser.parse_args()
+    method = f"python run.py {' '.join(__import__('sys').argv[1:])}；具体算法、模型、参数见运行 config.json。"
+    operation(f"开始 {args.command}", method, "开始执行，最终结果见后续完成或失败条目。", status="进行中")
     try:
         args.function(args)
+        operation(f"完成 {args.command}", method, "命令正常返回；指标、计数与数据校验见产物。", [suite_root(args.suite)], "命令执行无异常；run 的逐题与汇总结果另行记录。")
     except Exception as error:
-        issue(f"命令 {args.command} 失败：{type(error).__name__}: {error}", "根据异常检查数据、参数、依赖或资源。", "修复后重跑；不同配置使用新 run-name，保留旧记录。")
+        key = issue(f"命令 {args.command} 失败：{type(error).__name__}: {error}", "根据异常检查数据、参数、依赖或资源。", "修复后重跑；不同配置使用新 run-name，保留旧记录。")
+        operation(f"失败 {args.command}", method, f"{type(error).__name__}: {error}", status="失败，待修复", related_issues=key)
         raise
 
 

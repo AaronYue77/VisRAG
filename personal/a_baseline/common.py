@@ -15,6 +15,7 @@ REPO = Path(__file__).resolve().parents[2]
 WORKSPACE = Path(os.environ.get("DOC_VQA_WORKSPACE", REPO.parent.parent)).resolve()
 CODE = Path(__file__).resolve().parent
 ISSUES = CODE / "docs/问题与解决记录.txt"
+OPERATIONS = CODE / "docs/操作方法与结果记录.txt"
 
 
 def configure_environment() -> None:
@@ -69,6 +70,19 @@ def issue(symptom: str, cause: str, solution: str, verification: str = "待验�
     ISSUES.parent.mkdir(parents=True, exist_ok=True)
     with ISSUES.open("a", encoding="utf-8", newline="\n") as stream:
         stream.write(f"\n[{timestamp()}] {key}\n现象：{symptom}\n原因：{cause}\n解决：{solution}\n验证：{verification}\n状态：{status}\n")
+    return key
+
+
+def operation(action: str, method: str, result: str, outputs=(), verification: str = "见输出文件", status: str = "完成", related_issues: str = "无", event_time: str | None = None) -> str:
+    """Record a project operation, including how it was done and what was verified."""
+    previous = OPERATIONS.read_text("utf-8") if OPERATIONS.exists() else ""
+    numbers = [int(value) for value in re.findall(r"OP-(\d+)", previous)]
+    key = f"OP-{max(numbers, default=0) + 1:03d}"
+    OPERATIONS.parent.mkdir(parents=True, exist_ok=True)
+    with OPERATIONS.open("a", encoding="utf-8", newline="\n") as stream:
+        if not previous:
+            stream.write("项目操作记录：记录方法、操作、结果、验证、产物和问题关联。\n历史操作为依据实际产物补记；精确运行时间以 provenance.json 为准。\n")
+        stream.write(f"\n[{timestamp()}] {key}\n操作：{action}\n执行时间：{event_time or '本次记录时刻'}\n方法：{method}\n结果：{result}\n输出：{'；'.join(str(p) for p in outputs) or '见本条说明'}\n验证：{verification}\n关联问题：{related_issues}\n状态：{status}\n")
     return key
 
 

@@ -3,7 +3,7 @@
 This is a development smoke suite, not an unbiased generalization benchmark.
 English retrieval queries match the English documents; Chinese translations are for reading.
 """
-from common import WORKSPACE, write_jsonl, write_json
+from common import WORKSPACE, write_jsonl, write_json, operation
 from core import page_id
 
 ITEMS = [
@@ -37,6 +37,7 @@ def main():
         "gold_review": "Numeric answers and supporting pages checked against these specific PDF files.",
     })
     print(destination)
+    operation("生成固定 10 道冒烟题", "将已人工核对的题目、短答案别名和物理 PDF 证据页写入 JSONL，全部标为 smoke_dev。", "10 道题保存完成；中文译文用于阅读，英文原问题用于检索。", [destination], "问题定义来自 smoke_questions.py 中固定 ITEMS；正式页码检查由 index 执行。")
 
 
 if __name__ == "__main__":
