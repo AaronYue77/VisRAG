@@ -210,3 +210,13 @@
 验证：测试通过；单题输出 512、正确引用、无执行异常；原有 4 个批次原始配置与结果未修改。
 关联问题：ISSUE-024
 状态：完成
+
+[2026-10-31T23:03:34+08:00] OP-022
+操作：同步 TXT 导出与操作审计功能到 Fork
+执行时间：本次记录时刻
+方法：使用 GitHub 插件创建 10 个 blob、tree、commit，逐项校验 SHA，并用 expected_sha 更新 feat/a-baseline。
+结果：代码与 TXT 机制已发布，提交 c3d16aeca2d6422b205aa00616e42357fda6e576。历史逐题 TXT 已补齐；工作区 AGENTS.md 保存了后续记录约定。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline\docs\操作方法与结果记录.txt
+验证：GitHub 分支更新成功；10 个测试和一次本地真实单题推理已通过；原始 JSONL 未覆盖。
+关联问题：无
+状态：完成
