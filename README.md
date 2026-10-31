@@ -1,4 +1,7 @@
 # VisRAG 2.0: Evidence-Guided Multi-Image Reasoning in Visual Retrieval-Augmented Generation
+
+> Personal fork development: [A-stage document QA baseline, evaluation protocol and troubleshooting](personal/a_baseline/README.md). This addition uses BM25 retrieval with a local VLM; the upstream visual retrieval implementation and original documentation below are preserved.
+
 [![Github](https://img.shields.io/badge/VisRAG-000000?style=for-the-badge&logo=github&logoColor=000&logoColor=white)](https://github.com/OpenBMB/VisRAG)
 [![arXiv](https://img.shields.io/badge/arXiv-2510.09733-ff0000.svg?style=for-the-badge)](https://arxiv.org/abs/2510.09733)
 [![arXiv](https://img.shields.io/badge/arXiv-2410.10594-ff0000.svg?style=for-the-badge)](https://arxiv.org/abs/2410.10594)

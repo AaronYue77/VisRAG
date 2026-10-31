@@ -1,0 +1,19 @@
+{
+  "attempted": 50,
+  "completed": 50,
+  "errors": 0,
+  "total_planned": 50,
+  "metrics": {
+    "hit_at_k": 0.64,
+    "recall_at_k": 0.64,
+    "reciprocal_rank": 0.61,
+    "normalized_em": 0.36,
+    "token_f1": 0.4780350106156558,
+    "citation_gold_hit": 0.64,
+    "json_parse_ok": 1.0
+  },
+  "mean_generation_seconds": 2.9957696119963657,
+  "peak_cuda_gib": 4.434221267700195,
+  "score_note": "Lexical EM/F1 and citation-page overlap are diagnostics, not verified semantic correctness or proof of groundedness.",
+  "run_config_sha256": "9e4dce6bc189b8c0c90ff497e27e7ed15f02a3642e358abb94c9323784b90a65"
+}
