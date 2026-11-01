@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "suite": "ecommerce_demo",
+  "split": "smoke_dev",
+  "source_type": "synthetic_demo",
+  "planned_questions": 16,
+  "mode": "hybrid",
+  "top_k": 2,
+  "model": "Qwen/Qwen3.5-2B",
+  "model_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+  "embedding_model": "BAAI/bge-small-zh-v1.5",
+  "embedding_revision": "7999e1d3359715c523056ef9478215996d62a620",
+  "source_sha256": "a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271",
+  "index_manifest_sha256": "d61b362a4960b4ce65175bf88f5e3e9147c6d2da7438d55c41b46dd14f48e0a9",
+  "questions_sha256": "da3905045f7a9a2c9ab867219a95389550d7c0b4611b0d1cfa55dc41429f5441",
+  "source_context": "Request SKU/store/as_of used; gold fields used only after prediction.",
+  "agent_implemented": false,
+  "live_business_tools_connected": false,
+  "rrf_c": 60,
+  "max_pixels_per_page": 786432,
+  "max_new_tokens": 160,
+  "packages": {
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.1",
+    "PyMuPDF": "2.0",
+    "rank-bm25": "0.2.2"
+  }
+}

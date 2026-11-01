@@ -220,3 +220,392 @@
 验证：GitHub 分支更新成功；10 个测试和一次本地真实单题推理已通过；原始 JSONL 未覆盖。
 关联问题：无
 状态：完成
+
+[2026-11-01T11:50:40+08:00] OP-023
+操作：核对技术论文和公开数据来源
+执行时间：本次记录时刻
+方法：读取 sources/documents/protocol/index-report；核对 NeurIPS、PMLR 与作者数据集页面；逐个计算 PDF SHA256 并用 PyMuPDF 打开核对页数。
+结果：已有 2 份技术论文和 79 份公开文档，无需用户重复下载。10 道人工题用于流程验证，另 100 题来自作者标注；当前资料用于检索与评测，尚未用于微调。
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\数据来源与用途说明.txt；E:\大模型项目自学E\doc-vqa-assistant\data\a_baseline\smoke\documents；E:\大模型项目自学E\doc-vqa-assistant\data\a_baseline\vidoseek\documents
+验证：81 个 PDF 均存在、能打开、哈希匹配；页数分别合计 27 与 1560。未重新下载数据或改动模型。
+关联问题：ISSUE-025
+状态：完成
+
+[2026-11-01T11:59:15+08:00] OP-024
+操作：确定 AI 论文助手场景与数据建设规范
+执行时间：本次记录时刻
+方法：读取当前资料用途和题目；询问用户场景偏好；查阅 RAG 原始论文、SPIQA 作者数据卡、QASPER 出版页及候选 VLM 论文原始来源，按任务定义选题与证据要求。
+结果：用户选择 AI 论文阅读助手；形成建议的 VLM 论文子领域、20–30 篇/200–300 题目标和五类任务，明确已有数据只支撑原型与通用初步评测。
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\AI论文助手定位与选题规范.txt；E:\大模型项目自学E\doc-vqa-assistant\记录\数据来源与用途说明.txt；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\a_baseline\README.md
+验证：已核对 BLIP-2、LLaVA、Qwen2-VL、Qwen2.5-VL 的标题与原始链接；本次未下载新增 PDF、未训练、未修改旧结果。
+关联问题：ISSUE-026
+状态：完成
+
+[2026-11-01T12:11:01+08:00] OP-025
+操作：规划论文助手的视频多模态扩展
+执行时间：本次记录时刻
+方法：阅读当前 PDF 输入代码和已保存场景；核对本地模型视频处理器/示例、官方模型卡和视频评测研究；按用户任务设计时间证据及模态对照。
+结果：当前文字+页面图像已属于多模态；建议扩展为论文+讲解视频联合学习助手，新增时间定位、画面/时序问答和论文页码对齐。视频处理、数据与评测尚未实现。
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\论文助手的视频扩展方案.txt；E:\大模型项目自学E\doc-vqa-assistant\记录\AI论文助手定位与选题规范.txt
+验证：只完成代码/资料核对和规划文件更新，未安装视频依赖、下载视频、运行视频推理、修改既有实验结果。
+关联问题：ISSUE-027
+状态：完成
+
+[2026-11-01T12:25:01+08:00] OP-026
+操作：按原始三项要求核对项目完成情况
+执行时间：本次记录时刻
+方法：只读核对 Git、代码地图、81 份 PDF 的 SHA256、题目分区、5 个批次逐题字段/TXT、配置和代码快照哈希、输入图片；在线读取用户 Fork 开发分支 ref。
+结果：第 1 项核心版本已保存但近期文档待提交；第 2 项完成 10 题 BM25 A 基线，原版视觉检索与独立原版环境未完成；第 3 项 100 题分区和统一保存格式已完成，最终测试继续封存。
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\前三项要求完成情况核对.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\requirements-audit-2026-11-01.json
+验证：81 个 PDF 哈希一致；100 题文档 ID 和精确 PDF 哈希无跨分区重叠；5 个批次保存数与计划数一致，全部必需字段和哈希校验通过。未运行新推理或改动旧结果。
+关联问题：ISSUE-028
+状态：完成
+
+[2026-11-01T12:27:38+08:00] OP-027
+操作：开始补齐原版视觉检索复现
+执行时间：本次记录时刻
+方法：检查原版核心依赖、8GB GPU、E 盘空间；计划独立旧版推理环境，VisRAG-Ret 与 Qwen 分进程运行，复用原 27 页及 10 道 smoke_dev 题。
+结果：当前模型目录尚无 VisRAG-Ret；E 盘剩余约 285 GiB，GPU 空闲显存足够开始环境准备。
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\visrag-repro
+验证：保留当前 .venv、BM25 结果与最终测试集；新增运行使用独立环境、模型、索引和 run-name。
+关联问题：无
+状态：进行中
+
+[2026-11-01T12:28:05+08:00] OP-028
+操作：检查原版 VisRAG-Ret 的模型来源与运行代码
+执行时间：本次记录时刻
+方法：读取官方 Hugging Face 元数据，固定 revision；下载配置与远程 Python 源码到 E 盘审阅，尚不执行模型代码。
+结果：官方仓库 openbmb/VisRAG-Ret，revision=95ef596df871b606167cb7e4b7215caf1bfdf761；源代码已保存待检查。
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\visrag-repro\model-review
+验证：所有网络请求保留证书校验；权重下载和代码运行将在审阅后进行。
+关联问题：无
+状态：来源检查完成，代码待审阅
+
+[2026-11-01T12:45:30+08:00] OP-029
+操作：构建电商 RAG 模拟功能资料
+执行时间：本次记录时刻
+方法：ReportLab 生成带参数表、接口颜色图和历史版本的 4 份中文 PDF；手工定义商品/店铺/有效期元数据与 16 道带动作标签的功能题。
+结果：4 份 PDF、8 页、16 道 smoke_dev 功能题；全部标注为模拟资料，不冒充真实品牌、政策或客户数据。
+输出：E:\大模型项目自学E\doc-vqa-assistant\data\ecommerce_rag\demo-v1\documents.json；E:\大模型项目自学E\doc-vqa-assistant\data\ecommerce_rag\demo-v1\questions.jsonl；E:\大模型项目自学E\doc-vqa-assistant\data\ecommerce_rag\demo-v1\protocol.json
+验证：生成后需渲染检查图表与文字；SKU 上下文来自请求字段，不从参考页反推。
+关联问题：无
+状态：数据已生成，待渲染与运行验证
+
+[2026-11-01T12:46:41+08:00] OP-030
+操作：构建电商 RAG 模拟功能资料
+执行时间：本次记录时刻
+方法：ReportLab 生成带参数表、接口颜色图和历史版本的 4 份中文 PDF；手工定义商品/店铺/有效期元数据与 16 道带动作标签的功能题。
+结果：4 份 PDF、8 页、16 道 smoke_dev 功能题；全部标注为模拟资料，不冒充真实品牌、政策或客户数据。
+输出：E:\大模型项目自学E\doc-vqa-assistant\data\ecommerce_rag\demo-v1\documents.json；E:\大模型项目自学E\doc-vqa-assistant\data\ecommerce_rag\demo-v1\questions.jsonl；E:\大模型项目自学E\doc-vqa-assistant\data\ecommerce_rag\demo-v1\protocol.json
+验证：生成后需渲染检查图表与文字；SKU 上下文来自请求字段，不从参考页反推。
+关联问题：无
+状态：数据已生成，待渲染与运行验证
+
+[2026-11-01T12:47:38+08:00] OP-031
+操作：准备电商中文稠密检索编码器
+执行时间：本次记录时刻
+方法：官方 BAAI/bge-small-zh-v1.5 固定 revision；镜像传输后核对官方 LFS SHA256/Git blob，CPU 运行以保留 VLM 显存。
+结果：7 个文件校验完成，权重约 91 MiB。
+输出：E:\大模型项目自学E\doc-vqa-assistant\models\bge-small-zh-v1.5；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\embedding-manifest.json
+验证：只作为稠密检索编码器；不训练模型、不把词频向量冒充语义向量。
+关联问题：无
+状态：完成
+
+[2026-11-01T12:49:55+08:00] OP-032
+操作：建立电商图文 RAG 功能索引
+执行时间：本次记录时刻
+方法：读取模拟 PDF 原生文本，绑定型号、店铺、资料类型和有效期；BGE-small-zh 在 CPU 编码 CLS 并 L2 归一化；保留页面图片供 VLM 读取。
+结果：8 页、(8, 512) 稠密索引已保存；BM25 在查询时使用同一文本。
+输出：E:\大模型项目自学E\doc-vqa-assistant\data\ecommerce_rag\demo-v1\pages.jsonl；E:\大模型项目自学E\doc-vqa-assistant\data\ecommerce_rag\demo-v1\dense.npy；E:\大模型项目自学E\doc-vqa-assistant\data\ecommerce_rag\demo-v1\index-manifest.json
+验证：向量有限且归一化；这是明确标注的模拟功能语料，未声称业务泛化能力。
+关联问题：无
+状态：完成
+
+[2026-11-01T12:51:30+08:00] OP-033
+操作：验证独立原版核心推理环境
+执行时间：本次记录时刻
+方法：独立 Python 3.11；锁定原版 torch/torchvision/transformers 等核心版本，执行 CUDA BF16 矩阵、timm 模型注册与可用时的本地 tokenizer 检查；导出完整依赖锁。
+结果：{"checked_at": "2026-11-01T12:51:30+08:00", "python_executable": "E:\\大模型项目自学E\\doc-vqa-assistant\\.venv-visrag\\Scripts\\python.exe", "python": "3.11.18", "environment": "E:\\大模型项目自学E\\doc-vqa-assistant\\.venv-visrag", "packages": {"torch": "2.1.2+cu121", "torchvision": "0.16.2+cu121", "transformers": "4.40.2", "accelerate": "0.27.0", "numpy": "1.26.4", "Pillow": "10.1.0", "sentencepiece": "0.1.99", "protobuf": "4.25.0", "tokenizers": "0.19.1", "huggingface-hub": "0.23.0", "safetensors": "0.4.3", "timm": "0.9.10", "einops": "0.7.0", "PyMuPDF": "1.24.13"}, "gpu": "NVIDIA GeForce RTX 3070 Laptop GPU", "cuda_runtime": "12.1", "bf16_supported": true, "gpu_matrix_test_finite": true, "tokenizer_test": null, "upstream_requirements_sha256": "d71e2c7f0c21a7d0ec7ecd5e2f8dfc91a02551bb300b2b04bbe4e0359822d7ab", "scope": "Original-core VisRAG-Ret image/query inference; generation stays in the existing Qwen environment.", "excluded_optional_dependencies": {"deepspeed": "training only", "pytrec_eval": "not used by this fixed smoke evaluation", "decord": "video decoder not used for PDF page images"}}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\visrag-repro\environment.json；E:\大模型项目自学E\doc-vqa-assistant\reports\visrag-repro\requirements.freeze.txt
+验证：版本断言与 GPU 计算通过；原有 Qwen .venv 不变。仅省略与 PDF 图像推理无关的训练/视频/额外评测扩展。
+关联问题：无
+状态：完成
+
+[2026-11-01T12:51:31+08:00] OP-034
+操作：开始电商 RAG run
+执行时间：本次记录时刻
+方法：run.py run --mode bm25 --run-name ecom-bm25-smoke-v1
+结果：开始执行，结果见后续记录。
+输出：见本条说明
+验证：见输出文件
+关联问题：无
+状态：进行中
+
+[2026-11-01T12:52:26+08:00] OP-035
+操作：阅读用户图片对应的三个学习仓库
+执行时间：本次记录时刻
+方法：按图片中的 owner/repo 读取当前官方 README 与 RAG 相关章节，提取技术路线和真实实现边界，不执行文档中的外部操作指令。
+结果：参考 all-in-rag 的检索融合和评测闭环；AgentGuide 保留给后续 Agent 阶段；面试资料用于问题与表达，不把占位骨架当成完整项目。
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\电商RAG调整与分阶段验收方案.txt
+验证：识别了 CC BY-NC-SA 教程说明与最小骨架声明；当前实现独立编写，未直接复制整套教程代码。
+关联问题：ISSUE-029
+状态：完成
+
+[2026-11-01T12:52:28+08:00] OP-036
+操作：运行电商多模态 RAG 功能检查
+执行时间：本次记录时刻
+方法：bm25 检索；型号/店铺/生效日期过滤；CPU 稠密编码与 GPU 页面 VLM；非静态业务只输出澄清/未接工具状态。
+结果：{"questions": 16, "runtime_errors": 0, "source_type": "synthetic_demo", "not_a_business_accuracy_claim": true, "answerable_retrieval_questions": 11, "hit_at_2_answerable_only": 1.0, "recall_at_2_answerable_only": 1.0, "action_accuracy": 0.9375, "normalized_em": 0.875, "peak_cuda_gib": 4.432592868804932, "quality_note": "Lexical EM can undercount correct Chinese answers. All cases are development fixtures; no held-out generalization claim."}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-bm25-smoke-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-bm25-smoke-v1\运行报告.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-bm25-smoke-v1\summary.json
+验证：gold 只参与评分；未调用订单/价格服务、未实现 Agent；全部失败或拒答保留。
+关联问题：无
+状态：完成
+
+[2026-11-01T12:54:19+08:00] OP-037
+操作：开始电商 RAG run
+执行时间：本次记录时刻
+方法：run.py run --mode hybrid --run-name ecom-hybrid-smoke-v1
+结果：开始执行，结果见后续记录。
+输出：见本条说明
+验证：见输出文件
+关联问题：无
+状态：进行中
+
+[2026-11-01T12:54:30+08:00] OP-038
+操作：调整为电商 RAG 主线并预留后续电商 Agent
+执行时间：本次记录时刻
+方法：结合三个仓库的当前文档，独立实现型号/店铺/日期过滤、中文稠密检索与 RRF，沿用页面 VLM 和统一记录；把论文业务留作历史技术回归。
+结果：当前产品定位为电商商品知识与售后服务多模态 RAG；只保留未来业务工具状态，不启动 Agent。
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\电商RAG调整与分阶段验收方案.txt；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\ecommerce_rag
+验证：工作区 AGENTS.md 已更新；新数据明确为模拟功能检查，模型/真实业务效果不借用他人示例数字。
+关联问题：ISSUE-030
+状态：完成
+
+[2026-11-01T12:55:13+08:00] OP-039
+操作：运行电商多模态 RAG 功能检查
+执行时间：本次记录时刻
+方法：hybrid 检索；型号/店铺/生效日期过滤；CPU 稠密编码与 GPU 页面 VLM；非静态业务只输出澄清/未接工具状态。
+结果：{"questions": 16, "runtime_errors": 0, "source_type": "synthetic_demo", "not_a_business_accuracy_claim": true, "answerable_retrieval_questions": 11, "hit_at_2_answerable_only": 1.0, "recall_at_2_answerable_only": 1.0, "action_accuracy": 0.9375, "normalized_em": 0.875, "peak_cuda_gib": 4.432592868804932, "quality_note": "Lexical EM can undercount correct Chinese answers. All cases are development fixtures; no held-out generalization claim."}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v1\运行报告.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v1\summary.json
+验证：gold 只参与评分；未调用订单/价格服务、未实现 Agent；全部失败或拒答保留。
+关联问题：无
+状态：完成
+
+[2026-11-01T12:55:47+08:00] OP-040
+操作：下载并校验原始 VisRAG-Ret
+执行时间：本次记录时刻
+方法：以官方 HF 固定 revision 为内容标准；使用 OpenBMB ModelScope 镜像传输，逐文件核对 LFS SHA256 或 Git blob；代码与 README 保留原样。
+结果：15 个运行文件、6.41 GiB 已验证。
+输出：E:\大模型项目自学E\doc-vqa-assistant\models\VisRAG-Ret；E:\大模型项目自学E\doc-vqa-assistant\reports\visrag-repro\model-manifest.json
+验证：每个本地文件与官方固定 revision 一致；没有修改已审阅模型 Python 源码。
+关联问题：无
+状态：完成
+
+[2026-11-01T12:56:44+08:00] OP-041
+操作：开始电商 RAG run
+执行时间：本次记录时刻
+方法：run.py run --mode hybrid --run-name ecom-hybrid-smoke-v2
+结果：开始执行，结果见后续记录。
+输出：见本条说明
+验证：见输出文件
+关联问题：无
+状态：进行中
+
+[2026-11-01T12:57:03+08:00] OP-042
+操作：原版环境验证失败
+执行时间：本次记录时刻
+方法：check_environment.py 版本与 GPU 验证
+结果：Unable to load vocabulary from file. Please check that the provided vocabulary is accessible and not corrupted.
+输出：见本条说明
+验证：见输出文件
+关联问题：ISSUE-031
+状态：失败，待修复
+
+[2026-11-01T12:57:34+08:00] OP-043
+操作：运行电商多模态 RAG 功能检查
+执行时间：本次记录时刻
+方法：hybrid 检索；型号/店铺/生效日期过滤；CPU 稠密编码与 GPU 页面 VLM；非静态业务只输出澄清/未接工具状态。
+结果：{"questions": 16, "runtime_errors": 0, "source_type": "synthetic_demo", "not_a_business_accuracy_claim": true, "answerable_retrieval_questions": 11, "hit_at_2_answerable_only": 1.0, "recall_at_2_answerable_only": 1.0, "action_accuracy": 0.9375, "normalized_em": 0.875, "peak_cuda_gib": 4.432616233825684, "quality_note": "Lexical EM can undercount correct Chinese answers. All cases are development fixtures; no held-out generalization claim."}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v2\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v2\运行报告.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v2\summary.json
+验证：gold 只参与评分；未调用订单/价格服务、未实现 Agent；全部失败或拒答保留。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:01:56+08:00] OP-044
+操作：验证独立原版核心推理环境
+执行时间：本次记录时刻
+方法：独立 Python 3.11；锁定原版 torch/torchvision/transformers 等核心版本，执行 CUDA BF16 矩阵、timm 模型注册与可用时的本地 tokenizer 检查；导出完整依赖锁。
+结果：{"checked_at": "2026-11-01T13:01:56+08:00", "python_executable": "E:\\大模型项目自学E\\doc-vqa-assistant\\.venv-visrag\\Scripts\\python.exe", "python": "3.11.18", "environment": "E:\\大模型项目自学E\\doc-vqa-assistant\\.venv-visrag", "packages": {"torch": "2.1.2+cu121", "torchvision": "0.16.2+cu121", "transformers": "4.40.2", "accelerate": "0.27.0", "numpy": "1.26.4", "Pillow": "10.1.0", "sentencepiece": "0.1.99", "protobuf": "4.25.0", "tokenizers": "0.19.1", "huggingface-hub": "0.23.0", "safetensors": "0.4.3", "timm": "0.9.10", "einops": "0.7.0", "PyMuPDF": "1.24.13"}, "gpu": "NVIDIA GeForce RTX 3070 Laptop GPU", "cuda_runtime": "12.1", "bf16_supported": true, "gpu_matrix_test_finite": true, "tokenizer_test": {"tokens": 14, "image_start_id": 101, "io_compatibility": "Read verified SentencePiece protobuf bytes through Python; unchanged tokenizer rules."}, "upstream_requirements_sha256": "d71e2c7f0c21a7d0ec7ecd5e2f8dfc91a02551bb300b2b04bbe4e0359822d7ab", "scope": "Original-core VisRAG-Ret image/query inference; generation stays in the existing Qwen environment.", "excluded_optional_dependencies": {"deepspeed": "training only", "pytrec_eval": "not used by this fixed smoke evaluation", "decord": "video decoder not used for PDF page images"}}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\visrag-repro\environment.json；E:\大模型项目自学E\doc-vqa-assistant\reports\visrag-repro\requirements.freeze.txt
+验证：版本断言与 GPU 计算通过；原有 Qwen .venv 不变。仅省略与 PDF 图像推理无关的训练/视频/额外评测扩展。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:01:57+08:00] OP-045
+操作：开始 VisRAG-Ret index
+执行时间：本次记录时刻
+方法：独立进程 E:\大模型项目自学E\doc-vqa-assistant\.venv-visrag\Scripts\python.exe retrieve.py index --index-name smoke-dpi200-v1
+结果：开始执行，后续记录真实结果。
+输出：见本条说明
+验证：见输出文件
+关联问题：无
+状态：进行中
+
+[2026-11-01T13:02:47+08:00] OP-046
+操作：原版 VisRAG-Ret 离线编码页面
+执行时间：本次记录时刻
+方法：原版 200 DPI RGB 渲染；直接调用未改动上游 utils.encode，weighted mean pooling + L2；单页批次；仅把未参与前向的 lm_head 放 CPU。
+结果：27 页编码完成，向量矩阵 (27, 2304)；保留逐页向量、页 ID/图像映射、哈希与耗时。
+输出：E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\smoke-dpi200-v1\reps.npy；E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\smoke-dpi200-v1\page-map.jsonl；E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\smoke-dpi200-v1\index-manifest.json
+验证：所有向量有限且单位归一化；页面不使用问题或参考答案；检索进程结束后释放 GPU。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:02:49+08:00] OP-047
+操作：开始 VisRAG-Ret retrieve
+执行时间：本次记录时刻
+方法：独立进程 E:\大模型项目自学E\doc-vqa-assistant\.venv-visrag\Scripts\python.exe retrieve.py retrieve --index-name smoke-dpi200-v1 --retrieval-name smoke-top2-v1 --top-k 2
+结果：开始执行，后续记录真实结果。
+输出：见本条说明
+验证：见输出文件
+关联问题：无
+状态：进行中
+
+[2026-11-01T13:03:06+08:00] OP-048
+操作：原版问题编码与视觉 Top-k 检索
+执行时间：本次记录时刻
+方法：用上游 demo 原样 instruction 编码 10 个问题；读取缓存页面向量，torch 点积后 Top-k；不使用 OCR 文本或 gold 参与排序。
+结果：10 题视觉召回已保存；问题向量、得分矩阵与映射可离线复查。
+输出：E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\smoke-top2-v1\retrieval.jsonl；E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\smoke-top2-v1\query_reps.npy；E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\smoke-top2-v1\similarities.npy
+验证：页面向量与映射哈希匹配；只有 smoke_dev 参与；生成将在此进程退出后由另一个环境运行。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:03:07+08:00] OP-049
+操作：开始视觉检索结果的独立 VLM 问答
+执行时间：本次记录时刻
+方法：读取已结束检索进程保存的 Top-k；在原 Qwen 环境加载同一 Reader，保持原题、提示、输入预算和解码设置。
+结果：生成进程 27208，加载前 GPU 已用 317 MiB。
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-visrag-ret-v1
+验证：检索文件哈希及 10 道题所有 gold 字段与原版对照一致。
+关联问题：无
+状态：进行中
+
+[2026-11-01T13:03:09+08:00] OP-050
+操作：完成电商 RAG 结构与输出保护修改
+执行时间：本次记录时刻
+方法：独立商品/政策模拟 PDF、SKU/店铺/生效日期过滤、BM25 与 BGE CPU 向量 RRF、Qwen 页面图像问答；新增无参考答案的 ask.py 入口、结构化拒答保护；不实现 Agent。
+结果：BM25-v1 与 hybrid-v1 同为 11/11 证据 Top-2 命中，16 题动作 15/16；无混合检索收益证据。v2 提示词迭代仍有 1 题动作协议失败。14 项电商及 10 项 A 保护检查通过。
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v2\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\ecommerce_rag\ask.py
+验证：保留原模型输出、配置和代码快照。全部是模拟开发样例，不是业务准确率。ask.py 运行另验收。
+关联问题：ISSUE-032;ISSUE-033
+状态：完成
+
+[2026-11-01T13:03:45+08:00] OP-051
+操作：汇总运行 smoke10-visrag-ret-v1
+执行时间：本次记录时刻
+方法：读取逐题 JSONL，宏平均检索/答案指标；导出逐题 TXT、汇总 TXT 和可阅读报告。
+结果：{"attempted": 10, "completed": 10, "errors": 0, "total_planned": 10, "metrics": {"hit_at_k": 0.9, "recall_at_k": 0.9, "reciprocal_rank": 0.85, "normalized_em": 1.0, "token_f1": 1.0, "citation_gold_hit": 0.9, "json_parse_ok": 1.0}, "mean_generation_seconds": 1.828640879993327, "peak_cuda_gib": 4.4166951179504395, "score_note": "Lexical EM/F1 and citation-page overlap are diagnostics, not verified semantic correctness or proof of groundedness.", "run_config_sha256": "26060f9a7c0a6eb87b779da9aa1da1ccf7b0112daead438955d5b4d5d4d50454"}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-visrag-ret-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-visrag-ret-v1\summary.json；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-visrag-ret-v1\运行报告.md
+验证：记录数量与计划题数对照；执行错误保留在分母中，不删除失败题。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:03:45+08:00] OP-052
+操作：完成同批 10 题视觉检索与本地 VLM 问答
+执行时间：本次记录时刻
+方法：独立旧版环境完成 VisRAG-Ret 编码/检索，退出后由 Qwen 环境生成；统一指标和 TXT/JSONL 保存。
+结果：{
+  "attempted": 10,
+  "completed": 10,
+  "errors": 0,
+  "total_planned": 10,
+  "metrics": {
+    "hit_at_k": 0.9,
+    "recall_at_k": 0.9,
+    "reciprocal_rank": 0.85,
+    "normalized_em": 1.0,
+    "token_f1": 1.0,
+    "citation_gold_hit": 0.9,
+    "json_parse_ok": 1.0
+  },
+  "mean_generation_seconds": 1.828640879993327,
+  "peak_cuda_gib": 4.4166951179504395,
+  "score_note": "Lexical EM/F1 and citation-page overlap are diagnostics, not verified semantic correctness or proof of groundedness.",
+  "run_config_sha256": "26060f9a7c0a6eb87b779da9aa1da1ccf7b0112daead438955d5b4d5d4d50454"
+}
+
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-visrag-ret-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-visrag-ret-v1\results.jsonl；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-visrag-ret-v1\运行报告.md
+验证：全部题目保留，原 BM25 运行和封存测试集未覆盖；结果需与基线逐题对照。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:03:47+08:00] OP-053
+操作：验收原版视觉编码、Top-k 与同批问答
+执行时间：本次记录时刻
+方法：核对向量形状/归一化、独立重算点积分数、页 ID/行号映射、同题/同标签/同 Reader、配置/源码快照哈希及引用范围。
+结果：{"verified_at": "2026-11-01T13:03:47+08:00", "all_checks_passed": true, "environment": {"checked_at": "2026-11-01T13:01:56+08:00", "python_executable": "E:\\大模型项目自学E\\doc-vqa-assistant\\.venv-visrag\\Scripts\\python.exe", "python": "3.11.18", "environment": "E:\\大模型项目自学E\\doc-vqa-assistant\\.venv-visrag", "packages": {"torch": "2.1.2+cu121", "torchvision": "0.16.2+cu121", "transformers": "4.40.2", "accelerate": "0.27.0", "numpy": "1.26.4", "Pillow": "10.1.0", "sentencepiece": "0.1.99", "protobuf": "4.25.0", "tokenizers": "0.19.1", "huggingface-hub": "0.23.0", "safetensors": "0.4.3", "timm": "0.9.10", "einops": "0.7.0", "PyMuPDF": "1.24.13"}, "gpu": "NVIDIA GeForce RTX 3070 Laptop GPU", "cuda_runtime": "12.1", "bf16_supported": true, "gpu_matrix_test_finite": true, "tokenizer_test": {"tokens": 14, "image_start_id": 101, "io_compatibility": "Read verified SentencePiece protobuf bytes through Python; unchanged tokenizer rules."}, "upstream_requirements_sha256": "d71e2c7f0c21a7d0ec7ecd5e2f8dfc91a02551bb300b2b04bbe4e0359822d7ab", "scope": "Original-core VisRAG-Ret image/query inference; generation stays in the existing Qwen environment.", "excluded_optional_dependencies": {"deepspeed": "training only", "pytrec_eval": "not used by this fixed smoke evaluation", "decord": "video decoder not used for PDF page images"}}, "model_revision": "95ef596df871b606167cb7e4b7215caf1bfdf761", "page_vector_shape": [27, 2304], "query_vector_shape": [10, 2304], "same_question_and_gold": true, "same_generator_and_prompt": true, "topk_scores_match_saved_matrix": true, "config_and_source_hashes_match": true, "generation_gpu_peak_gib": 4.4166951179504395, "retrieval_gpu_peak_gib": 6.3501434326171875, "retrieval_mean_seconds": 0.15018717999628278, "baseline_metrics": {"hit_at_k": 0.9, "recall_at_k": 0.9, "reciprocal_rank": 0.8, "normalized_em": 0.9, "token_f1": 0.9, "citation_gold_hit": 0.9, "json_parse_ok": 1.0}, "visual_retrieval_metrics": {"hit_at_k": 0.9, "recall_at_k": 0.9, "reciprocal_rank": 0.85, "normalized_em": 1.0, "token_f1": 1.0, "citation_gold_hit": 0.9, "json_parse_ok": 1.0}, "note": "Ten previously inspected development questions; not a held-out significance/generalization claim. Generator is Qwen3.5-2B, not the paper's exact original MiniCPM generator."}
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\VisRAG原版检索复现验收与对照.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\a_baseline\smoke10-visrag-ret-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\visrag-repro\verification.json
+验证：所有断言通过；只用 10 道已见开发题，不评估封存测试；保留原 BM25 与新视觉结果。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:04:43+08:00] OP-054
+操作：开始电商 RAG run
+执行时间：本次记录时刻
+方法：run.py run --mode hybrid --run-name ecom-hybrid-smoke-v3
+结果：开始执行，结果见后续记录。
+输出：见本条说明
+验证：见输出文件
+关联问题：无
+状态：进行中
+
+[2026-11-01T13:05:36+08:00] OP-055
+操作：运行电商多模态 RAG 功能检查
+执行时间：本次记录时刻
+方法：hybrid 检索；型号/店铺/生效日期过滤；CPU 稠密编码与 GPU 页面 VLM；非静态业务只输出澄清/未接工具状态。
+结果：{"questions": 16, "runtime_errors": 0, "source_type": "synthetic_demo", "not_a_business_accuracy_claim": true, "answerable_retrieval_questions": 11, "hit_at_2_answerable_only": 1.0, "recall_at_2_answerable_only": 1.0, "action_accuracy": 1.0, "normalized_em": 0.9375, "peak_cuda_gib": 4.432616233825684, "quality_note": "Lexical EM can undercount correct Chinese answers. All cases are development fixtures; no held-out generalization claim."}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v3\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v3\运行报告.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v3\summary.json
+验证：gold 只参与评分；未调用订单/价格服务、未实现 Agent；全部失败或拒答保留。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:05:57+08:00] OP-056
+操作：电商 RAG 交互问答
+执行时间：本次记录时刻
+方法：同一 Retriever 与 EcommerceReader；请求只含问题、型号、店铺和日期；没有输入参考答案或正确证据页。
+结果：动作=answer；答案=颜色：红色；速率：2500 Mbps；未标注，不计准确率。
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-interactive-check-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-interactive-check-v1\results.jsonl
+验证：逐题字段与配置、代码快照已保存；没有连接真实业务接口。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:06:24+08:00] OP-057
+操作：完成电商方向文档、回归与原版视觉检索交付核验
+执行时间：本次记录时刻
+方法：更新工作区与 Fork 入口、历史标记、分阶段方案；执行同一 16 题回归和不提供参考答案的任意问题；核对原版检索矩阵、源码/配置哈希、生成器不变及独立进程。
+结果：{"commerce": {"questions": 16, "runtime_errors": 0, "source_type": "synthetic_demo", "not_a_business_accuracy_claim": true, "answerable_retrieval_questions": 11, "hit_at_2_answerable_only": 1.0, "recall_at_2_answerable_only": 1.0, "action_accuracy": 1.0, "normalized_em": 0.9375, "peak_cuda_gib": 4.432616233825684, "quality_note": "Lexical EM can undercount correct Chinese answers. All cases are development fixtures; no held-out generalization claim."}, "visual_checks": true, "txt_records": 196}
+输出：E:\大模型项目自学E\doc-vqa-assistant\README.md；E:\大模型项目自学E\doc-vqa-assistant\记录\电商RAG调整与分阶段验收方案.txt；E:\大模型项目自学E\doc-vqa-assistant\记录\VisRAG原版检索复现验收与对照.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-hybrid-smoke-v3\逐题结果.txt
+验证：14 项电商保护 + 10 项 A 保护测试通过；全部结果存 E；无新最终测试预测、无 Agent 或真实订单操作。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:07:11+08:00] OP-058
+操作：核对电商逐题产物完整性
+执行时间：本次记录时刻
+方法：重算所有电商运行的配置/源码快照 SHA256，逐行检查字段、TXT、图片、引用范围和规则题未调用模型。
+结果：{"all_checks_passed": true, "runs": [{"run": "ecom-bm25-smoke-v1", "records": 16, "all_checks_passed": true}, {"run": "ecom-hybrid-smoke-v1", "records": 16, "all_checks_passed": true}, {"run": "ecom-hybrid-smoke-v2", "records": 16, "all_checks_passed": true}, {"run": "ecom-hybrid-smoke-v3", "records": 16, "all_checks_passed": true}, {"run": "ecom-interactive-check-v1", "records": 1, "all_checks_passed": true}], "records": 65, "scope": "Field, hash, snapshot, citation-range, image and rule-vs-model provenance checks; not semantic correctness."}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\artifact-verification.json
+验证：没有修改原始结果或最终测试集；这些核对不等于语义正确性评测。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:07:46+08:00] OP-059
+操作：整理版本保存材料
+执行时间：本次记录时刻
+方法：将最新电商逐题 JSONL/TXT/配置/摘要、原版环境与视觉复现验收复制到个人目录；依赖锁导出；原始数据、模型、缓存和图片留在 E 盘。
+结果：8 份材料逐字节核对通过；准备在电商开发分支保存代码和记录。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\ecommerce_rag\evidence\ecom-hybrid-smoke-v3\results.jsonl；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\ecommerce_rag\evidence\ecom-hybrid-smoke-v3\config.json；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\ecommerce_rag\evidence\ecom-hybrid-smoke-v3\summary.json；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\ecommerce_rag\evidence\ecom-hybrid-smoke-v3\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\visrag_repro\evidence\verification.json；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\visrag_repro\evidence\environment.json；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\visrag_repro\evidence\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\ecommerce_rag\docs\方向与阶段验收.txt
+验证：复制件 SHA256 与原始文件一致；Git 同步尚未完成，待后续记录。
+关联问题：无
+状态：材料完成，版本同步进行中

@@ -1,10 +1,12 @@
 # 图文文档问答助手：A 基线
 
+2026-11-01 最新业务方向为 **电商商品知识与售后服务多模态 RAG**，入口见 [电商模块](../ecommerce_rag/README.md)。先做 RAG，Agent 后续接入。原论文与视频定位已退出当前主线，历史文件和实验保留用于复现回归。
+
 个人开发分支：`feat/a-baseline`。上游基准分支：`baseline/upstream-2026-10-31`。
 Fork：[AaronYue77/VisRAG](https://github.com/AaronYue77/VisRAG)。上游许可证与引用说明保留，新增代码沿用仓库 Apache-2.0 许可证。
 
 本次实现 **PDF 文本/OCR → BM25 Top-2 页面检索 → 页面图片 → Qwen3.5-2B 回答与引用 → JSONL 评测**。
-它是可测量的 A 基线；B 的视觉检索、C 的微调尚未实现。本机 8GB 显存不同时加载两个大模型。
+它是可测量的文本检索基线；原版视觉检索独立复现见 [VisRAG-Ret 模块](../visrag_repro/README.md)，C 微调尚未实现。本机 8GB 显存不同时加载两个大模型。
 
 ## 先看什么
 

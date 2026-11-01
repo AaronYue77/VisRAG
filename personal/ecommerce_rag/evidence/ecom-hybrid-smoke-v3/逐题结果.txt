@@ -1,0 +1,502 @@
+逐题结果：参考标签只参与计分，不进入问答模型提示。
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-01
+问题：DN-R100 有几个 LAN 接口？
+中文译文：未提供
+参考答案：2 个
+参考证据页：dn-r100-2026:p0001
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r100-2026:p0001 | score=0.032787 | 来源=pdf_text
+  第 2 名 | dn-r100-2026:p0002 | score=0.032258 | 来源=pdf_text
+模型答案：2个
+输出引用：dn-r100-2026:p0001
+原始引用标签：['P1']
+模型原始输出：```json
+{"action":"answer","answer":"2个","citations":["P1"]}
+```
+检索耗时（秒）：0.069284
+生成耗时（秒）：3.5825220000115223
+输入准备耗时（秒）：1.5202203000080772
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 0.0, "token_f1": 0.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0001.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0002.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-02
+问题：DN-R100 的电源适配器规格是多少？
+中文译文：未提供
+参考答案：12V / 1A
+参考证据页：dn-r100-2026:p0001
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r100-2026:p0001 | score=0.032787 | 来源=pdf_text
+  第 2 名 | dn-r100-2026:p0002 | score=0.032258 | 来源=pdf_text
+模型答案：12V / 1A
+输出引用：dn-r100-2026:p0001
+原始引用标签：['P1']
+模型原始输出：```json
+{"action":"answer","answer":"12V / 1A","citations":["P1"]}
+```
+检索耗时（秒）：0.019551
+生成耗时（秒）：3.0143760000064503
+输入准备耗时（秒）：0.15046919998712838
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0001.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0002.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-03
+问题：请看接口图，DN-R100 接光猫的 WAN 接口是什么颜色？
+中文译文：未提供
+参考答案：蓝色
+参考证据页：dn-r100-2026:p0001
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r100-2026:p0001 | score=0.032787 | 来源=pdf_text
+  第 2 名 | dn-r100-2026:p0002 | score=0.032258 | 来源=pdf_text
+模型答案：蓝色
+输出引用：dn-r100-2026:p0001
+原始引用标签：['P1']
+模型原始输出：```json
+{"action":"answer","answer":"蓝色","citations":["P1"]}
+```
+检索耗时（秒）：0.019230
+生成耗时（秒）：2.4361151000193786
+输入准备耗时（秒）：0.15500490000704303
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0001.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0002.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-04
+问题：DN-R100 橙色指示灯闪烁表示什么？
+中文译文：未提供
+参考答案：未连接互联网
+参考证据页：dn-r100-2026:p0002
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r100-2026:p0002 | score=0.032787 | 来源=pdf_text
+  第 2 名 | dn-r100-2026:p0001 | score=0.032258 | 来源=pdf_text
+模型答案：未连接互联网
+输出引用：dn-r100-2026:p0002
+原始引用标签：['P1']
+模型原始输出：```json
+{"action":"answer","answer":"未连接互联网","citations":["P1"]}
+```
+检索耗时（秒）：0.013382
+生成耗时（秒）：2.687458100001095
+输入准备耗时（秒）：0.16147709998767823
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0002.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0001.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-05
+问题：DN-R100 当前版本的演示保修期是多少个月？
+中文译文：未提供
+参考答案：24 个月
+参考证据页：dn-r100-2026:p0001
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r100-2026:p0001 | score=0.032522 | 来源=pdf_text
+  第 2 名 | dn-r100-2026:p0002 | score=0.032522 | 来源=pdf_text
+模型答案：24个月
+输出引用：dn-r100-2026:p0001
+原始引用标签：['P1']
+模型原始输出：```json
+{"action":"answer","answer":"24个月","citations":["P1"]}
+```
+检索耗时（秒）：0.014153
+生成耗时（秒）：2.6449853999947663
+输入准备耗时（秒）：0.15998019999824464
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0001.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0002.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-06
+问题：DN-R200 的演示保修期是多少个月？
+中文译文：未提供
+参考答案：36 个月
+参考证据页：dn-r200-2026:p0001
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r200-2026:p0001 | score=0.032522 | 来源=pdf_text
+  第 2 名 | dn-r200-2026:p0002 | score=0.032522 | 来源=pdf_text
+模型答案：36个月
+输出引用：dn-r200-2026:p0001
+原始引用标签：['P1']
+模型原始输出：```json
+{"action":"answer","answer":"36个月","citations":["P1"]}
+```
+检索耗时（秒）：0.016050
+生成耗时（秒）：2.646605099987937
+输入准备耗时（秒）：0.16010259999893606
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r200-2026-0001.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r200-2026-0002.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-07
+问题：对比 DN-R100 和 DN-R200，WAN 口最高速率分别是多少？
+中文译文：未提供
+参考答案：DN-R100 为 1000 Mbps，DN-R200 为 2500 Mbps
+参考证据页：dn-r100-2026:p0001, dn-r200-2026:p0001
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r100-2026:p0001 | score=0.032258 | 来源=pdf_text
+  第 2 名 | dn-r200-2026:p0001 | score=0.032787 | 来源=pdf_text
+模型答案：DN-R100: 1000 Mbps; DN-R200: 2500 Mbps
+输出引用：dn-r100-2026:p0001, dn-r200-2026:p0001
+原始引用标签：['P1', 'P2']
+模型原始输出：```json
+{"action":"answer","answer":"DN-R100: 1000 Mbps; DN-R200: 2500 Mbps","citations":["P1","P2"]}
+```
+检索耗时（秒）：0.017475
+生成耗时（秒）：4.800618399982341
+输入准备耗时（秒）：0.16017989997635596
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0001.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r200-2026-0001.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-08
+问题：DemoMall 模拟服务规则中，未启用商品签收后几天内可以提交退货申请？
+中文译文：未提供
+参考答案：10 天
+参考证据页：demo-store-policy-2026:p0001
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | demo-store-policy-2026:p0001 | score=0.032787 | 来源=pdf_text
+  第 2 名 | demo-store-policy-2026:p0002 | score=0.032258 | 来源=pdf_text
+模型答案：10天
+输出引用：demo-store-policy-2026:p0001
+原始引用标签：['P1']
+模型原始输出：```json
+{"action":"answer","answer":"10天","citations":["P1"]}
+```
+检索耗时（秒）：0.016710
+生成耗时（秒）：2.7336508999869693
+输入准备耗时（秒）：0.16504670001449995
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\demo-store-policy-2026-0001.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\demo-store-policy-2026-0002.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-09
+问题：DN-R100 通电时按住 RESET 多久可以恢复出厂设置？
+中文译文：未提供
+参考答案：10 秒
+参考证据页：dn-r100-2026:p0002
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r100-2026:p0002 | score=0.032787 | 来源=pdf_text
+  第 2 名 | dn-r100-2026:p0001 | score=0.032258 | 来源=pdf_text
+模型答案：10秒
+输出引用：dn-r100-2026:p0002
+原始引用标签：['P1']
+模型原始输出：```json
+{"action":"answer","answer":"10秒","citations":["P1"]}
+```
+检索耗时（秒）：0.013269
+生成耗时（秒）：2.587719500006642
+输入准备耗时（秒）：0.1573297000140883
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0002.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0001.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-10
+问题：DN-R200 是否支持 PoE 供电？
+中文译文：未提供
+参考答案：不支持
+参考证据页：dn-r200-2026:p0001
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r200-2026:p0001 | score=0.032787 | 来源=pdf_text
+  第 2 名 | dn-r200-2026:p0002 | score=0.032258 | 来源=pdf_text
+模型答案：不支持
+输出引用：dn-r200-2026:p0001
+原始引用标签：['P1']
+模型原始输出：```json
+{
+"action": "answer",
+"answer": "不支持",
+"citations": [
+"P1"
+]
+}
+```
+检索耗时（秒）：0.012727
+生成耗时（秒）：3.638593799987575
+输入准备耗时（秒）：0.1610066999855917
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r200-2026-0001.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r200-2026-0002.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-11
+问题：DN-R100 有 IP68 防水等级吗？
+中文译文：未提供
+参考答案：NOT_FOUND
+参考证据页：
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r100-2026:p0002 | score=0.032787 | 来源=pdf_text
+  第 2 名 | dn-r100-2026:p0001 | score=0.032258 | 来源=pdf_text
+模型答案：NOT_FOUND
+输出引用：无
+原始引用标签：['P1']
+模型原始输出：```json
+{"action":"answer","answer":"未报告。资料未报告防水等级，不应根据常识补充。","citations":["P1"]}
+```
+检索耗时（秒）：0.013345
+生成耗时（秒）：3.55209150002338
+输入准备耗时（秒）：0.17835180001566187
+答案来源：output_guard
+业务动作：not_found
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": false, "hit_at_k": 0.0, "recall_at_k": 0.0, "reciprocal_rank": 0.0, "citation_gold_hit": 0.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0002.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2026-0001.png"]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-12
+问题：我的订单现在到哪里了？
+中文译文：未提供
+参考答案：当前 RAG 未接入订单与物流查询服务
+参考证据页：
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+模型答案：当前 RAG 未接入订单与物流查询服务
+输出引用：无
+原始引用标签：[]
+模型原始输出：
+检索耗时（秒）：0.000014
+生成耗时（秒）：0.0
+输入准备耗时（秒）：未运行或失败
+答案来源：rule_router
+业务动作：requires_tool
+模型：本题未调用生成模型
+模型版本（revision）：不适用
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": false, "hit_at_k": 0.0, "recall_at_k": 0.0, "reciprocal_rank": 0.0, "citation_gold_hit": 0.0}
+实际输入图片：[]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-13
+问题：DN-R100 现在卖多少钱？
+中文译文：未提供
+参考答案：当前 RAG 未接入实时价格与库存查询服务
+参考证据页：
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+模型答案：当前 RAG 未接入实时价格与库存查询服务
+输出引用：无
+原始引用标签：[]
+模型原始输出：
+检索耗时（秒）：0.000021
+生成耗时（秒）：0.0
+输入准备耗时（秒）：未运行或失败
+答案来源：rule_router
+业务动作：requires_tool
+模型：本题未调用生成模型
+模型版本（revision）：不适用
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": false, "hit_at_k": 0.0, "recall_at_k": 0.0, "reciprocal_rank": 0.0, "citation_gold_hit": 0.0}
+实际输入图片：[]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-14
+问题：这款路由器有几个 LAN 口？
+中文译文：未提供
+参考答案：请提供具体商品型号
+参考证据页：
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+模型答案：请提供具体商品型号
+输出引用：无
+原始引用标签：[]
+模型原始输出：
+检索耗时（秒）：0.000027
+生成耗时（秒）：0.0
+输入准备耗时（秒）：未运行或失败
+答案来源：rule_router
+业务动作：clarify
+模型：本题未调用生成模型
+模型版本（revision）：不适用
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": false, "hit_at_k": 0.0, "recall_at_k": 0.0, "reciprocal_rank": 0.0, "citation_gold_hit": 0.0}
+实际输入图片：[]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-15
+问题：DN-R900 的 WAN 口速率是多少？
+中文译文：未提供
+参考答案：知识库没有该商品型号的有效资料
+参考证据页：
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+模型答案：知识库没有该商品型号的有效资料
+输出引用：无
+原始引用标签：[]
+模型原始输出：
+检索耗时（秒）：0.000034
+生成耗时（秒）：0.0
+输入准备耗时（秒）：未运行或失败
+答案来源：rule_router
+业务动作：not_found
+模型：本题未调用生成模型
+模型版本（revision）：不适用
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": false, "hit_at_k": 0.0, "recall_at_k": 0.0, "reciprocal_rank": 0.0, "citation_gold_hit": 0.0}
+实际输入图片：[]
+
+========================================================================
+运行名称：ecom-hybrid-smoke-v3
+问题 ID：ecom-16
+问题：DN-R100 在 2025 年版本的演示保修期是多少个月？
+中文译文：未提供
+参考答案：12 个月
+参考证据页：dn-r100-2025:p0001
+页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。
+召回页面及排序：
+  第 1 名 | dn-r100-2025:p0001 | score=0.032522 | 来源=pdf_text
+  第 2 名 | dn-r100-2025:p0002 | score=0.032522 | 来源=pdf_text
+模型答案：12个月
+输出引用：dn-r100-2025:p0001
+原始引用标签：['P1']
+模型原始输出：{"action":"answer","answer":"12个月","citations":["P1"]}
+检索耗时（秒）：0.018892
+生成耗时（秒）：2.2630019999924116
+输入准备耗时（秒）：0.17949129999033175
+答案来源：vlm
+业务动作：answer
+模型：Qwen/Qwen3.5-2B
+模型版本（revision）：15852e8c16360a2fea060d615a32b45270f8a8fc
+配置版本（SHA256）：9035a1ce078ee89847956a28155548258eff087b8fef4460527e27c63cc49b5c
+运行配置文件：reports/ecommerce_rag/ecom-hybrid-smoke-v3/config.json
+代码版本（SHA256）：a5e81692d8acd859e16490842a20ee5b1b1f02bb0ff5cc7a85ecc93e12c3e271
+执行状态：ok
+错误及问题编号：无；无
+评测结果：{"normalized_em": 1.0, "token_f1": 1.0, "action_correct": 1.0, "retrieval_evaluated": true, "hit_at_k": 1.0, "recall_at_k": 1.0, "reciprocal_rank": 1.0, "citation_gold_hit": 1.0}
+实际输入图片：["reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2025-0001.png", "reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\images\\dn-r100-2025-0002.png"]
+

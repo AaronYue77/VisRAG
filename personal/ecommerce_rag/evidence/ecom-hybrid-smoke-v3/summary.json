@@ -1,0 +1,13 @@
+{
+  "questions": 16,
+  "runtime_errors": 0,
+  "source_type": "synthetic_demo",
+  "not_a_business_accuracy_claim": true,
+  "answerable_retrieval_questions": 11,
+  "hit_at_2_answerable_only": 1.0,
+  "recall_at_2_answerable_only": 1.0,
+  "action_accuracy": 1.0,
+  "normalized_em": 0.9375,
+  "peak_cuda_gib": 4.432616233825684,
+  "quality_note": "Lexical EM can undercount correct Chinese answers. All cases are development fixtures; no held-out generalization claim."
+}

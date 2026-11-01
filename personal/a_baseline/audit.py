@@ -22,10 +22,12 @@ def format_question(row: dict) -> str:
                   f"检索耗时（秒）：{row['retrieval_seconds']:.6f}",
                   f"生成耗时（秒）：{row.get('generation_seconds', '未运行或失败')}",
                   f"输入准备耗时（秒）：{row.get('prepare_seconds', '未运行或失败')}",
-                  f"模型：{row.get('model') or '未加载生成模型'}",
+                  f"答案来源：{row.get('answer_source', '模型生成' if generated else '未执行模型生成')}",
+                  f"业务动作：{row.get('action', '未单独标注')}",
+                  f"模型：{row.get('model') or '本题未调用生成模型'}",
                   f"模型版本（revision）：{row.get('model_revision') or '不适用'}",
                   f"配置版本（SHA256）：{row['config_sha256']}",
-                  f"运行配置文件：reports/a_baseline/{row['run_name']}/config.json",
+                  f"运行配置文件：{row.get('run_directory', 'reports/a_baseline/' + row['run_name'])}/config.json",
                   f"代码版本（SHA256）：{row['source_sha256']}",
                   f"执行状态：{row['status']}", f"错误及问题编号：{row.get('error', '无')}；{row.get('issue_id', '无')}",
                   f"评测结果：{json.dumps(row['metrics'], ensure_ascii=False)}",
@@ -46,7 +48,8 @@ def export_existing_runs() -> list[dict]:
     """Rebuild derived TXT from preserved JSONL without modifying original evidence."""
     aggregate = ["逐题结果汇总：由原始 results.jsonl 导出，JSONL 与原始配置保留不变。\n"]
     counts = []
-    for result_path in sorted((WORKSPACE / "reports/a_baseline").glob("*/results.jsonl")):
+    result_files = [p for folder in ("reports/a_baseline", "reports/ecommerce_rag") for p in (WORKSPACE / folder).glob("*/results.jsonl")]
+    for result_path in sorted(result_files):
         rows = read_jsonl(result_path)
         content = "逐题结果：参考标签只参与计分，不进入问答模型提示。\n\n" + "".join(format_question(row) for row in rows)
         (result_path.parent / "逐题结果.txt").write_text(content, "utf-8", newline="\n")

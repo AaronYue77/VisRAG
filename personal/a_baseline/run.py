@@ -62,9 +62,10 @@ def summarize(run_dir: Path):
                "score_note": "Lexical EM/F1 and citation-page overlap are diagnostics, not verified semantic correctness or proof of groundedness.",
                "run_config_sha256": file_hash(run_dir / "config.json")}
     write_json(run_dir / "summary.json", summary)
+    retriever_label = config.get("retriever", {}).get("display_name", "BM25")
     lines = ["# A 阶段运行检查", "", f"问题数：{len(records)}；成功执行：{len(completed)}；异常：{len(records)-len(completed)}。", "",
              "本报告保留检索失败和回答失败。EM/F1 是文本匹配指标；引用命中只表示页号重合，不证明答案被证据支持。", "",
-             f"模式：{'仅检索' if config['retrieval_only'] else 'BM25 → 页面图像 → 本地 VLM'}；套件：{config['suite']}；分区：{config['split']}。", "",
+             f"模式：{'仅检索' if config['retrieval_only'] else retriever_label + ' → 页面图像 → 本地 VLM'}；套件：{config['suite']}；分区：{config['split']}。", "",
              "| ID | 参考答案 | 模型答案 | 参考证据 | 召回页面 | 检索命中 | EM | 生成秒 |", "|---|---|---|---|---|---|---|---|"]
     clean = lambda value: str(value).replace("|", " / ").replace("\n", " ")
     for row in records:
