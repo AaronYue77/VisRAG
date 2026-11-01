@@ -11,7 +11,7 @@ def format_question(row: dict) -> str:
     lines = ["=" * 72, f"运行名称：{row['run_name']}", f"问题 ID：{row['question_id']}",
              f"问题：{row['question']}", f"中文译文：{row.get('question_zh', '未提供')}",
              f"参考答案：{row['reference_answer']}", f"参考证据页：{', '.join(row['reference_pages'])}",
-             "页码规则：PDF 物理页，从 1 开始；不一定等于论文印刷页号。", "召回页面及排序："]
+             "页码规则：PDF 物理页，从 1 开始；不一定等于文档印刷页号。", "召回页面及排序："]
     for page in row["retrieved_pages"]:
         lines.append(f"  第 {page['rank']} 名 | {page['page_id']} | score={page['score']:.6f} | 来源={page['text_source']}")
     generated = row.get("model") is not None
@@ -27,7 +27,7 @@ def format_question(row: dict) -> str:
                   f"模型：{row.get('model') or '本题未调用生成模型'}",
                   f"模型版本（revision）：{row.get('model_revision') or '不适用'}",
                   f"配置版本（SHA256）：{row['config_sha256']}",
-                  f"运行配置文件：{row.get('run_directory', 'reports/a_baseline/' + row['run_name'])}/config.json",
+                  f"运行配置文件：{row.get('run_directory', 'reports/ecommerce_rag/' + row['run_name'])}/config.json",
                   f"代码版本（SHA256）：{row['source_sha256']}",
                   f"执行状态：{row['status']}", f"错误及问题编号：{row.get('error', '无')}；{row.get('issue_id', '无')}",
                   f"评测结果：{json.dumps(row['metrics'], ensure_ascii=False)}",
@@ -48,7 +48,7 @@ def export_existing_runs() -> list[dict]:
     """Rebuild derived TXT from preserved JSONL without modifying original evidence."""
     aggregate = ["逐题结果汇总：由原始 results.jsonl 导出，JSONL 与原始配置保留不变。\n"]
     counts = []
-    result_files = [p for folder in ("reports/a_baseline", "reports/ecommerce_rag") for p in (WORKSPACE / folder).glob("*/results.jsonl")]
+    result_files = [p for folder in ("reports/ecommerce_rag",) for p in (WORKSPACE / folder).glob("*/results.jsonl")]
     for result_path in sorted(result_files):
         rows = read_jsonl(result_path)
         content = "逐题结果：参考标签只参与计分，不进入问答模型提示。\n\n" + "".join(format_question(row) for row in rows)

@@ -679,3 +679,143 @@
 验证：9 个 blob 与 tree 均匹配；fetch 后工作区为空；实际电商数据与运行代码未变化。最后补记的日志另行保存，记录提交 SHA 见验收 TXT 末尾。
 关联问题：ISSUE-038
 状态：完成
+
+[2026-11-01T13:47:18+08:00] OP-067
+操作：准备清理清单并拆分公共运行能力
+执行时间：本次记录时刻
+方法：扫描引用后，将公共日志/图像/评测代码迁至 rag_common，更新当前入口的导入；清单逐项约束在本工作区，保存电商原始资产哈希和模型大小/修改时间。
+结果：计划清理 92 个明确目标，520 个文件，逻辑大小 2.97 GiB。尚未执行删除。
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\maintenance\cleanup-20261101\deletion-manifest.json；E:\大模型项目自学E\doc-vqa-assistant\reports\maintenance\cleanup-20261101\protected-assets.json；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\rag_common
+验证：公共文件复制前后哈希一致；模型、环境、OCR 与电商数据不在删除目标中；日志路径不变。
+关联问题：无
+状态：依赖调整中，删除待执行
+
+[2026-11-01T13:50:21+08:00] OP-068
+操作：验证独立原版核心推理环境
+执行时间：本次记录时刻
+方法：独立 Python 3.11；锁定原版 torch/torchvision/transformers 等核心版本，执行 CUDA BF16 矩阵、timm 模型注册与可用时的本地 tokenizer 检查；导出完整依赖锁。
+结果：{"checked_at": "2026-11-01T13:50:20+08:00", "python_executable": "E:\\大模型项目自学E\\doc-vqa-assistant\\.venv-visrag\\Scripts\\python.exe", "python": "3.11.18", "environment": "E:\\大模型项目自学E\\doc-vqa-assistant\\.venv-visrag", "packages": {"torch": "2.1.2+cu121", "torchvision": "0.16.2+cu121", "transformers": "4.40.2", "accelerate": "0.27.0", "numpy": "1.26.4", "Pillow": "10.1.0", "sentencepiece": "0.1.99", "protobuf": "4.25.0", "tokenizers": "0.19.1", "huggingface-hub": "0.23.0", "safetensors": "0.4.3", "timm": "0.9.10", "einops": "0.7.0", "PyMuPDF": "1.24.13"}, "gpu": "NVIDIA GeForce RTX 3070 Laptop GPU", "cuda_runtime": "12.1", "bf16_supported": true, "gpu_matrix_test_finite": true, "tokenizer_test": {"tokens": 14, "image_start_id": 101, "io_compatibility": "Read verified SentencePiece protobuf bytes through Python; unchanged tokenizer rules."}, "upstream_requirements_sha256": "d71e2c7f0c21a7d0ec7ecd5e2f8dfc91a02551bb300b2b04bbe4e0359822d7ab", "scope": "Original-core VisRAG-Ret image/query inference; generation stays in the existing Qwen environment.", "excluded_optional_dependencies": {"deepspeed": "training only", "pytrec_eval": "not used by this fixed smoke evaluation", "decord": "video decoder not used for PDF page images"}}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\visrag-repro\environment.json；E:\大模型项目自学E\doc-vqa-assistant\reports\visrag-repro\requirements.freeze.txt
+验证：版本断言与 GPU 计算通过；原有 Qwen .venv 不变。仅省略与 PDF 图像推理无关的训练/视频/额外评测扩展。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:50:21+08:00] OP-069
+操作：开始 VisRAG-Ret index
+执行时间：本次记录时刻
+方法：独立进程 E:\大模型项目自学E\doc-vqa-assistant\.venv-visrag\Scripts\python.exe retrieve.py index --index-name ecommerce-clean-pages-v1 --corpus-dir data/ecommerce_rag/demo-v1
+结果：开始执行，后续记录真实结果。
+输出：见本条说明
+验证：见输出文件
+关联问题：无
+状态：进行中
+
+[2026-11-01T13:50:45+08:00] OP-070
+操作：原版 VisRAG-Ret 离线编码页面
+执行时间：本次记录时刻
+方法：原版 200 DPI RGB 渲染；直接调用未改动上游 utils.encode，weighted mean pooling + L2；单页批次；仅把未参与前向的 lm_head 放 CPU。
+结果：8 页编码完成，向量矩阵 (8, 2304)；保留逐页向量、页 ID/图像映射、哈希与耗时。
+输出：E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\ecommerce-clean-pages-v1\reps.npy；E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\ecommerce-clean-pages-v1\page-map.jsonl；E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\ecommerce-clean-pages-v1\index-manifest.json
+验证：所有向量有限且单位归一化；页面不使用问题或参考答案；检索进程结束后释放 GPU。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:50:46+08:00] OP-071
+操作：开始 VisRAG-Ret retrieve
+执行时间：本次记录时刻
+方法：独立进程 E:\大模型项目自学E\doc-vqa-assistant\.venv-visrag\Scripts\python.exe retrieve.py retrieve --index-name ecommerce-clean-pages-v1 --retrieval-name ecommerce-clean-queries-v1 --top-k 2
+结果：开始执行，后续记录真实结果。
+输出：见本条说明
+验证：见输出文件
+关联问题：无
+状态：进行中
+
+[2026-11-01T13:50:59+08:00] OP-072
+操作：电商资料的独立视觉编码工具验证
+执行时间：本次记录时刻
+方法：保留上游原始编码与 instruction；读取页面向量，按请求型号/店铺/有效期过滤后排序；实时请求等不编码，不使用 gold。
+结果：16 条开发请求，12 个问题向量；视觉召回缓存独立保存，当前文字 RAG 入口未切换。
+输出：E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\ecommerce-clean-queries-v1\retrieval.jsonl；E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\ecommerce-clean-queries-v1\query_reps.npy；E:\大模型项目自学E\doc-vqa-assistant\data\visrag_repro\ecommerce-clean-queries-v1\similarities.npy
+验证：这是清理旧数据依赖后的编码/检索工具验证；不是完整视觉 RAG 或融合效果实验。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:52:16+08:00] OP-073
+操作：完成旧业务清理并更新当前入口
+执行时间：本次记录时刻
+方法：按固定清单验证绝对路径/解析路径并使用 PowerShell LiteralPath 删除；保留受保护资产；同步精简 README、阅读图、路线和工作区约定。
+结果：删除 520 个旧/多余文件，逻辑大小 2.966 GiB；当前入口统一为电商；完整运行验证仍在执行。
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\项目清理清单与验证结果.txt；E:\大模型项目自学E\doc-vqa-assistant\README.md
+验证：92 个目标均在工作区内，无链接/模型/环境误删；迁移检查通过；原始电商记录不修改。
+关联问题：无
+状态：清理完成，运行回归中
+
+[2026-11-01T13:52:16+08:00] OP-074
+操作：补齐/重建逐题 TXT
+执行时间：本次记录时刻
+方法：读取每个运行目录的原始 results.jsonl，逐字段导出 TXT；不改动原结果或配置。
+结果：[{"run": "ecom-bm25-smoke-v1", "records": 16, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\ecommerce_rag\\ecom-bm25-smoke-v1\\逐题结果.txt"}, {"run": "ecom-hybrid-smoke-v1", "records": 16, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\ecommerce_rag\\ecom-hybrid-smoke-v1\\逐题结果.txt"}, {"run": "ecom-hybrid-smoke-v2", "records": 16, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\ecommerce_rag\\ecom-hybrid-smoke-v2\\逐题结果.txt"}, {"run": "ecom-hybrid-smoke-v3", "records": 16, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\ecommerce_rag\\ecom-hybrid-smoke-v3\\逐题结果.txt"}, {"run": "ecom-interactive-check-v1", "records": 1, "txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\ecommerce_rag\\ecom-interactive-check-v1\\逐题结果.txt"}]
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\逐题结果汇总.txt
+验证：TXT 数量与原 JSONL 记录数一致；含仅检索与完整问答的模式说明。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:52:57+08:00] OP-075
+操作：检查清理后的电商运行资产
+执行时间：本次记录时刻
+方法：只读取当前电商索引与本地处理器，执行小型 CUDA 运算，检查 OCR、视觉模型和独立环境。
+结果：{"cuda_available": true, "gpu": "NVIDIA GeForce RTX 3070 Laptop GPU", "text_vectors": [8, 512], "local_qwen_processor": true, "ocr_assets_preserved": true, "visual_environment_preserved": true, "old_paper_samples_required": false}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\setup-verification.json
+验证：不依赖旧论文或示例 PDF；未加载 VLM 大权重。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:52:58+08:00] OP-076
+操作：开始电商 RAG run
+执行时间：本次记录时刻
+方法：run.py run --mode hybrid --run-name ecom-cleanup-smoke-v1
+结果：开始执行，结果见后续记录。
+输出：见本条说明
+验证：见输出文件
+关联问题：无
+状态：进行中
+
+[2026-11-01T13:53:46+08:00] OP-077
+操作：运行电商多模态 RAG 功能检查
+执行时间：本次记录时刻
+方法：hybrid 检索；型号/店铺/生效日期过滤；CPU 稠密编码与 GPU 页面 VLM；非静态业务只输出澄清/未接工具状态。
+结果：{"questions": 16, "runtime_errors": 0, "source_type": "synthetic_demo", "not_a_business_accuracy_claim": true, "answerable_retrieval_questions": 11, "hit_at_2_answerable_only": 1.0, "recall_at_2_answerable_only": 1.0, "action_accuracy": 1.0, "normalized_em": 0.9375, "peak_cuda_gib": 4.432616233825684, "quality_note": "Lexical EM can undercount correct Chinese answers. All cases are development fixtures; no held-out generalization claim."}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-cleanup-smoke-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-cleanup-smoke-v1\运行报告.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-cleanup-smoke-v1\summary.json
+验证：gold 只参与评分；未调用订单/价格服务、未实现 Agent；全部失败或拒答保留。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:53:48+08:00] OP-078
+操作：核对电商逐题产物完整性
+执行时间：本次记录时刻
+方法：重算所有电商运行的配置/源码快照 SHA256，逐行检查字段、TXT、图片、引用范围和规则题未调用模型。
+结果：{"all_checks_passed": true, "runs": [{"run": "ecom-bm25-smoke-v1", "records": 16, "all_checks_passed": true}, {"run": "ecom-cleanup-smoke-v1", "records": 16, "all_checks_passed": true}, {"run": "ecom-hybrid-smoke-v1", "records": 16, "all_checks_passed": true}, {"run": "ecom-hybrid-smoke-v2", "records": 16, "all_checks_passed": true}, {"run": "ecom-hybrid-smoke-v3", "records": 16, "all_checks_passed": true}, {"run": "ecom-interactive-check-v1", "records": 1, "all_checks_passed": true}], "records": 81, "scope": "Field, hash, snapshot, citation-range, image and rule-vs-model provenance checks; not semantic correctness."}
+输出：E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\artifact-verification.json
+验证：没有修改原始结果或最终测试集；这些核对不等于语义正确性评测。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:55:03+08:00] OP-079
+操作：完成项目清理后的功能与资产验收
+执行时间：本次记录时刻
+方法：逐题比较清理前后完整 RAG，校验原电商资产哈希与模型元数据，复算视觉矩阵和业务过滤；检查旧路径依赖、文档链接及来源文件。
+结果：{"verified_at": "2026-11-01T13:55:03+08:00", "all_checks_passed": true, "unchanged_original_ecommerce_files": 150, "derived_text_reports_rebuilt": ["reports/ecommerce_rag/artifact-verification.json", "reports/ecommerce_rag/ecom-bm25-smoke-v1/逐题结果.txt", "reports/ecommerce_rag/ecom-hybrid-smoke-v1/逐题结果.txt", "reports/ecommerce_rag/ecom-hybrid-smoke-v2/逐题结果.txt", "reports/ecommerce_rag/ecom-hybrid-smoke-v3/逐题结果.txt", "reports/ecommerce_rag/ecom-interactive-check-v1/逐题结果.txt"], "unchanged_model_files": 54, "old_new_answers_actions_citations_metrics_same": 16, "visual_page_vectors": [8, 2304], "visual_query_vectors": [12, 2304], "visual_routing_cases": 4, "old_business_import_dependencies": [], "docs_links_valid": true, "license_unchanged": true, "scope": "Current text/hybrid RAG unchanged; visual encoding utility preserved and validated. No claim about future unimplemented fusion/training/Agent."}
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\项目清理清单与验证结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\ecom-cleanup-smoke-v1\逐题结果.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\maintenance\cleanup-20261101\verification.json
+验证：所有断言通过；旧数据已删除，现有电商功能保持一致；未完成的未来能力没有虚报。
+关联问题：ISSUE-039
+状态：完成
+
+[2026-11-01T13:57:28+08:00] OP-080
+操作：更新并保留当前有效依赖锁
+执行时间：本次记录时刻
+方法：删除组合动作被工具拒绝后不再执行该删除；复制当前电商已验证的依赖锁，逐字节哈希核对。
+结果：根依赖锁现为当前电商环境版本；当前运行、未来环境恢复和已完成清理均保持有效。
+输出：E:\大模型项目自学E\doc-vqa-assistant\requirements.lock.txt；E:\大模型项目自学E\doc-vqa-assistant\记录\项目清理清单与验证结果.txt
+验证：两份锁文件 SHA256 相同；没有误报删除成功，实际清理统计保持 520。
+关联问题：ISSUE-040
+状态：完成

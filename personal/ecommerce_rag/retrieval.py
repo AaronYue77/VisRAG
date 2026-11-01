@@ -7,7 +7,7 @@ import sys
 import time
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(1, str(HERE.parent / "a_baseline"))
+sys.path.insert(1, str(HERE.parent / "rag_common"))
 from common import WORKSPACE, read_jsonl, write_jsonl, write_json, file_hash, operation
 from core import build_pages, tokenize
 

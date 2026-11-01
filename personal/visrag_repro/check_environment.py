@@ -6,7 +6,7 @@ import importlib.metadata
 import platform
 import subprocess
 
-BASE = Path(__file__).resolve().parents[1] / "a_baseline"
+BASE = Path(__file__).resolve().parents[1] / "rag_common"
 sys.path.insert(0, str(BASE))
 from common import WORKSPACE, REPO, file_hash, write_json, operation, issue, timestamp
 from compat import load_tokenizer

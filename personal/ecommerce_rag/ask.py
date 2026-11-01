@@ -6,7 +6,7 @@ from pathlib import Path
 import sys
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(1, str(HERE.parent / "a_baseline"))
+sys.path.insert(1, str(HERE.parent / "rag_common"))
 from common import WORKSPACE, timestamp, operation, issue, file_hash, write_json, write_jsonl
 from audit import append_question, export_existing_runs
 from retrieval import Retriever, EMBED_REVISION
@@ -24,7 +24,7 @@ def main(args):
     snapshot.mkdir()
     digest = hashlib.sha256()
     sources = {p.name: p for p in HERE.glob("*.py")}
-    sources.update({"a_" + p.name: p for p in (HERE.parent / "a_baseline").glob("*.py")})
+    sources.update({"shared_" + p.name: p for p in (HERE.parent / "rag_common").glob("*.py")})
     for name, path in sorted(sources.items()):
         data = path.read_bytes()
         (snapshot / name).write_bytes(data)

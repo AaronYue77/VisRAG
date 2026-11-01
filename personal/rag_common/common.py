@@ -14,8 +14,9 @@ import urllib.request
 REPO = Path(__file__).resolve().parents[2]
 WORKSPACE = Path(os.environ.get("DOC_VQA_WORKSPACE", REPO.parent.parent)).resolve()
 CODE = Path(__file__).resolve().parent
-ISSUES = CODE / "docs/问题与解决记录.txt"
-OPERATIONS = CODE / "docs/操作方法与结果记录.txt"
+LOG_DIR = REPO / "personal/a_baseline/docs"  # Preserve the user-agreed log locations.
+ISSUES = LOG_DIR / "问题与解决记录.txt"
+OPERATIONS = LOG_DIR / "操作方法与结果记录.txt"
 
 
 def configure_environment() -> None:

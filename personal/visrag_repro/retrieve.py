@@ -14,7 +14,7 @@ import time
 import os
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parent / "a_baseline"))
+sys.path.insert(0, str(HERE.parent / "rag_common"))
 from common import WORKSPACE, REPO, read_jsonl, write_json, write_jsonl, file_hash, timestamp, operation, issue
 from compat import load_tokenizer
 
@@ -34,7 +34,9 @@ def snapshot(directory):
     target = directory / "source_snapshot"
     target.mkdir(parents=True, exist_ok=True)
     sources = {p.name: p for p in HERE.glob("*.py")}
-    sources["a_common.py"] = HERE.parent / "a_baseline/common.py"
+    sources["shared_common.py"] = HERE.parent / "rag_common/common.py"
+    sources["shared_core.py"] = HERE.parent / "rag_common/core.py"
+    sources["ecommerce_routing.py"] = HERE.parent / "ecommerce_rag/retrieval.py"
     sources["upstream_utils.py"] = UPSTREAM_UTILS
     digest = hashlib.sha256()
     for name, source in sorted(sources.items()):
@@ -105,9 +107,12 @@ def index(args):
     directory = WORKSPACE / "data/visrag_repro" / safe_name(args.index_name)
     if (directory / "index-manifest.json").exists():
         raise ValueError("A completed index already exists; preserve it and choose a new index-name")
-    source = WORKSPACE / "data/a_baseline/smoke"
+    source = (WORKSPACE / args.corpus_dir).resolve()
+    if WORKSPACE not in source.parents:
+        raise ValueError("Keep corpus files inside the project workspace")
     docs = json.loads((source / "documents.json").read_text("utf-8"))
-    config = {"schema_version": "1.0", "corpus": "same two technical PDFs as BM25 smoke suite", "dpi": args.dpi,
+    config = {"schema_version": "2.0", "corpus_directory": str(source.relative_to(WORKSPACE)),
+              "documents_sha256": file_hash(source / "documents.json"), "dpi": args.dpi,
               "model": "openbmb/VisRAG-Ret", "model_revision": MODEL_REVISION,
               "upstream_encode_sha256": file_hash(UPSTREAM_UTILS), "documents": docs,
               "dtype": "bfloat16", "attention": "sdpa", "page_batch_size": 1,
@@ -148,6 +153,7 @@ def index(args):
                        "image_size": list(image.size), "vector_row": len(rows),
                        "vector_path": str(vector_path.relative_to(WORKSPACE)), "vector_sha256": file_hash(vector_path),
                        "render_seconds": rendering_seconds, "encoding_seconds": seconds, "peak_cuda_gib": peak}
+                row.update({key: document[key] for key in ("sku", "store_id", "doc_type", "version", "valid_from", "valid_to") if key in document})
                 rows.append(row)
                 arrays.append(vector)
                 write_jsonl(directory / "page-map.in-progress.jsonl", rows)
@@ -180,51 +186,84 @@ def retrieve(args):
     if file_hash(directory / "reps.npy") != index_manifest["reps_sha256"] or file_hash(directory / "page-map.jsonl") != index_manifest["page_map_sha256"]:
         raise ValueError("Index integrity check failed")
     pages = read_jsonl(directory / "page-map.jsonl")
-    questions_path = WORKSPACE / "data/a_baseline/smoke/questions.jsonl"
+    index_config = json.loads((directory / "config.json").read_text("utf-8"))
+    corpus = WORKSPACE / index_config["corpus_directory"]
+    if file_hash(corpus / "documents.json") != index_config["documents_sha256"]:
+        raise ValueError("Corpus metadata changed after visual indexing")
+    documents = json.loads((corpus / "documents.json").read_text("utf-8"))
+    questions_path = corpus / "questions.jsonl"
     questions = read_jsonl(questions_path)
-    if len(questions) != 10 or any(q["split"] != "smoke_dev" for q in questions):
-        raise ValueError("This reproduction accepts only the original ten smoke_dev questions")
+    if not questions or any(q["split"] not in ("smoke_dev", "dev") for q in questions):
+        raise ValueError("Only development questions are accepted; final-test predictions require a separate explicit evaluation")
+    if args.top_k < 1:
+        raise ValueError("top_k must be positive")
+    sys.path.append(str(HERE.parent / "ecommerce_rag"))
+    from retrieval import plan, eligible
     matrix = np.load(directory / "reps.npy", allow_pickle=False)
     if matrix.shape != (len(pages), 2304):
         raise ValueError("Page matrix and mapping disagree")
     config = {"model": "openbmb/VisRAG-Ret", "model_revision": MODEL_REVISION, "top_k": args.top_k,
               "instruction": INSTRUCTION, "instruction_source": "upstream demo answer.py retrieve()",
               "index_manifest_sha256": file_hash(directory / "index-manifest.json"), "questions_sha256": file_hash(questions_path),
-              "score": "torch.matmul(normalized_query, normalized_page.T); torch.topk", "query_batch_size": 1}
+              "score": "normalized dot product; business-filtered ranking with multi-SKU coverage", "query_batch_size": 1,
+              "corpus_directory": index_config["corpus_directory"], "business_filtering": True,
+              "generation_implemented_here": False}
     write_json(output / "config.json", config)
     source_sha = snapshot(output)
     model, tokenizer, encode, runtime = model_runtime()
     device_matrix = torch.from_numpy(matrix).cuda()
-    results, queries, scores = [], [], []
+    results, queries, scores, query_map = [], [], [], []
     for question in questions:
+        decision = plan(question["question"], question.get("request", {}), documents)
+        if decision["action"] != "retrieve":
+            results.append({**question, "retrieved_pages": [], "retrieval_action": decision["action"],
+                            "routing_answer": decision["answer"], "query_vector_row": None,
+                            "retrieval_seconds": 0.0, "query_encoding_seconds": 0.0, "ranking_seconds": 0.0,
+                            "retriever_model": None, "retriever_revision": None})
+            write_jsonl(output / "retrieval.jsonl", results)
+            continue
+        allowed = [i for i, page in enumerate(pages) if eligible(page, decision)]
+        if not allowed:
+            raise ValueError("Visual index has no page matching the requested business context")
         # Only this question text is passed into the model, not its gold pages/answer.
         query, encoding_seconds, peak = call_encoder(model, tokenizer, encode, [INSTRUCTION + question["question"]])
         torch.cuda.synchronize()
         started = time.perf_counter()
         similarities = torch.matmul(torch.from_numpy(query).cuda(), device_matrix.T)
-        values, ids = torch.topk(similarities, k=args.top_k)
+        all_scores = similarities[0].float().cpu().tolist()
+        ordering = sorted(allowed, key=lambda i: (-all_scores[i], pages[i]["page_id"]))
+        selected = []
+        if len(decision["skus"]) > 1:
+            for sku in decision["skus"]:
+                candidate = next((i for i in ordering if pages[i]["sku"] == sku), None)
+                if candidate is not None:
+                    selected.append(candidate)
+        selected.extend(i for i in ordering if i not in selected)
+        selected = selected[:max(args.top_k, len(decision["skus"]))]
         torch.cuda.synchronize()
         ranking_seconds = time.perf_counter() - started
-        ordered = [{**pages[index], "rank": rank, "score": score} for rank, (index, score) in enumerate(zip(ids[0].cpu().tolist(), values[0].cpu().tolist()), start=1)]
+        ordered = [{**pages[i], "rank": rank, "score": all_scores[i]} for rank, i in enumerate(selected, start=1)]
         row = {**question, "retrieved_pages": ordered, "retrieval_seconds": encoding_seconds + ranking_seconds,
                "query_encoding_seconds": encoding_seconds, "ranking_seconds": ranking_seconds,
                "retriever_model": "openbmb/VisRAG-Ret", "retriever_revision": MODEL_REVISION,
                "retriever_config_sha256": file_hash(output / "config.json"), "retriever_source_sha256": source_sha,
-               "retrieval_peak_cuda_gib": peak}
+               "retrieval_peak_cuda_gib": peak, "retrieval_action": "retrieve", "eligible_page_ids": [pages[i]["page_id"] for i in allowed],
+               "query_vector_row": len(queries)}
         results.append(row)
+        query_map.append({"question_id": question["question_id"], "vector_row": len(queries), "model_input": INSTRUCTION + question["question"]})
         queries.append(query)
         scores.append(similarities.float().cpu().numpy())
         write_jsonl(output / "retrieval.jsonl", results)
         print(f"Retrieved {question['question_id']}: {[p['page_id'] for p in ordered]} {row['retrieval_seconds']:.3f}s", flush=True)
-    np.save(output / "query_reps.npy", np.concatenate(queries), allow_pickle=False)
-    np.save(output / "similarities.npy", np.concatenate(scores), allow_pickle=False)
-    write_jsonl(output / "query-map.jsonl", [{"question_id": q["question_id"], "vector_row": i, "model_input": INSTRUCTION + q["question"]} for i, q in enumerate(questions)])
-    report = {"created_at": timestamp(), "questions": len(results), "runtime": runtime,
+    np.save(output / "query_reps.npy", np.concatenate(queries) if queries else np.empty((0,2304), dtype="float32"), allow_pickle=False)
+    np.save(output / "similarities.npy", np.concatenate(scores) if scores else np.empty((0,len(pages)), dtype="float32"), allow_pickle=False)
+    write_jsonl(output / "query-map.jsonl", query_map)
+    report = {"created_at": timestamp(), "questions": len(results), "encoded_questions": len(queries), "routed_without_encoding": len(results)-len(queries), "runtime": runtime,
               "retrieval_sha256": file_hash(output / "retrieval.jsonl"), "query_reps_sha256": file_hash(output / "query_reps.npy"),
               "similarities_sha256": file_hash(output / "similarities.npy"), "source_sha256": source_sha,
               "index_directory": str(directory.relative_to(WORKSPACE)), "config_sha256": file_hash(output / "config.json")}
     write_json(output / "retrieval-manifest.json", report)
-    operation("原版问题编码与视觉 Top-k 检索", "用上游 demo 原样 instruction 编码 10 个问题；读取缓存页面向量，torch 点积后 Top-k；不使用 OCR 文本或 gold 参与排序。", f"{len(results)} 题视觉召回已保存；问题向量、得分矩阵与映射可离线复查。", [output / "retrieval.jsonl", output / "query_reps.npy", output / "similarities.npy"], "页面向量与映射哈希匹配；只有 smoke_dev 参与；生成将在此进程退出后由另一个环境运行。")
+    operation("电商资料的独立视觉编码工具验证", "保留上游原始编码与 instruction；读取页面向量，按请求型号/店铺/有效期过滤后排序；实时请求等不编码，不使用 gold。", f"{len(results)} 条开发请求，{len(queries)} 个问题向量；视觉召回缓存独立保存，当前文字 RAG 入口未切换。", [output / "retrieval.jsonl", output / "query_reps.npy", output / "similarities.npy"], "这是清理旧数据依赖后的编码/检索工具验证；不是完整视觉 RAG 或融合效果实验。")
     print(json.dumps(report, ensure_ascii=False, indent=2), flush=True)
 
 
@@ -232,12 +271,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
     p = commands.add_parser("index")
-    p.add_argument("--index-name", default="smoke-dpi200-v1")
+    p.add_argument("--index-name", default="ecommerce-pages-v1")
+    p.add_argument("--corpus-dir", default="data/ecommerce_rag/demo-v1")
     p.add_argument("--dpi", type=int, default=200)
     p.set_defaults(function=index)
     p = commands.add_parser("retrieve")
-    p.add_argument("--index-name", default="smoke-dpi200-v1")
-    p.add_argument("--retrieval-name", default="smoke-top2-v1")
+    p.add_argument("--index-name", default="ecommerce-pages-v1")
+    p.add_argument("--retrieval-name", default="ecommerce-queries-v1")
     p.add_argument("--top-k", type=int, default=2)
     p.set_defaults(function=retrieve)
     args = parser.parse_args()

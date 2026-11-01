@@ -10,7 +10,7 @@ import time
 import statistics
 
 HERE = Path(__file__).resolve().parent
-BASE = HERE.parent / "a_baseline"
+BASE = HERE.parent / "rag_common"
 sys.path.insert(1, str(BASE))
 from common import WORKSPACE, read_jsonl, write_json, file_hash, timestamp, operation, issue
 from core import VLMReader, render_page, parse_answer, retrieval_metrics, answer_metrics
@@ -91,7 +91,7 @@ def run(args):
     snapshot = output / "source_snapshot"
     snapshot.mkdir()
     sources = {p.name: p for p in HERE.glob("*.py")}
-    sources.update({"a_" + p.name: p for p in BASE.glob("*.py")})
+    sources.update({"shared_" + p.name: p for p in BASE.glob("*.py")})
     digest = hashlib.sha256()
     for name, path in sorted(sources.items()):
         data = path.read_bytes()

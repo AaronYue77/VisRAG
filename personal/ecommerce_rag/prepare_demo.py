@@ -4,7 +4,7 @@ from pathlib import Path
 import json
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(1, str(HERE.parent / "a_baseline"))
+sys.path.insert(1, str(HERE.parent / "rag_common"))
 from common import WORKSPACE, write_json, write_jsonl, file_hash, operation
 
 
