@@ -619,3 +619,53 @@
 验证：31 个 blob 与 tree 均与本地暂存一致；14+10 项测试、65 条电商产物核对、原版视觉检索验收通过。没有把模拟样例结果表述为真实业务收益。
 关联问题：无
 状态：完成
+
+[2026-11-01T13:17:00+08:00] OP-061
+操作：复核旧 A/B/C 并保存电商实施修订路线
+执行时间：本次记录时刻
+方法：读取用户附件；对照当前电商检索代码、模型配置、运行摘要与原版验证；核对官方技术资料；归档原文并保存阶段目标和状态。
+结果：原技术主线保留；修订数据/评测、视觉融合定义、微调归因和 Agent 顺序；补齐原文缺失的实验组；运行代码和实验结果不变。
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\电商多模态RAG实施流程_A-B-C修订版.txt；E:\大模型项目自学E\doc-vqa-assistant\记录\参考材料\用户原A-B-C流程_20261101.txt；E:\大模型项目自学E\doc-vqa-assistant\记录\说明.txt
+验证：附件归档 SHA256 一致；B0-B4、C0-C2、状态与验收字段检查通过；没有执行新模型实验或 Git 同步。
+关联问题：ISSUE-030;ISSUE-036
+状态：完成
+
+[2026-11-01T13:23:01+08:00] OP-062
+操作：按原写作风格生成新版总问题 TXT
+执行时间：本次记录时刻
+方法：读取用户原 TXT，保留项目标题、井号分隔、原长度横线、短段落、短横线列表与 Tab 三列表格；按已核对的电商 A/B/C 路线重写，生成新文件。
+结果：新版覆盖电商场景、业务过滤、文本/视觉融合区别、真实数据与评测、微调对照、后续 Agent、实际进度与记录要求。原文件保留。
+输出：E:\大模型项目自学E\总共要搞清楚的问题.txt；E:\大模型项目自学E\总共要搞清楚的问题_电商RAG新版.txt
+验证：原文件 SHA256 未变化；新版 UTF-8 可读，沿用原换行和 BOM 状态；分隔线、Tab 表格和关键内容检查通过。未改运行代码或实验结果。
+关联问题：无
+状态：完成
+
+[2026-11-01T13:31:40+08:00] OP-063
+操作：整理电商项目自己的分支首页与阅读地图
+执行时间：本次记录时刻
+方法：核对 GitHub 默认 master/description；根 README 改为当前电商项目说明；原上游 README 按起始 commit 原字节归档；补电商链路图与代码入口，纠正旧地图的过期状态。
+结果：电商分支的本地项目首页已以个人应用为主体，明确上游/模型/新增模块边界；许可证未变；默认分支、仓库名称和 About 尚未更改。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\README.md；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\README.upstream.md；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\ecommerce_rag\docs\代码阅读地图.md；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\first-three-audit\README.before-personal-homepage.md
+验证：原 README 归档与 baseline Git blob 逐字节相同；LICENSE 与起点相同；文档入口存在；尚未同步本轮首页改动至远端。
+关联问题：无
+状态：本地文档完成，远端同步待处理
+
+[2026-11-01T13:33:08+08:00] OP-064
+操作：核对电商版本前三项及项目来源
+执行时间：本次记录时刻
+方法：逐个校验 PDF/索引/配置/源码快照哈希、页码映射、向量形状、逐题字段、TXT、图片和引用范围；读取 Git 分支与 GitHub 默认首页；不执行模型。
+结果：版本/记录可追溯，模拟电商流程可运行；电商独立评测和 VisRAG-Ret 迁移未完成；个人首页与电商代码地图已本地补齐。
+输出：E:\大模型项目自学E\doc-vqa-assistant\记录\电商版本前三项验收与项目来源说明.txt；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\personal\ecommerce_rag\docs\前三项验收与项目来源说明.txt；E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\first-three-audit\audit.json
+验证：16 条结果全字段检查通过；电商仅 smoke_dev；没有将历史语料或模拟准确率作为电商独立测试；默认 master 未变。
+关联问题：ISSUE-038
+状态：完成
+
+[2026-11-01T13:35:17+08:00] OP-065
+操作：保留上游原文归档的字节与空白
+执行时间：本次记录时刻
+方法：新增仅匹配 README.upstream.md 的属性；归档和当前项目首页分开；核对归档 blob。
+结果：原作者 README 内容和已有空白完整保留；只为档案关闭文本转换/空白检查，未放宽个人代码检查。
+输出：E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\.gitattributes；E:\大模型项目自学E\doc-vqa-assistant\upstream\VisRAG\README.upstream.md
+验证：归档与起始 commit 的 README 逐字节相同；后续 Git --check 另核对。
+关联问题：ISSUE-021
+状态：完成
