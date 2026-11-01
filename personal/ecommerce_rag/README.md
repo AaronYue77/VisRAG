@@ -1,3 +1,14 @@
+# 终端连续聊天
+
+```powershell
+.\scripts\run_stage_a.ps1 -Command chat
+```
+
+看到“你：”后直接提问，输入“退出”结束。支持问候、商品选择、代词追问、重置及异常后继续；本地模型同进程只加载一次。
+记录保存在每次启动显示的 `abo-chat-*/对话记录.txt` 和 `逐题结果.txt`，原始输出/引用保留。HTTP `/ask` 返回 `session_id`，后续带同一ID继续，独立会话隔离商品上下文。旧 `ask` 保留单次问答。
+
+[使用范围与验证](docs/终端连续聊天.txt)
+
 # A阶段真实商品入口
 
 真实数据主入口是 `stage_a.py`、`stage_a_index.py`、`stage_a_app.py`；原 `run.py`/`ask.py` 仍是模拟回归，不要混报。

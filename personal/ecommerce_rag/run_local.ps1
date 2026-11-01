@@ -1,6 +1,6 @@
 param(
-    [ValidateSet('ask', 'serve', 'index', 'dev', 'test', 'grid')]
-    [string]$Command = 'ask',
+    [ValidateSet('chat', 'ask', 'serve', 'index', 'dev', 'test', 'grid')]
+    [string]$Command = 'chat',
     [string]$Question = '',
     [string[]]$Sku = @(),
     [string]$RunName = ('a-manual-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
@@ -17,9 +17,10 @@ $StageCode = Join-Path $TaskRoot 'upstream\VisRAG\personal\ecommerce_rag'
 $AppFile = Join-Path $StageCode 'stage_a_app.py'
 $RunnerFile = Join-Path $StageCode 'stage_a.py'
 
-if ($Command -eq 'ask') {
-    if ([string]::IsNullOrWhiteSpace($Question)) { throw 'Please provide a product question with -Question.' }
-    $AppArguments = @($AppFile, 'ask', '--question', $Question)
+if ($Command -in @('ask', 'chat')) {
+    if ($Command -eq 'ask' -and [string]::IsNullOrWhiteSpace($Question)) { throw 'Please provide a product question with -Question.' }
+    $AppArguments = @($AppFile, $Command)
+    if ($Command -eq 'ask') { $AppArguments += @('--question', $Question) }
     foreach ($ProductSku in $Sku) { $AppArguments += @('--sku', $ProductSku) }
     & $ProjectPython @AppArguments
 } elseif ($Command -eq 'serve') {

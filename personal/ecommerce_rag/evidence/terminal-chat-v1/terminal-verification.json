@@ -1,0 +1,26 @@
+{
+  "powershell": {
+    "version": "5.1.26100.9711",
+    "files": [
+      {
+        "path": "E:\\大模型项目自学E\\doc-vqa-assistant\\scripts\\run_stage_a.ps1",
+        "errors": 0
+      },
+      {
+        "path": "E:\\大模型项目自学E\\doc-vqa-assistant\\upstream\\VisRAG\\personal\\ecommerce_rag\\run_local.ps1",
+        "errors": 0
+      }
+    ]
+  },
+  "conversation": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\ecommerce_rag\\abo-chat-20261101-170634-934c13\\对话记录.txt",
+  "questions_txt": "E:\\大模型项目自学E\\doc-vqa-assistant\\reports\\ecommerce_rag\\abo-chat-20261101-170634-934c13\\逐题结果.txt",
+  "turns": 7,
+  "model_load_count": 1,
+  "answers": [
+    "25 inches",
+    "33 pounds"
+  ],
+  "question_unicode_preserved": true,
+  "reset_then_clarify": true,
+  "exit_completed": true
+}

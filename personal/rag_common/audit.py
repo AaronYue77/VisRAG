@@ -21,6 +21,10 @@ def format_question(row: dict) -> str:
                   f"页面图片视觉 token（来自 grid）：{row.get('visual_tokens_from_grid', '未调用模型')}",
                   f"诊断用人工正确页：{row.get('diagnostic_oracle', False)}",
                   f"错误分类：{row.get('failure_category', '未标注')}"]
+    if row.get("session_id"):
+        lines += [f"会话ID：{row['session_id']}；轮次：{row['turn_number']}",
+                  f"本轮前商品上下文：{json.dumps(row.get('context_before', {}), ensure_ascii=False)}",
+                  f"本进程模型累计加载次数：{row.get('model_load_count', '未记录')}"]
     generated = row.get("model") is not None
     lines.extend([f"模型答案：{row.get('answer', '生成失败' if generated else '未运行生成（仅检索模式）')}",
                   f"输出引用：{', '.join(row.get('citations', [])) or '无'}",

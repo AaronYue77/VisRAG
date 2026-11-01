@@ -1,0 +1,6 @@
+{
+  "run": "abo-chat-20261101-170634-934c13",
+  "path": "reports/ecommerce_rag/abo-chat-20261101-170634-934c13/results.jsonl",
+  "sha256": "671935c47639103b4522f8c1df9c69cbc03b4dfa9f4946bc46fac69d5a7c131a",
+  "note": "Real unlabelled terminal interaction, not a new benchmark score. Full JSONL, TXT, images and source snapshot remain in workspace."
+}

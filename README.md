@@ -18,7 +18,8 @@
 工作区 `E:\大模型项目自学E\doc-vqa-assistant`，所有模型、数据、环境和缓存留在E盘。
 
 ```powershell
-.\scripts\run_stage_a.ps1 -Command ask -Question 'B07124WN69 的规格表宽度是多少？保留单位。' -Sku B07124WN69
+.\scripts\run_stage_a.ps1 -Command chat
+# Enter questions at the Chinese chat prompt; type exit to quit.
 .\scripts\run_stage_a.ps1 -Command serve -Port 8765
 .\scripts\run_stage_a.ps1 -Command dev -RunName a-my-dev-01
 ```
@@ -30,6 +31,12 @@
 - 本地真实测试逐题TXT：`reports/ecommerce_rag/abo-a-test-final-v1/逐题结果.txt`；总表：`记录/逐题结果汇总.txt`。
 - 本地验收：`记录/A阶段完成情况与验收报告.txt`；数据来源与署名：`data/ecommerce_rag/abo-cards-v1/ATTRIBUTION.txt`。
 - 运行保留JSONL、原始输出、图片、配置/代码SHA、输入清单与代码快照；gold不进入正常Reader，oracle仅开发诊断。
+
+## 终端连续聊天
+
+已补终端自然语言输入循环、问候、商品上下文、异常恢复和逐轮记录；同一进程复用模型。Windows PowerShell5.1下验证宽度25 inches后继续追问重量33 pounds，两次只加载一次模型。HTTP接口共用会话处理，使用返回的session_id继续。
+
+详见[连续聊天说明](personal/ecommerce_rag/docs/终端连续聊天.txt)。这是商品上下文管理，没有实现自主Agent或长期用户记忆。
 
 ## 后续与历史回归
 

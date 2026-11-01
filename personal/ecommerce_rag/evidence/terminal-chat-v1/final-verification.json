@@ -1,0 +1,9 @@
+{
+  "frozen_questions_unchanged": true,
+  "frozen_config_unchanged": true,
+  "checks_passed": 57,
+  "real_terminal_turns": 7,
+  "real_model_load_count": 1,
+  "api_session_isolation_passed": true,
+  "api_stopped": true
+}
