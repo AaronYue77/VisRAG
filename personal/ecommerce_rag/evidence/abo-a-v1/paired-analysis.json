@@ -1,0 +1,67 @@
+{
+  "page_to_blocks_answer": {
+    "questions": 56,
+    "clusters": 10,
+    "mean_difference": 0.03571428571428571,
+    "cluster_bootstrap_95ci": [
+      0.0,
+      0.06493506493506493
+    ],
+    "cluster_sign_flip_two_sided_p": 0.5,
+    "test_assumption": "Cluster differences symmetric under null; custom small dev set. Not randomized online A/B or population proof.",
+    "improved_questions": [
+      "dev-compare-0",
+      "dev-compare-2"
+    ],
+    "regressed_questions": []
+  },
+  "page_to_blocks_evidence": {
+    "questions": 56,
+    "clusters": 10,
+    "mean_difference": -0.05357142857142857,
+    "cluster_bootstrap_95ci": [
+      -0.21568627450980393,
+      0.06557377049180328
+    ],
+    "cluster_sign_flip_two_sided_p": 0.625,
+    "test_assumption": "Cluster differences symmetric under null; custom small dev set. Not randomized online A/B or population proof.",
+    "improved_questions": [
+      "B07HYYJKMD-material",
+      "B07GNF6Q9L-material",
+      "B072C8Q4SG-material",
+      "dev-compare-0",
+      "dev-compare-2"
+    ],
+    "regressed_questions": [
+      "B07HYYJKMD-color",
+      "B07QK2JK3Y-color",
+      "B084T7TZDG-color",
+      "B072C8Q4SG-color",
+      "B075X2X4XS-color",
+      "B075X4F3WY-color",
+      "B07QK2JK3Y-visual-armrest",
+      "B084T7TZDG-visual-armrest"
+    ]
+  },
+  "citation_prompt_only": {
+    "questions": 56,
+    "clusters": 10,
+    "mean_difference": 0.125,
+    "cluster_bootstrap_95ci": [
+      0.05555555555555555,
+      0.22
+    ],
+    "cluster_sign_flip_two_sided_p": 0.03125,
+    "test_assumption": "Cluster differences symmetric under null; custom small dev set. Not randomized online A/B or population proof.",
+    "improved_questions": [
+      "B07HYYJKMD-color",
+      "B07QK2JK3Y-color",
+      "B084T7TZDG-color",
+      "B072C8Q4SG-color",
+      "B075X2X4XS-color",
+      "B075X4F3WY-color",
+      "B084T7TZDG-visual-armrest"
+    ],
+    "regressed_questions": []
+  }
+}

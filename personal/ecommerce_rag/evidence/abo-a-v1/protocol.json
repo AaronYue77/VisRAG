@@ -1,0 +1,21 @@
+{
+  "version": "abo-a-v1",
+  "created_at": "2026-11-01T14:53:58+08:00",
+  "questions": 152,
+  "documents": 24,
+  "freeze": "Product groups and labels frozen before first VLM run. Develop on dev; test only after configuration is chosen.",
+  "sources": "Official ABO records/images, converted to two-page cards; questions are custom, NOT official ABO QA annotations.",
+  "scan_note": "8 page-2 raster conversions are controlled OCR fixtures, NOT naturally scanned manufacturer PDFs.",
+  "limitations": [
+    "CHAIR category, not router manuals",
+    "Catalog attributes, not live policy/price/order facts",
+    "Two-page cards are simpler than long industrial manuals",
+    "Template questions; no claim of broad user coverage"
+  ],
+  "question_counts": {
+    "dev": 76,
+    "test": 76
+  },
+  "annotation_note": "12 photo armrest labels manually inspected; 4 cross-product width questions; attribute and boundary questions are source-derived custom templates.",
+  "data_quality_note": "B00EUL2B16 source color is 'Pierced Splat Back', a structural description. Preserve raw record; color questions explicitly ask source field, not visible true color. No silent correction."
+}

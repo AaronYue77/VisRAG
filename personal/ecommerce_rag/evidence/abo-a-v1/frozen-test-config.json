@@ -1,0 +1,15 @@
+{
+  "frozen_at": "2026-11-01T15:18:55+08:00",
+  "settings": {
+    "top_k": 2,
+    "strategy": "blocks",
+    "overlap": 0,
+    "max_pixels": 786432,
+    "prompt_version": "abo-grounded-json-v2-labels",
+    "model_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+    "max_new_tokens": 160,
+    "filters": true
+  },
+  "questions_sha256": "bc2354c5e0cf64447fc9857e82fda453a0bc17a5a934fae23a0c75062ca52dac",
+  "note": "Chosen using dev only; no parameter selection on test. Future experiments use new evaluation version."
+}

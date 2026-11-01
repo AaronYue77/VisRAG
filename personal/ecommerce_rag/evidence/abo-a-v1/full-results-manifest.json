@@ -1,0 +1,32 @@
+[
+  {
+    "run": "abo-a-dev-v1",
+    "path": "reports/ecommerce_rag/abo-a-dev-v1/results.jsonl",
+    "sha256": "16815d02836def1c85892a972d729002ce55023c181ad8a37a79f965d76a2712"
+  },
+  {
+    "run": "abo-a-dev-blocks-v2",
+    "path": "reports/ecommerce_rag/abo-a-dev-blocks-v2/results.jsonl",
+    "sha256": "0eee6ec7f48c8f480622fc8069c7f339dc342782f8b273ac5eb03ec7d7dfe158"
+  },
+  {
+    "run": "abo-a-dev-labels-v3",
+    "path": "reports/ecommerce_rag/abo-a-dev-labels-v3/results.jsonl",
+    "sha256": "030329b9deeb330c359f39019eebf8ffad74ce83e811737d2746d0b6b9fbdd2e"
+  },
+  {
+    "run": "abo-a-dev-lowres-v1",
+    "path": "reports/ecommerce_rag/abo-a-dev-lowres-v1/results.jsonl",
+    "sha256": "0c94522b92f0a1bf4ad57c6986d8becc57562c4e461f3a17e87ab90b0a7b2041"
+  },
+  {
+    "run": "abo-a-dev-oracle-v1",
+    "path": "reports/ecommerce_rag/abo-a-dev-oracle-v1/results.jsonl",
+    "sha256": "b48b8334d78681e69f921a3c56a08a1fe8dc237fd397c2319abc82d40b194e13"
+  },
+  {
+    "run": "abo-a-test-final-v1",
+    "path": "reports/ecommerce_rag/abo-a-test-final-v1/results.jsonl",
+    "sha256": "82f35c1ddcc85d37d067266b6863a1fe859dde4f5705e8fb4743d0949d721976"
+  }
+]

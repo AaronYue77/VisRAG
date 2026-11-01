@@ -1,0 +1,12 @@
+{
+  "qualifying_products": 899,
+  "selected": 24,
+  "split_counts": {
+    "dev": 12,
+    "test": 12
+  },
+  "selection_seed": "abo-a-2026-11-01",
+  "strategy": "Hash order, CHAIR, amazon.com, required fields; reject shared image/model and title token Jaccard >= .45. Selected families do not repeat.",
+  "split_note": "Custom application split, not an official ABO benchmark split. No training split or model training in A.",
+  "snapshot_note": "Registration/download date is not source publication time or guarantee of current catalog accuracy."
+}

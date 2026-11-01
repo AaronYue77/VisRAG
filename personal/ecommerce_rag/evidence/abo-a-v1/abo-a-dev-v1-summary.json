@@ -1,0 +1,33 @@
+{
+  "questions": 76,
+  "split": "dev",
+  "runtime_errors": 0,
+  "answerable_questions": 56,
+  "unknown_questions": 12,
+  "route_questions": 8,
+  "answerable_fact_accuracy": 0.9464285714285714,
+  "action_accuracy": 1.0,
+  "unknown_correct_refusal": 1.0,
+  "route_accuracy": 1.0,
+  "hit_at_k": 0.9642857142857143,
+  "recall_at_k": 0.9642857142857143,
+  "mrr_at_k": 0.7410714285714286,
+  "evidence_aligned_fact_accuracy": 0.8928571428571429,
+  "generation_p50_seconds": 1.9106171999883372,
+  "generation_p95_seconds": 2.248162100004265,
+  "retrieval_p50_seconds": 0.0006335999933071434,
+  "retrieval_p95_seconds": 0.0008965999877545983,
+  "peak_cuda_gib": 4.432435989379883,
+  "failures": {
+    "none": 70,
+    "citation": 3,
+    "reading_or_generation": 1,
+    "retrieval": 2
+  },
+  "quality_boundary": "Custom attribute/template tasks on 24 selected ABO chairs; not official QA benchmark, online A/B, manufacturing policy validation or Agent evaluation.",
+  "fact_accuracy_cluster_bootstrap_95ci": [
+    0.8983050847457628,
+    1.0
+  ],
+  "ci_note": "2000 bootstrap samples by product family; small/custom subset, not population-wide guarantee."
+}

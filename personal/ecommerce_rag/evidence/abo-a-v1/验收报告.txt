@@ -1,0 +1,159 @@
+A阶段验收报告：电商真实商品多模态RAG
+####################################################################################################
+
+定位：AI应用开发个人项目。当前是带规则路由的RAG工作流；尚未实现自主Agent、业务工具调用或模型训练。
+完成链路：官方商品数据 → 来源可追溯PDF卡 → 原生文字/必要OCR → BM25文字块候选 → 父页面去重 → 页面图片 → Qwen3.5-2B → 引用/拒答/评测/TXT。
+数据：Amazon官方ABO，24个CHAIR商品、48页、152道自建题，开发/测试各76题。8页是受控光栅化OCR样例。
+重要边界：ABO原数据是JSON属性和图片；PDF为本项目排版转换件，不是厂家原始手册，QA不是官方问答标注。原始数据也有字段质量问题。
+来源：https://amazon-berkeley-objects.s3.us-east-1.amazonaws.com/index.html；授权和归属见data/ecommerce_rag/abo-cards-v1/ATTRIBUTION.txt。
+分组：同商品全部页面和问题在同一集合。排除共享主图/型号和标题Jaccard>=0.45的近似产品；family_key为自建启发式组，不是官方parent SKU，不能保证识别全部未知变体。
+测试前锁定：blocks窗口4块、0重叠、Top-2、786432像素/页、固定模型revision和引用提示v2。测试无oracle、未用于调参。
+型号/站点与日期：按ASIN和amazon.com范围过滤；快照登记日不是资料原始发布日期或实际有效期，没有伪造厂家历史版本。
+路由：静态资料检索、缺商品/上下文冲突澄清、未知商品/范围/日期/政策缺失拒答、实时业务requires_tool、场外unsupported。requires_tool只是状态，未执行真实工具。
+
+正式测试（一次冻结运行）：
+{
+  "questions": 76,
+  "split": "test",
+  "runtime_errors": 0,
+  "answerable_questions": 56,
+  "unknown_questions": 12,
+  "route_questions": 8,
+  "answerable_fact_accuracy": 0.9821428571428571,
+  "action_accuracy": 0.9868421052631579,
+  "unknown_correct_refusal": 1.0,
+  "route_accuracy": 1.0,
+  "hit_at_k": 1.0,
+  "recall_at_k": 1.0,
+  "mrr_at_k": 0.7321428571428571,
+  "evidence_aligned_fact_accuracy": 0.9821428571428571,
+  "generation_p50_seconds": 2.1079670999897644,
+  "generation_p95_seconds": 2.596579600009136,
+  "retrieval_p50_seconds": 0.0010306999902240932,
+  "retrieval_p95_seconds": 0.001604399993084371,
+  "peak_cuda_gib": 4.439919948577881,
+  "failures": {
+    "none": 75,
+    "reading_or_generation": 1
+  },
+  "quality_boundary": "Custom attribute/template tasks on 24 selected ABO chairs; not official QA benchmark, online A/B, manufacturing policy validation or Agent evaluation.",
+  "fact_accuracy_cluster_bootstrap_95ci": [
+    0.9516129032258065,
+    1.0
+  ],
+  "ci_note": "2000 bootstrap samples by product-family connected components (comparison questions link families); small/custom subset, not population-wide guarantee.",
+  "bootstrap_independent_clusters": 10
+}
+
+三个开发集受控版本：每组76题；可回答56题。先只改变分块，再只改变引用提示。
+abo-a-dev-v1: Recall@2=0.9643; 事实匹配=0.9464; 证据对齐事实=0.8929; 生成P50=1.911s
+abo-a-dev-blocks-v2: Recall@2=1.0000; 事实匹配=0.9821; 证据对齐事实=0.8393; 生成P50=1.883s
+abo-a-dev-labels-v3: Recall@2=1.0000; 事实匹配=0.9821; 证据对齐事实=0.9643; 生成P50=2.241s
+
+配对统计（按跨商品比较连接后的商品组重采样，保留退化）：
+{
+  "page_to_blocks_answer": {
+    "questions": 56,
+    "clusters": 10,
+    "mean_difference": 0.03571428571428571,
+    "cluster_bootstrap_95ci": [
+      0.0,
+      0.06493506493506493
+    ],
+    "cluster_sign_flip_two_sided_p": 0.5,
+    "test_assumption": "Cluster differences symmetric under null; custom small dev set. Not randomized online A/B or population proof.",
+    "improved_questions": [
+      "dev-compare-0",
+      "dev-compare-2"
+    ],
+    "regressed_questions": []
+  },
+  "page_to_blocks_evidence": {
+    "questions": 56,
+    "clusters": 10,
+    "mean_difference": -0.05357142857142857,
+    "cluster_bootstrap_95ci": [
+      -0.21568627450980393,
+      0.06557377049180328
+    ],
+    "cluster_sign_flip_two_sided_p": 0.625,
+    "test_assumption": "Cluster differences symmetric under null; custom small dev set. Not randomized online A/B or population proof.",
+    "improved_questions": [
+      "B07HYYJKMD-material",
+      "B07GNF6Q9L-material",
+      "B072C8Q4SG-material",
+      "dev-compare-0",
+      "dev-compare-2"
+    ],
+    "regressed_questions": [
+      "B07HYYJKMD-color",
+      "B07QK2JK3Y-color",
+      "B084T7TZDG-color",
+      "B072C8Q4SG-color",
+      "B075X2X4XS-color",
+      "B075X4F3WY-color",
+      "B07QK2JK3Y-visual-armrest",
+      "B084T7TZDG-visual-armrest"
+    ]
+  },
+  "citation_prompt_only": {
+    "questions": 56,
+    "clusters": 10,
+    "mean_difference": 0.125,
+    "cluster_bootstrap_95ci": [
+      0.05555555555555555,
+      0.22
+    ],
+    "cluster_sign_flip_two_sided_p": 0.03125,
+    "test_assumption": "Cluster differences symmetric under null; custom small dev set. Not randomized online A/B or population proof.",
+    "improved_questions": [
+      "B07HYYJKMD-color",
+      "B07QK2JK3Y-color",
+      "B084T7TZDG-color",
+      "B072C8Q4SG-color",
+      "B075X2X4XS-color",
+      "B075X4F3WY-color",
+      "B084T7TZDG-visual-armrest"
+    ],
+    "regressed_questions": []
+  }
+}
+小样本提升不能直接称为稳定业务收益。CI/p值用于说明此次自建开发子集，不能替代新商品/真实用户验证。
+
+OCR对照：
+关闭OCR时8页无文字；文字块Top-2开发集Recall由0.8393到1.0000。整页Top-2对照的命中率变化并非同方向，说明分块/空页回退会影响指标；未声称OCR对任何检索策略都提升。
+文件：a-retrieval-dev-grid-v2/检索对照实验.txt 与 a-retrieval-dev-no-ocr-v1/检索对照实验.txt。
+
+分辨率与oracle诊断：
+8题同题诊断，低分辨率与高分辨率保持其他配置相同；低分辨率8/8，高分辨率对应题7/8。少量诊断不能证明低分辨率普遍更优，正式测试保留已跑全开发集的高分辨率。
+oracle只用开发集人工正确页，7/8；扶手题仍答错，说明不是缺正确证据。人工正确页诊断不能计入正式检索分数。
+
+尚未解决的实际错误与评分风险：
+abo-a-dev-labels-v3 | B07GNF6Q9L-visual-armrest | reading_or_generation
+参考：No
+模型：Yes
+引用：['abo-B07GNF6Q9L:p0001']
+原始输出：{"action":"answer","answer":"Yes","citations":["P2"]}
+abo-a-dev-labels-v3 | B07QK2JK3Y-visual-armrest | citation
+参考：No
+模型：No
+引用：['abo-B07QK2JK3Y:p0002']
+原始输出：{"action":"answer","answer":"No","citations":["P1"]}
+abo-a-test-final-v1 | B00EUL2B16-visual-armrest | reading_or_generation
+参考：No
+模型：NOT_FOUND
+引用：[]
+原始输出：No
+人工排查：原始输出未满足JSON/引用协议；即便裸答案事实正确，系统仍拒答。原始结果保留，未放宽解析器或重跑测试追分。
+字段/数字单位匹配只是一种自动评分。长描述同义改写可能被低估，原始字段异常也可能被照抄；证据页对齐不是完整引用蕴含评测。错误原文、引用和图片全部保留。
+模板问题含商品编号和中英字段提示，48页小规模语料较简单；不能声称真实客服普遍准确率。
+单商品卡仅2页，Top-2即覆盖该商品全部页面，高召回部分来自任务设计；跨商品有4页而预算2页，才暴露本次检索排序短板。后续应扩到更长资料和自然语言问题。
+未接入用户图片搜索、自然扫描手册大库、视频、向量数据库、重排、LoRA、GRPO、MCP、订单退款操作；按B/C/Agent阶段推进。
+
+记录入口：
+E:\大模型项目自学E\doc-vqa-assistant\记录\逐题结果汇总.txt
+E:\大模型项目自学E\doc-vqa-assistant\reports\ecommerce_rag\abo-a-test-final-v1\逐题结果.txt
+upstream/VisRAG/personal/a_baseline/docs/操作方法与结果记录.txt
+upstream/VisRAG/personal/a_baseline/docs/问题与解决记录.txt
+
+验收：六组完整模型实验结果的字段、配置SHA、图片路径及条数均验证通过；API/单元测试另外记录。

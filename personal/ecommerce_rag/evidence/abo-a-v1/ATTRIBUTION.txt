@@ -1,0 +1,8 @@
+Amazon Berkeley Objects (ABO)
+Data and images: Amazon.com
+Dataset: Matthieu Guillaumin, Thomas Dideriksen, Kenan Deng, Himanshu Arora, Jasmine Collins and Jitendra Malik.
+Source: https://amazon-berkeley-objects.s3.us-east-1.amazonaws.com/index.html
+License: Creative Commons Attribution 4.0 International (CC BY 4.0). See SOURCE-LICENSE-CC-BY-4.0.txt.
+Changes by AaronYue77: selected subset, bilingual field labels, PDF card layouts, controlled raster page variants, custom QA annotations and application split.
+No endorsement by Amazon.com or original dataset authors is implied.
+Questions/split are custom, not official ABO QA annotations. Download registration date does not establish original publication date or current validity.

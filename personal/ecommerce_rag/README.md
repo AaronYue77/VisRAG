@@ -1,3 +1,24 @@
+# A阶段真实商品入口
+
+真实数据主入口是 `stage_a.py`、`stage_a_index.py`、`stage_a_app.py`；原 `run.py`/`ask.py` 仍是模拟回归，不要混报。
+
+从项目工作区运行：
+
+```powershell
+.\scripts\run_stage_a.ps1 -Command ask -Question 'B07124WN69 的宽度是多少？保留单位。' -Sku B07124WN69
+.\scripts\run_stage_a.ps1 -Command serve -Port 8765
+.\scripts\run_stage_a.ps1 -Command index
+```
+
+HTTP：`GET /health`；`POST /ask`，JSON含question和request。request仅允许skus数组、store_id、as_of。服务只绑定127.0.0.1；Ctrl+C结束；未云端上线。
+
+数据重建：在新语料版本、测试冻结前，依次执行 `abo_data.py download/profile/select/cards/annotate`、`stage_a.py index`。cards需reportlab和pymupdf；下载可用能稳定连接官方S3的Python环境，来源和SHA全部记录。
+
+现有 `abo-cards-v1` 已冻结，不要覆盖题集或资料；新实验保留不同运行名。详情见 [面试覆盖与代码对应](docs/A阶段实施与面试覆盖.txt) 及工作区 `记录/A阶段运行与记录位置.txt`。
+
+---
+以下是保留的旧模拟回归说明：
+
 # 电商商品知识与售后服务多模态 RAG
 
 当前主线是电商 RAG，后续再接电商 Agent。[代码阅读地图](docs/代码阅读地图.md)列出每一步的实际入口；共享能力位于 [rag_common](../rag_common/README.md)。旧论文数据、旧业务程序、旧实验与一次性生成脚本已清理。

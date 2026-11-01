@@ -14,6 +14,13 @@ def format_question(row: dict) -> str:
              "页码规则：PDF 物理页，从 1 开始；不一定等于文档印刷页号。", "召回页面及排序："]
     for page in row["retrieved_pages"]:
         lines.append(f"  第 {page['rank']} 名 | {page['page_id']} | score={page['score']:.6f} | 来源={page['text_source']}")
+    if "routing" in row:
+        lines += [f"请求上下文（商品/站点/快照日期）：{json.dumps(row.get('request', {}), ensure_ascii=False)}",
+                  f"路由决定与原因：{json.dumps(row['routing'], ensure_ascii=False)}",
+                  f"检索轨迹：{json.dumps(row.get('retrieval_trace', {}), ensure_ascii=False)}",
+                  f"页面图片视觉 token（来自 grid）：{row.get('visual_tokens_from_grid', '未调用模型')}",
+                  f"诊断用人工正确页：{row.get('diagnostic_oracle', False)}",
+                  f"错误分类：{row.get('failure_category', '未标注')}"]
     generated = row.get("model") is not None
     lines.extend([f"模型答案：{row.get('answer', '生成失败' if generated else '未运行生成（仅检索模式）')}",
                   f"输出引用：{', '.join(row.get('citations', [])) or '无'}",
@@ -51,7 +58,7 @@ def export_existing_runs() -> list[dict]:
     result_files = [p for folder in ("reports/ecommerce_rag",) for p in (WORKSPACE / folder).glob("*/results.jsonl")]
     for result_path in sorted(result_files):
         rows = read_jsonl(result_path)
-        content = "逐题结果：参考标签只参与计分，不进入问答模型提示。\n\n" + "".join(format_question(row) for row in rows)
+        content = "逐题结果：正常运行参考标签只参与计分；明确标记的开发集 oracle 诊断使用人工正确页，不用于报告实际检索效果。\n\n" + "".join(format_question(row) for row in rows)
         (result_path.parent / "逐题结果.txt").write_text(content, "utf-8", newline="\n")
         aggregate.append(content)
         counts.append({"run": result_path.parent.name, "records": len(rows), "txt": str(result_path.parent / "逐题结果.txt")})

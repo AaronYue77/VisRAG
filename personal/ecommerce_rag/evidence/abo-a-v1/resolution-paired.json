@@ -1,0 +1,90 @@
+[
+  {
+    "question_id": "B07TLFBRKD-width",
+    "high_correct": 1.0,
+    "low_correct": 1.0,
+    "high_generation_seconds": 1.889932799997041,
+    "low_generation_seconds": 2.4009761000052094,
+    "high_visual_tokens": 1518,
+    "low_visual_tokens": 384,
+    "high_peak_cuda_gib": 4.432785511016846,
+    "low_peak_cuda_gib": 4.255983829498291
+  },
+  {
+    "question_id": "B07TLFBRKD-weight",
+    "high_correct": 1.0,
+    "low_correct": 1.0,
+    "high_generation_seconds": 2.0156684999819845,
+    "low_generation_seconds": 1.6985464000026695,
+    "high_visual_tokens": 1518,
+    "low_visual_tokens": 384,
+    "high_peak_cuda_gib": 4.432785511016846,
+    "low_peak_cuda_gib": 4.256960391998291
+  },
+  {
+    "question_id": "B07HYYJKMD-material",
+    "high_correct": 1.0,
+    "low_correct": 1.0,
+    "high_generation_seconds": 1.8431487000198103,
+    "low_generation_seconds": 1.4342922999931034,
+    "high_visual_tokens": 1518,
+    "low_visual_tokens": 384,
+    "high_peak_cuda_gib": 4.432489395141602,
+    "low_peak_cuda_gib": 4.250955581665039
+  },
+  {
+    "question_id": "B07124WN69-weight",
+    "high_correct": 1.0,
+    "low_correct": 1.0,
+    "high_generation_seconds": 2.432414400012931,
+    "low_generation_seconds": 1.4927538000047207,
+    "high_visual_tokens": 1518,
+    "low_visual_tokens": 384,
+    "high_peak_cuda_gib": 4.434020042419434,
+    "low_peak_cuda_gib": 4.2570695877075195
+  },
+  {
+    "question_id": "B07QCQ1J95-width",
+    "high_correct": 1.0,
+    "low_correct": 1.0,
+    "high_generation_seconds": 2.3955131999973673,
+    "low_generation_seconds": 1.7676765999931376,
+    "high_visual_tokens": 1518,
+    "low_visual_tokens": 384,
+    "high_peak_cuda_gib": 4.434020042419434,
+    "low_peak_cuda_gib": 4.2570695877075195
+  },
+  {
+    "question_id": "B07GNF6Q9L-visual-armrest",
+    "high_correct": 0.0,
+    "low_correct": 1.0,
+    "high_generation_seconds": 2.058838900004048,
+    "low_generation_seconds": 1.502207300014561,
+    "high_visual_tokens": 1518,
+    "low_visual_tokens": 384,
+    "high_peak_cuda_gib": 4.432260036468506,
+    "low_peak_cuda_gib": 4.2508063316345215
+  },
+  {
+    "question_id": "dev-compare-0",
+    "high_correct": 1.0,
+    "low_correct": 1.0,
+    "high_generation_seconds": 5.930546899995534,
+    "low_generation_seconds": 4.269741600000998,
+    "high_visual_tokens": 1518,
+    "low_visual_tokens": 384,
+    "high_peak_cuda_gib": 4.432654857635498,
+    "low_peak_cuda_gib": 4.256906032562256
+  },
+  {
+    "question_id": "dev-compare-2",
+    "high_correct": 1.0,
+    "low_correct": 1.0,
+    "high_generation_seconds": 5.993710899987491,
+    "low_generation_seconds": 4.842585200007306,
+    "high_visual_tokens": 1518,
+    "low_visual_tokens": 384,
+    "high_peak_cuda_gib": 4.434020042419434,
+    "low_peak_cuda_gib": 4.2570695877075195
+  }
+]
