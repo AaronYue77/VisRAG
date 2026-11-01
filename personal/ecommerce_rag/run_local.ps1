@@ -18,7 +18,7 @@ $AppFile = Join-Path $StageCode 'stage_a_app.py'
 $RunnerFile = Join-Path $StageCode 'stage_a.py'
 
 if ($Command -eq 'ask') {
-    if ([string]::IsNullOrWhiteSpace($Question)) { throw '请使用 -Question 输入商品问题。' }
+    if ([string]::IsNullOrWhiteSpace($Question)) { throw 'Please provide a product question with -Question.' }
     $AppArguments = @($AppFile, 'ask', '--question', $Question)
     foreach ($ProductSku in $Sku) { $AppArguments += @('--sku', $ProductSku) }
     & $ProjectPython @AppArguments
@@ -30,7 +30,7 @@ if ($Command -eq 'ask') {
     & $ProjectPython $RunnerFile grid --run-name $RunName
 } else {
     $SettingsPath = Join-Path $TaskRoot 'data\ecommerce_rag\abo-cards-v1\frozen-test-config.json'
-    $FrozenSettings = (Get-Content -LiteralPath $SettingsPath -Raw | ConvertFrom-Json).settings
+    $FrozenSettings = (Get-Content -LiteralPath $SettingsPath -Raw -Encoding UTF8 | ConvertFrom-Json).settings
     & $ProjectPython $RunnerFile run --split $Command --run-name $RunName --strategy $FrozenSettings.strategy --overlap $FrozenSettings.overlap --top-k $FrozenSettings.top_k --max-pixels $FrozenSettings.max_pixels
 }
-if ($LASTEXITCODE -ne 0) { throw ('A阶段命令失败，退出码：' + $LASTEXITCODE) }
+if ($LASTEXITCODE -ne 0) { throw ('Stage A command failed. Exit code: ' + $LASTEXITCODE) }
