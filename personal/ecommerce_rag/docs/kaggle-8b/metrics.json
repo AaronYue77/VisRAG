@@ -1,0 +1,1892 @@
+[
+  {
+    "variant": "C0",
+    "split": "dev",
+    "suite": "all",
+    "n": 25,
+    "median_generation_seconds": 3.664614260999997,
+    "schema_valid": {
+      "passed": 25,
+      "n": 25
+    },
+    "exact_value_unit": {
+      "passed": 19,
+      "n": 20
+    },
+    "correct_evidence": {
+      "passed": 20,
+      "n": 20
+    },
+    "gold_in_candidates": {
+      "passed": 20,
+      "n": 20
+    },
+    "strict_pass": {
+      "passed": 23,
+      "n": 25
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 25
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 25
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "dev",
+    "suite": "double",
+    "n": 5,
+    "median_generation_seconds": 5.915181088000054,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 4,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 4,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "dev",
+    "suite": "evidence",
+    "n": 5,
+    "median_generation_seconds": 4.072272921999911,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "dev",
+    "suite": "missing",
+    "n": 5,
+    "median_generation_seconds": 3.217400214999998,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 0,
+      "n": 0
+    },
+    "correct_evidence": {
+      "passed": 0,
+      "n": 0
+    },
+    "gold_in_candidates": {
+      "passed": 0,
+      "n": 0
+    },
+    "strict_pass": {
+      "passed": 4,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "dev",
+    "suite": "single",
+    "n": 5,
+    "median_generation_seconds": 3.242992650999895,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "dev",
+    "suite": "table",
+    "n": 5,
+    "median_generation_seconds": 3.675896175999924,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "photo",
+    "suite": "BACKPACK",
+    "n": 20,
+    "median_generation_seconds": 2.401927233500146,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 15,
+      "n": 20
+    },
+    "correct_evidence": {
+      "passed": 20,
+      "n": 20
+    },
+    "gold_in_candidates": {
+      "passed": 20,
+      "n": 20
+    },
+    "strict_pass": {
+      "passed": 15,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "photo",
+    "suite": "CHAIR",
+    "n": 20,
+    "median_generation_seconds": 2.3968428764999317,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 15,
+      "n": 16
+    },
+    "correct_evidence": {
+      "passed": 16,
+      "n": 16
+    },
+    "gold_in_candidates": {
+      "passed": 16,
+      "n": 16
+    },
+    "strict_pass": {
+      "passed": 18,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "photo",
+    "suite": "HEADPHONES",
+    "n": 20,
+    "median_generation_seconds": 2.3874028715003988,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 13,
+      "n": 19
+    },
+    "correct_evidence": {
+      "passed": 19,
+      "n": 19
+    },
+    "gold_in_candidates": {
+      "passed": 19,
+      "n": 19
+    },
+    "strict_pass": {
+      "passed": 14,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "photo",
+    "suite": "SHOES",
+    "n": 20,
+    "median_generation_seconds": 2.3751445099999273,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 9,
+      "n": 20
+    },
+    "correct_evidence": {
+      "passed": 20,
+      "n": 20
+    },
+    "gold_in_candidates": {
+      "passed": 20,
+      "n": 20
+    },
+    "strict_pass": {
+      "passed": 9,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "photo",
+    "suite": "TABLE",
+    "n": 20,
+    "median_generation_seconds": 2.396274236500176,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 13,
+      "n": 19
+    },
+    "correct_evidence": {
+      "passed": 19,
+      "n": 19
+    },
+    "gold_in_candidates": {
+      "passed": 19,
+      "n": 19
+    },
+    "strict_pass": {
+      "passed": 14,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "photo",
+    "suite": "all",
+    "n": 100,
+    "median_generation_seconds": 2.389325342500115,
+    "schema_valid": {
+      "passed": 100,
+      "n": 100
+    },
+    "exact_value_unit": {
+      "passed": 65,
+      "n": 94
+    },
+    "correct_evidence": {
+      "passed": 94,
+      "n": 94
+    },
+    "gold_in_candidates": {
+      "passed": 94,
+      "n": 94
+    },
+    "strict_pass": {
+      "passed": 70,
+      "n": 100
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 100
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 100
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "test",
+    "suite": "all",
+    "n": 210,
+    "median_generation_seconds": 3.5876031535001403,
+    "schema_valid": {
+      "passed": 210,
+      "n": 210
+    },
+    "exact_value_unit": {
+      "passed": 169,
+      "n": 180
+    },
+    "correct_evidence": {
+      "passed": 180,
+      "n": 180
+    },
+    "gold_in_candidates": {
+      "passed": 180,
+      "n": 180
+    },
+    "strict_pass": {
+      "passed": 195,
+      "n": 210
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 210
+    },
+    "unsupported_answer": {
+      "passed": 4,
+      "n": 210
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "test",
+    "suite": "double",
+    "n": 50,
+    "median_generation_seconds": 5.872951144000012,
+    "schema_valid": {
+      "passed": 50,
+      "n": 50
+    },
+    "exact_value_unit": {
+      "passed": 45,
+      "n": 50
+    },
+    "correct_evidence": {
+      "passed": 50,
+      "n": 50
+    },
+    "gold_in_candidates": {
+      "passed": 50,
+      "n": 50
+    },
+    "strict_pass": {
+      "passed": 45,
+      "n": 50
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 50
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 50
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "test",
+    "suite": "evidence",
+    "n": 30,
+    "median_generation_seconds": 3.775259246500127,
+    "schema_valid": {
+      "passed": 30,
+      "n": 30
+    },
+    "exact_value_unit": {
+      "passed": 30,
+      "n": 30
+    },
+    "correct_evidence": {
+      "passed": 30,
+      "n": 30
+    },
+    "gold_in_candidates": {
+      "passed": 30,
+      "n": 30
+    },
+    "strict_pass": {
+      "passed": 30,
+      "n": 30
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 30
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 30
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "test",
+    "suite": "missing",
+    "n": 30,
+    "median_generation_seconds": 3.2567623664997427,
+    "schema_valid": {
+      "passed": 30,
+      "n": 30
+    },
+    "exact_value_unit": {
+      "passed": 0,
+      "n": 0
+    },
+    "correct_evidence": {
+      "passed": 0,
+      "n": 0
+    },
+    "gold_in_candidates": {
+      "passed": 0,
+      "n": 0
+    },
+    "strict_pass": {
+      "passed": 26,
+      "n": 30
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 30
+    },
+    "unsupported_answer": {
+      "passed": 4,
+      "n": 30
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "test",
+    "suite": "single",
+    "n": 60,
+    "median_generation_seconds": 3.4104057654997177,
+    "schema_valid": {
+      "passed": 60,
+      "n": 60
+    },
+    "exact_value_unit": {
+      "passed": 59,
+      "n": 60
+    },
+    "correct_evidence": {
+      "passed": 60,
+      "n": 60
+    },
+    "gold_in_candidates": {
+      "passed": 60,
+      "n": 60
+    },
+    "strict_pass": {
+      "passed": 59,
+      "n": 60
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 60
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 60
+    }
+  },
+  {
+    "variant": "C0",
+    "split": "test",
+    "suite": "table",
+    "n": 40,
+    "median_generation_seconds": 3.560406245999957,
+    "schema_valid": {
+      "passed": 40,
+      "n": 40
+    },
+    "exact_value_unit": {
+      "passed": 35,
+      "n": 40
+    },
+    "correct_evidence": {
+      "passed": 40,
+      "n": 40
+    },
+    "gold_in_candidates": {
+      "passed": 40,
+      "n": 40
+    },
+    "strict_pass": {
+      "passed": 35,
+      "n": 40
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 40
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 40
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "dev",
+    "suite": "all",
+    "n": 25,
+    "median_generation_seconds": 3.730261875999986,
+    "schema_valid": {
+      "passed": 25,
+      "n": 25
+    },
+    "exact_value_unit": {
+      "passed": 20,
+      "n": 20
+    },
+    "correct_evidence": {
+      "passed": 20,
+      "n": 20
+    },
+    "gold_in_candidates": {
+      "passed": 20,
+      "n": 20
+    },
+    "strict_pass": {
+      "passed": 24,
+      "n": 25
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 25
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 25
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "dev",
+    "suite": "double",
+    "n": 5,
+    "median_generation_seconds": 6.239246181999988,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "dev",
+    "suite": "evidence",
+    "n": 5,
+    "median_generation_seconds": 4.270636060000015,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "dev",
+    "suite": "missing",
+    "n": 5,
+    "median_generation_seconds": 3.5271865100000923,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 0,
+      "n": 0
+    },
+    "correct_evidence": {
+      "passed": 0,
+      "n": 0
+    },
+    "gold_in_candidates": {
+      "passed": 0,
+      "n": 0
+    },
+    "strict_pass": {
+      "passed": 4,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "dev",
+    "suite": "single",
+    "n": 5,
+    "median_generation_seconds": 3.5129416629999923,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "dev",
+    "suite": "table",
+    "n": 5,
+    "median_generation_seconds": 3.7649343059999865,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "photo",
+    "suite": "BACKPACK",
+    "n": 20,
+    "median_generation_seconds": 2.5132545679998657,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 15,
+      "n": 20
+    },
+    "correct_evidence": {
+      "passed": 20,
+      "n": 20
+    },
+    "gold_in_candidates": {
+      "passed": 20,
+      "n": 20
+    },
+    "strict_pass": {
+      "passed": 15,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "photo",
+    "suite": "CHAIR",
+    "n": 20,
+    "median_generation_seconds": 2.5337120770000183,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 14,
+      "n": 16
+    },
+    "correct_evidence": {
+      "passed": 16,
+      "n": 16
+    },
+    "gold_in_candidates": {
+      "passed": 16,
+      "n": 16
+    },
+    "strict_pass": {
+      "passed": 17,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "photo",
+    "suite": "HEADPHONES",
+    "n": 20,
+    "median_generation_seconds": 2.5116377790000115,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 13,
+      "n": 19
+    },
+    "correct_evidence": {
+      "passed": 19,
+      "n": 19
+    },
+    "gold_in_candidates": {
+      "passed": 19,
+      "n": 19
+    },
+    "strict_pass": {
+      "passed": 14,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "photo",
+    "suite": "SHOES",
+    "n": 20,
+    "median_generation_seconds": 2.5235200980000627,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 10,
+      "n": 20
+    },
+    "correct_evidence": {
+      "passed": 20,
+      "n": 20
+    },
+    "gold_in_candidates": {
+      "passed": 20,
+      "n": 20
+    },
+    "strict_pass": {
+      "passed": 10,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "photo",
+    "suite": "TABLE",
+    "n": 20,
+    "median_generation_seconds": 2.506157764000136,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 13,
+      "n": 19
+    },
+    "correct_evidence": {
+      "passed": 19,
+      "n": 19
+    },
+    "gold_in_candidates": {
+      "passed": 19,
+      "n": 19
+    },
+    "strict_pass": {
+      "passed": 14,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "photo",
+    "suite": "all",
+    "n": 100,
+    "median_generation_seconds": 2.515714328500053,
+    "schema_valid": {
+      "passed": 100,
+      "n": 100
+    },
+    "exact_value_unit": {
+      "passed": 65,
+      "n": 94
+    },
+    "correct_evidence": {
+      "passed": 94,
+      "n": 94
+    },
+    "gold_in_candidates": {
+      "passed": 94,
+      "n": 94
+    },
+    "strict_pass": {
+      "passed": 70,
+      "n": 100
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 100
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 100
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "test",
+    "suite": "all",
+    "n": 210,
+    "median_generation_seconds": 3.8131802119999065,
+    "schema_valid": {
+      "passed": 210,
+      "n": 210
+    },
+    "exact_value_unit": {
+      "passed": 170,
+      "n": 180
+    },
+    "correct_evidence": {
+      "passed": 180,
+      "n": 180
+    },
+    "gold_in_candidates": {
+      "passed": 180,
+      "n": 180
+    },
+    "strict_pass": {
+      "passed": 196,
+      "n": 210
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 210
+    },
+    "unsupported_answer": {
+      "passed": 4,
+      "n": 210
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "test",
+    "suite": "double",
+    "n": 50,
+    "median_generation_seconds": 6.188577131499869,
+    "schema_valid": {
+      "passed": 50,
+      "n": 50
+    },
+    "exact_value_unit": {
+      "passed": 45,
+      "n": 50
+    },
+    "correct_evidence": {
+      "passed": 50,
+      "n": 50
+    },
+    "gold_in_candidates": {
+      "passed": 50,
+      "n": 50
+    },
+    "strict_pass": {
+      "passed": 45,
+      "n": 50
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 50
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 50
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "test",
+    "suite": "evidence",
+    "n": 30,
+    "median_generation_seconds": 4.0394807400000445,
+    "schema_valid": {
+      "passed": 30,
+      "n": 30
+    },
+    "exact_value_unit": {
+      "passed": 30,
+      "n": 30
+    },
+    "correct_evidence": {
+      "passed": 30,
+      "n": 30
+    },
+    "gold_in_candidates": {
+      "passed": 30,
+      "n": 30
+    },
+    "strict_pass": {
+      "passed": 30,
+      "n": 30
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 30
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 30
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "test",
+    "suite": "missing",
+    "n": 30,
+    "median_generation_seconds": 3.511934017499925,
+    "schema_valid": {
+      "passed": 30,
+      "n": 30
+    },
+    "exact_value_unit": {
+      "passed": 0,
+      "n": 0
+    },
+    "correct_evidence": {
+      "passed": 0,
+      "n": 0
+    },
+    "gold_in_candidates": {
+      "passed": 0,
+      "n": 0
+    },
+    "strict_pass": {
+      "passed": 26,
+      "n": 30
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 30
+    },
+    "unsupported_answer": {
+      "passed": 4,
+      "n": 30
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "test",
+    "suite": "single",
+    "n": 60,
+    "median_generation_seconds": 3.633558543999925,
+    "schema_valid": {
+      "passed": 60,
+      "n": 60
+    },
+    "exact_value_unit": {
+      "passed": 59,
+      "n": 60
+    },
+    "correct_evidence": {
+      "passed": 60,
+      "n": 60
+    },
+    "gold_in_candidates": {
+      "passed": 60,
+      "n": 60
+    },
+    "strict_pass": {
+      "passed": 59,
+      "n": 60
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 60
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 60
+    }
+  },
+  {
+    "variant": "C1",
+    "split": "test",
+    "suite": "table",
+    "n": 40,
+    "median_generation_seconds": 3.779470331000084,
+    "schema_valid": {
+      "passed": 40,
+      "n": 40
+    },
+    "exact_value_unit": {
+      "passed": 36,
+      "n": 40
+    },
+    "correct_evidence": {
+      "passed": 40,
+      "n": 40
+    },
+    "gold_in_candidates": {
+      "passed": 40,
+      "n": 40
+    },
+    "strict_pass": {
+      "passed": 36,
+      "n": 40
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 40
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 40
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "dev",
+    "suite": "all",
+    "n": 25,
+    "median_generation_seconds": 4.123569168999893,
+    "schema_valid": {
+      "passed": 25,
+      "n": 25
+    },
+    "exact_value_unit": {
+      "passed": 20,
+      "n": 20
+    },
+    "correct_evidence": {
+      "passed": 20,
+      "n": 20
+    },
+    "gold_in_candidates": {
+      "passed": 20,
+      "n": 20
+    },
+    "strict_pass": {
+      "passed": 24,
+      "n": 25
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 25
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 25
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "dev",
+    "suite": "double",
+    "n": 5,
+    "median_generation_seconds": 6.67121953700007,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "dev",
+    "suite": "evidence",
+    "n": 5,
+    "median_generation_seconds": 4.748015314999975,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "dev",
+    "suite": "missing",
+    "n": 5,
+    "median_generation_seconds": 3.920536575999904,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 0,
+      "n": 0
+    },
+    "correct_evidence": {
+      "passed": 0,
+      "n": 0
+    },
+    "gold_in_candidates": {
+      "passed": 0,
+      "n": 0
+    },
+    "strict_pass": {
+      "passed": 4,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "dev",
+    "suite": "single",
+    "n": 5,
+    "median_generation_seconds": 3.9346453880002628,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "dev",
+    "suite": "table",
+    "n": 5,
+    "median_generation_seconds": 4.187567112000124,
+    "schema_valid": {
+      "passed": 5,
+      "n": 5
+    },
+    "exact_value_unit": {
+      "passed": 5,
+      "n": 5
+    },
+    "correct_evidence": {
+      "passed": 5,
+      "n": 5
+    },
+    "gold_in_candidates": {
+      "passed": 5,
+      "n": 5
+    },
+    "strict_pass": {
+      "passed": 5,
+      "n": 5
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 5
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 5
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "photo",
+    "suite": "BACKPACK",
+    "n": 20,
+    "median_generation_seconds": 2.9411178529999233,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 15,
+      "n": 20
+    },
+    "correct_evidence": {
+      "passed": 20,
+      "n": 20
+    },
+    "gold_in_candidates": {
+      "passed": 20,
+      "n": 20
+    },
+    "strict_pass": {
+      "passed": 15,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "photo",
+    "suite": "CHAIR",
+    "n": 20,
+    "median_generation_seconds": 2.942710650999743,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 15,
+      "n": 16
+    },
+    "correct_evidence": {
+      "passed": 16,
+      "n": 16
+    },
+    "gold_in_candidates": {
+      "passed": 16,
+      "n": 16
+    },
+    "strict_pass": {
+      "passed": 18,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "photo",
+    "suite": "HEADPHONES",
+    "n": 20,
+    "median_generation_seconds": 2.9265862165002545,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 13,
+      "n": 19
+    },
+    "correct_evidence": {
+      "passed": 19,
+      "n": 19
+    },
+    "gold_in_candidates": {
+      "passed": 19,
+      "n": 19
+    },
+    "strict_pass": {
+      "passed": 14,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "photo",
+    "suite": "SHOES",
+    "n": 20,
+    "median_generation_seconds": 2.928717537999546,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 13,
+      "n": 20
+    },
+    "correct_evidence": {
+      "passed": 20,
+      "n": 20
+    },
+    "gold_in_candidates": {
+      "passed": 20,
+      "n": 20
+    },
+    "strict_pass": {
+      "passed": 13,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "photo",
+    "suite": "TABLE",
+    "n": 20,
+    "median_generation_seconds": 2.9116423549999126,
+    "schema_valid": {
+      "passed": 20,
+      "n": 20
+    },
+    "exact_value_unit": {
+      "passed": 13,
+      "n": 19
+    },
+    "correct_evidence": {
+      "passed": 19,
+      "n": 19
+    },
+    "gold_in_candidates": {
+      "passed": 19,
+      "n": 19
+    },
+    "strict_pass": {
+      "passed": 14,
+      "n": 20
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 20
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 20
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "photo",
+    "suite": "all",
+    "n": 100,
+    "median_generation_seconds": 2.928717537999546,
+    "schema_valid": {
+      "passed": 100,
+      "n": 100
+    },
+    "exact_value_unit": {
+      "passed": 69,
+      "n": 94
+    },
+    "correct_evidence": {
+      "passed": 94,
+      "n": 94
+    },
+    "gold_in_candidates": {
+      "passed": 94,
+      "n": 94
+    },
+    "strict_pass": {
+      "passed": 74,
+      "n": 100
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 100
+    },
+    "unsupported_answer": {
+      "passed": 1,
+      "n": 100
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "test",
+    "suite": "all",
+    "n": 210,
+    "median_generation_seconds": 4.228428081999937,
+    "schema_valid": {
+      "passed": 210,
+      "n": 210
+    },
+    "exact_value_unit": {
+      "passed": 173,
+      "n": 180
+    },
+    "correct_evidence": {
+      "passed": 180,
+      "n": 180
+    },
+    "gold_in_candidates": {
+      "passed": 180,
+      "n": 180
+    },
+    "strict_pass": {
+      "passed": 199,
+      "n": 210
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 210
+    },
+    "unsupported_answer": {
+      "passed": 4,
+      "n": 210
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "test",
+    "suite": "double",
+    "n": 50,
+    "median_generation_seconds": 6.6741160620001665,
+    "schema_valid": {
+      "passed": 50,
+      "n": 50
+    },
+    "exact_value_unit": {
+      "passed": 48,
+      "n": 50
+    },
+    "correct_evidence": {
+      "passed": 50,
+      "n": 50
+    },
+    "gold_in_candidates": {
+      "passed": 50,
+      "n": 50
+    },
+    "strict_pass": {
+      "passed": 48,
+      "n": 50
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 50
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 50
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "test",
+    "suite": "evidence",
+    "n": 30,
+    "median_generation_seconds": 4.48547289499993,
+    "schema_valid": {
+      "passed": 30,
+      "n": 30
+    },
+    "exact_value_unit": {
+      "passed": 30,
+      "n": 30
+    },
+    "correct_evidence": {
+      "passed": 30,
+      "n": 30
+    },
+    "gold_in_candidates": {
+      "passed": 30,
+      "n": 30
+    },
+    "strict_pass": {
+      "passed": 30,
+      "n": 30
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 30
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 30
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "test",
+    "suite": "missing",
+    "n": 30,
+    "median_generation_seconds": 3.900864816000194,
+    "schema_valid": {
+      "passed": 30,
+      "n": 30
+    },
+    "exact_value_unit": {
+      "passed": 0,
+      "n": 0
+    },
+    "correct_evidence": {
+      "passed": 0,
+      "n": 0
+    },
+    "gold_in_candidates": {
+      "passed": 0,
+      "n": 0
+    },
+    "strict_pass": {
+      "passed": 26,
+      "n": 30
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 30
+    },
+    "unsupported_answer": {
+      "passed": 4,
+      "n": 30
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "test",
+    "suite": "single",
+    "n": 60,
+    "median_generation_seconds": 4.045875481499934,
+    "schema_valid": {
+      "passed": 60,
+      "n": 60
+    },
+    "exact_value_unit": {
+      "passed": 59,
+      "n": 60
+    },
+    "correct_evidence": {
+      "passed": 60,
+      "n": 60
+    },
+    "gold_in_candidates": {
+      "passed": 60,
+      "n": 60
+    },
+    "strict_pass": {
+      "passed": 59,
+      "n": 60
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 60
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 60
+    }
+  },
+  {
+    "variant": "C2",
+    "split": "test",
+    "suite": "table",
+    "n": 40,
+    "median_generation_seconds": 4.206196849499975,
+    "schema_valid": {
+      "passed": 40,
+      "n": 40
+    },
+    "exact_value_unit": {
+      "passed": 36,
+      "n": 40
+    },
+    "correct_evidence": {
+      "passed": 40,
+      "n": 40
+    },
+    "gold_in_candidates": {
+      "passed": 40,
+      "n": 40
+    },
+    "strict_pass": {
+      "passed": 36,
+      "n": 40
+    },
+    "false_refusal": {
+      "passed": 0,
+      "n": 40
+    },
+    "unsupported_answer": {
+      "passed": 0,
+      "n": 40
+    }
+  }
+]

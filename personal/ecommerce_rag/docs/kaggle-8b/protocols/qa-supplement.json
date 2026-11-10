@@ -1,0 +1,27 @@
+{
+  "version": "abo-8b-supplement-v1",
+  "groups": [
+    "single",
+    "double",
+    "table",
+    "evidence",
+    "missing"
+  ],
+  "splits": {
+    "test": [
+      20,
+      5,
+      5,
+      0,
+      0
+    ]
+  },
+  "questions_sha256": "9e500ee8091c0c6fc009ce91dcf16478f1dc1a01864f463196220fa7c4026c45",
+  "scope": "disjoint families; fixed evidence; source-derived ABO tables and charts",
+  "max_pixels": 460800,
+  "max_tokens": 128,
+  "seed": 9026,
+  "epochs": 1,
+  "accumulation": 2,
+  "learning_rate": 0.00015
+}

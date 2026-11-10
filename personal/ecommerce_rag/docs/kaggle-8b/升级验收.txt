@@ -1,0 +1,65 @@
+8B 60/25 与 120/50 版本验收
+判定：通过，允许切换
+旧 310 道冻结题用原 C2 输出配对。新增 25 道开发题与 75 道照片各自统计。
+
+dev/all | 41/50 → 42/50 | 改善 1，退化 0 | 误拒答 [0, 0]，无证据作答 [1, 1]
+dev/new-only | 17/25 → 18/25 | 改善 1，退化 0 | 误拒答 [0, 0]，无证据作答 [0, 0]
+test/all | 199/210 → 201/210 | 改善 2，退化 0 | 误拒答 [0, 0]，无证据作答 [4, 4]
+test/single | 59/60 → 59/60 | 改善 0，退化 0 | 误拒答 [0, 0]，无证据作答 [0, 0]
+test/double | 48/50 → 48/50 | 改善 0，退化 0 | 误拒答 [0, 0]，无证据作答 [0, 0]
+test/table | 36/40 → 38/40 | 改善 2，退化 0 | 误拒答 [0, 0]，无证据作答 [0, 0]
+test/evidence | 30/30 → 30/30 | 改善 0，退化 0 | 误拒答 [0, 0]，无证据作答 [0, 0]
+test/missing | 26/30 → 26/30 | 改善 0，退化 0 | 误拒答 [0, 0]，无证据作答 [4, 4]
+photo/all | 74/100 → 75/100 | 改善 1，退化 0 | 误拒答 [0, 0]，无证据作答 [1, 1]
+photo/CHAIR | 18/20 → 18/20 | 改善 0，退化 0 | 误拒答 [0, 0]，无证据作答 [1, 1]
+photo/HEADPHONES | 14/20 → 14/20 | 改善 0，退化 0 | 误拒答 [0, 0]，无证据作答 [0, 0]
+photo/TABLE | 14/20 → 14/20 | 改善 0，退化 0 | 误拒答 [0, 0]，无证据作答 [0, 0]
+photo/SHOES | 13/20 → 13/20 | 改善 0，退化 0 | 误拒答 [0, 0]，无证据作答 [0, 0]
+photo/BACKPACK | 15/20 → 16/20 | 改善 1，退化 0 | 误拒答 [0, 0]，无证据作答 [0, 0]
+breadth/all | 44/75 → 47/75 | 改善 3，退化 0 | 误拒答 [0, 0]，无证据作答 [0, 0]
+
+切换门槛
+qa_at_least_199 | 通过
+photos_at_least_74 | 通过
+at_least_one_strict_gain | 通过
+no_frozen_stratum_loss | 通过
+no_frozen_refusal_regression | 通过
+new_dev_no_net_loss | 通过
+broader_photos_no_net_loss_or_refusal_regression | 通过
+
+逐题变化
+[
+  {
+    "id": "C8P-BP13",
+    "split": "photo",
+    "suite": "BACKPACK",
+    "question": "只依据这张商品原图，包身主色是绿色还是粉色？若画面没有展示所问部位，请按协议拒答。只给简短答案。",
+    "reference": "绿色",
+    "old_pass": false,
+    "new_pass": true,
+    "old": "{\"action\": \"answer\", \"answer\": \"green\", \"citations\": [\"P1\"]}",
+    "new": "{\"action\": \"answer\", \"answer\": \"绿色\", \"citations\": [\"P1\"]}"
+  },
+  {
+    "id": "C8S-test-table-003",
+    "split": "test",
+    "suite": "table",
+    "question": "图中 B07T8J3T4G@amazon.it 的 length 条形终点标了什么值？同时抄写横轴单位。",
+    "reference": "8.66 inches",
+    "old_pass": false,
+    "new_pass": true,
+    "old": "{\"action\": \"answer\", \"answer\": \"8.66, inches\", \"citations\": [\"P2\"]}",
+    "new": "{\"action\": \"answer\", \"answer\": \"8.66 inches\", \"citations\": [\"P2\"]}"
+  },
+  {
+    "id": "C8S-test-table-004",
+    "split": "test",
+    "suite": "table",
+    "question": "图中 B00TEIKS1A@amazon.it 的 length 条形终点标了什么值？同时抄写横轴单位。",
+    "reference": "19.7 inches",
+    "old_pass": false,
+    "new_pass": true,
+    "old": "{\"action\": \"answer\", \"answer\": \"19.7\", \"citations\": [\"P1\"]}",
+    "new": "{\"action\": \"answer\", \"answer\": \"19.7 inches\", \"citations\": [\"P1\"]}"
+  }
+]

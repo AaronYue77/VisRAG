@@ -11,11 +11,12 @@ def format_question(row: dict) -> str:
     lines = ["=" * 72, f"运行名称：{row['run_name']}", f"问题 ID：{row['question_id']}",
              f"问题：{row['question']}", f"中文译文：{row.get('question_zh', '未提供')}",
              f"参考答案：{row['reference_answer']}", f"参考证据页：{', '.join(row['reference_pages'])}",
-             "页码规则：PDF 物理页，从 1 开始；不一定等于文档印刷页号。", "召回页面及排序："]
+             "证据标识：PDF 使用从 1 开始的物理页号。原始字段和政策条款使用来源标识。", "召回证据及排序："]
     for page in row["retrieved_pages"]:
         lines.append(f"  第 {page['rank']} 名 | {page['page_id']} | score={page['score']:.6f} | 来源={page['text_source']}")
     if "routing" in row:
         lines += [f"请求上下文（商品/站点/快照日期）：{json.dumps(row.get('request', {}), ensure_ascii=False)}",
+                  f"查询日期和时间：{row.get('timestamp', '未记录')}",
                   f"路由决定与原因：{json.dumps(row['routing'], ensure_ascii=False)}",
                   f"检索轨迹：{json.dumps(row.get('retrieval_trace', {}), ensure_ascii=False)}",
                   f"页面图片视觉 token（来自 grid）：{row.get('visual_tokens_from_grid', '未调用模型')}",

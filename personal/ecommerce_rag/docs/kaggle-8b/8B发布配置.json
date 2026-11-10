@@ -1,0 +1,14 @@
+{
+  "model": "Qwen/Qwen3-VL-8B-Instruct",
+  "revision": "kaggle:qwen-lm/qwen-3-vl/transformers/8b-instruct/1",
+  "quantization": "NF4",
+  "compute_dtype": "float16",
+  "train": 120,
+  "dev": 50,
+  "frozen_qa": 210,
+  "frozen_photos": 100,
+  "new_photos": 75,
+  "photo_categories": 20,
+  "accepted_adapter_sha256": "8a67f16042347215b7020d1d4216cd37127cb820ab4460f634a64d7628b34587",
+  "accepted_config_sha256": "2e66227b863271d6331fb1112056ad845fe8b528f0d48e57955e742b40773ddc"
+}

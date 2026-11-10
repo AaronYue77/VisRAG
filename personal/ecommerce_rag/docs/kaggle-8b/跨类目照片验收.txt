@@ -1,0 +1,46 @@
+跨类目照片增补：15 类，各 5 张。与原 100 道保持独立统计。
+增补通过切换保护。
+all | 44/75 → 47/75 | 改善 3，退化 0
+DRINKING_CUP | 4/5 → 4/5 | 改善 0，退化 0
+LAUNDRY_DETERGENT | 2/5 → 2/5 | 改善 0，退化 0
+AUTO_OIL | 3/5 → 3/5 | 改善 0，退化 0
+WRENCH | 1/5 → 2/5 | 改善 1，退化 0
+RECREATION_BALL | 4/5 → 4/5 | 改善 0，退化 0
+SHAMPOO | 4/5 → 4/5 | 改善 0，退化 0
+TOY_FIGURE | 0/5 → 1/5 | 改善 1，退化 0
+BABY_PRODUCT | 4/5 → 4/5 | 改善 0，退化 0
+FILE_FOLDER | 3/5 → 3/5 | 改善 0，退化 0
+PET_SUPPLIES | 3/5 → 3/5 | 改善 0，退化 0
+LIGHT_BULB | 3/5 → 4/5 | 改善 1，退化 0
+PLANTER | 2/5 → 2/5 | 改善 0，退化 0
+COFFEE | 4/5 → 4/5 | 改善 0，退化 0
+INSTRUMENT_PARTS_AND_ACCESSORIES | 4/5 → 4/5 | 改善 0，退化 0
+FINEEARRING | 3/5 → 3/5 | 改善 0，退化 0
+
+逐题变化
+[
+  {
+    "id": "C8P-XTO8",
+    "suite": "WRENCH",
+    "old": "{\"action\": \"answer\", \"answer\": \"both ends are open\", \"citations\": [\"P1\"]}",
+    "new": "{\"action\": \"answer\", \"answer\": \"两端都是开口形\", \"citations\": [\"P1\"]}",
+    "old_pass": false,
+    "new_pass": true
+  },
+  {
+    "id": "C8P-XTY8",
+    "suite": "TOY_FIGURE",
+    "old": "{\"action\": \"answer\", \"answer\": \"NOT_FOUND\", \"citations\": []}",
+    "new": "{\"action\": \"not_found\", \"answer\": \"NOT_FOUND\", \"citations\": []}",
+    "old_pass": false,
+    "new_pass": true
+  },
+  {
+    "id": "C8P-XLI3",
+    "suite": "LIGHT_BULB",
+    "old": "{\"action\": \"answer\", \"answer\": \"two short pins\", \"citations\": [\"P1\"]}",
+    "new": "{\"action\": \"answer\", \"answer\": \"两根短针脚\", \"citations\": [\"P1\"]}",
+    "old_pass": false,
+    "new_pass": true
+  }
+]

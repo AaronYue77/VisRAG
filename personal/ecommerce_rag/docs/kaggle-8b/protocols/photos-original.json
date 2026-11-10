@@ -1,0 +1,13 @@
+{
+  "version": "abo-8b-photos-v1",
+  "questions_sha256": "c952abc357617dbc1c2fe7117c11ddb515798fdcd6b6332f18c40ad6b0ac852a",
+  "annotations_sha256": "170267ea10c2aa16e0cf15fdbe6a73fc3b195d4b247a1717c204a625b1d35a49",
+  "scope": "visual inspection of actual ABO images",
+  "categories": {
+    "CHAIR": 18,
+    "HEADPHONES": 18,
+    "TABLE": 18,
+    "SHOES": 18,
+    "BACKPACK": 18
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "version": "abo-8b-eval-v1",
+  "groups": [
+    "single",
+    "double",
+    "table",
+    "evidence",
+    "missing"
+  ],
+  "splits": {
+    "train": [
+      12,
+      12,
+      12,
+      12,
+      12
+    ],
+    "dev": [
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "test": [
+      40,
+      45,
+      35,
+      30,
+      30
+    ]
+  },
+  "questions_sha256": "30a76debbb34ca6149488605d4eec578c12a5f2fb4c2379bb788922ef7cea900",
+  "scope": "new disjoint families; fixed evidence, derived ABO specification tables, no genuine manufacturer manual/graph",
+  "max_pixels": 460800,
+  "max_tokens": 128,
+  "seed": 9026,
+  "epochs": 1,
+  "accumulation": 2,
+  "learning_rate": 0.00015
+}

@@ -1,0 +1,65 @@
+{
+  "model": "Qwen/Qwen3-VL-8B-Instruct",
+  "revision": "kaggle:qwen-lm/qwen-3-vl/transformers/8b-instruct/1",
+  "quantization": "nf4",
+  "compute_dtype": "torch.float16",
+  "source_sha256": "402630343a4b1bffe4fff2111761ac2b8ff10b51f5d8ca321e18615b2a424a12",
+  "protocol_sha256": "cfe1ba1f8830904fa0d555c5c1a8c7c21c3fa9d489acd58f6fb55b003101371b",
+  "settings": {
+    "version": "abo-8b-eval-v1",
+    "groups": [
+      "single",
+      "double",
+      "table",
+      "evidence",
+      "missing"
+    ],
+    "splits": {
+      "train": [
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "dev": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "test": [
+        40,
+        45,
+        35,
+        30,
+        30
+      ]
+    },
+    "questions_sha256": "30a76debbb34ca6149488605d4eec578c12a5f2fb4c2379bb788922ef7cea900",
+    "scope": "new disjoint families; fixed evidence, derived ABO specification tables, no genuine manufacturer manual/graph",
+    "max_pixels": 460800,
+    "max_tokens": 128,
+    "seed": 9026,
+    "epochs": 1,
+    "accumulation": 2,
+    "learning_rate": 0.00015
+  },
+  "photos": {
+    "version": "abo-8b-photos-v1",
+    "questions_sha256": "c952abc357617dbc1c2fe7117c11ddb515798fdcd6b6332f18c40ad6b0ac852a",
+    "annotations_sha256": "170267ea10c2aa16e0cf15fdbe6a73fc3b195d4b247a1717c204a625b1d35a49",
+    "scope": "visual inspection of actual ABO images",
+    "categories": {
+      "CHAIR": 18,
+      "HEADPHONES": 18,
+      "TABLE": 18,
+      "SHOES": 18,
+      "BACKPACK": 18
+    }
+  },
+  "prompt_addition": "\n核对步骤（无需输出过程）：先在图中找到问题指定的商品编号和字段名；逐字符抄写该字段的数值和原单位，别取标题中相似数字，也不要换算。两个商品都找到才逐项作答并引用两张证据页。只引用支持答案的图片。任一所需字段看不清或未报告，输出指定的 NOT_FOUND JSON。",
+  "gpu": "Tesla T4",
+  "torch": "2.11.0+cu130"
+}

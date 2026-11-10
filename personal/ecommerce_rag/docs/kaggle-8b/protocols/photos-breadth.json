@@ -1,0 +1,23 @@
+{
+  "version": "abo-8b-photo-breadth-v1",
+  "questions_sha256": "e8a5ddd4c587bd907b02033ded116956e06355d53d6a9cd83443be732397f6a8",
+  "annotations_sha256": "4c7daa4a924afda5e2600977eaf05cc20844c42efe7848f96136fde1949609af",
+  "scope": "visual inspection of actual ABO images",
+  "categories": {
+    "DRINKING_CUP": 5,
+    "LAUNDRY_DETERGENT": 5,
+    "AUTO_OIL": 5,
+    "WRENCH": 5,
+    "RECREATION_BALL": 5,
+    "SHAMPOO": 5,
+    "TOY_FIGURE": 5,
+    "BABY_PRODUCT": 5,
+    "FILE_FOLDER": 5,
+    "PET_SUPPLIES": 5,
+    "LIGHT_BULB": 5,
+    "PLANTER": 5,
+    "COFFEE": 5,
+    "INSTRUMENT_PARTS_AND_ACCESSORIES": 5,
+    "FINEEARRING": 5
+  }
+}

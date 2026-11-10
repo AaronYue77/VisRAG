@@ -1,0 +1,239 @@
+{
+  "accepted": true,
+  "checks": {
+    "qa_at_least_199": true,
+    "photos_at_least_74": true,
+    "at_least_one_strict_gain": true,
+    "no_frozen_stratum_loss": true,
+    "no_frozen_refusal_regression": true,
+    "new_dev_no_net_loss": true,
+    "broader_photos_no_net_loss_or_refusal_regression": true
+  },
+  "metrics": {
+    "dev/all": {
+      "n": 50,
+      "old": 41,
+      "new": 42,
+      "improved": 1,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        1,
+        1
+      ]
+    },
+    "dev/new-only": {
+      "n": 25,
+      "old": 17,
+      "new": 18,
+      "improved": 1,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "test/all": {
+      "n": 210,
+      "old": 199,
+      "new": 201,
+      "improved": 2,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        4,
+        4
+      ]
+    },
+    "test/single": {
+      "n": 60,
+      "old": 59,
+      "new": 59,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "test/double": {
+      "n": 50,
+      "old": 48,
+      "new": 48,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "test/table": {
+      "n": 40,
+      "old": 36,
+      "new": 38,
+      "improved": 2,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "test/evidence": {
+      "n": 30,
+      "old": 30,
+      "new": 30,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "test/missing": {
+      "n": 30,
+      "old": 26,
+      "new": 26,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        4,
+        4
+      ]
+    },
+    "photo/all": {
+      "n": 100,
+      "old": 74,
+      "new": 75,
+      "improved": 1,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        1,
+        1
+      ]
+    },
+    "photo/CHAIR": {
+      "n": 20,
+      "old": 18,
+      "new": 18,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        1,
+        1
+      ]
+    },
+    "photo/HEADPHONES": {
+      "n": 20,
+      "old": 14,
+      "new": 14,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "photo/TABLE": {
+      "n": 20,
+      "old": 14,
+      "new": 14,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "photo/SHOES": {
+      "n": 20,
+      "old": 13,
+      "new": 13,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "photo/BACKPACK": {
+      "n": 20,
+      "old": 15,
+      "new": 16,
+      "improved": 1,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "breadth/all": {
+      "n": 75,
+      "old": 44,
+      "new": 47,
+      "improved": 3,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    }
+  }
+}

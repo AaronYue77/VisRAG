@@ -1,0 +1,97 @@
+{
+  "model": "Qwen/Qwen3-VL-8B-Instruct",
+  "revision": "kaggle:qwen-lm/qwen-3-vl/transformers/8b-instruct/1",
+  "quantization": "nf4",
+  "compute_dtype": "torch.float16",
+  "source_sha256": "402630343a4b1bffe4fff2111761ac2b8ff10b51f5d8ca321e18615b2a424a12",
+  "protocol_sha256": "cfe1ba1f8830904fa0d555c5c1a8c7c21c3fa9d489acd58f6fb55b003101371b",
+  "settings": {
+    "version": "abo-8b-eval-v1",
+    "groups": [
+      "single",
+      "double",
+      "table",
+      "evidence",
+      "missing"
+    ],
+    "splits": {
+      "train": [
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "dev": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "test": [
+        40,
+        45,
+        35,
+        30,
+        30
+      ]
+    },
+    "questions_sha256": "30a76debbb34ca6149488605d4eec578c12a5f2fb4c2379bb788922ef7cea900",
+    "scope": "new disjoint families; fixed evidence, derived ABO specification tables, no genuine manufacturer manual/graph",
+    "max_pixels": 460800,
+    "max_tokens": 128,
+    "seed": 9026,
+    "epochs": 1,
+    "accumulation": 2,
+    "learning_rate": 0.00015
+  },
+  "photos": null,
+  "prompt_addition": "\n核对步骤（无需输出过程）：先在图中找到问题指定的商品编号和字段名；逐字符抄写该字段的数值和原单位，别取标题中相似数字，也不要换算。两个商品都找到才逐项作答并引用两张证据页。只引用支持答案的图片。任一所需字段看不清或未报告，输出指定的 NOT_FOUND JSON。",
+  "gpu": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "supplement": {
+    "qa": {
+      "version": "abo-8b-supplement-v1",
+      "groups": [
+        "single",
+        "double",
+        "table",
+        "evidence",
+        "missing"
+      ],
+      "splits": {
+        "test": [
+          20,
+          5,
+          5,
+          0,
+          0
+        ]
+      },
+      "questions_sha256": "9e500ee8091c0c6fc009ce91dcf16478f1dc1a01864f463196220fa7c4026c45",
+      "scope": "disjoint families; fixed evidence; source-derived ABO tables and charts",
+      "max_pixels": 460800,
+      "max_tokens": 128,
+      "seed": 9026,
+      "epochs": 1,
+      "accumulation": 2,
+      "learning_rate": 0.00015
+    },
+    "photos": {
+      "version": "abo-8b-supplement-v1",
+      "questions_sha256": "75e77c7a5833220729a19e65e798497a1e72114fccc3ad019806596160ea8f9a",
+      "annotations_sha256": "e1d09d7a4afdd93334c32b1925199c2ab62964e8e8a2bd8c7cfdd0863271e4c3",
+      "scope": "visual inspection of actual ABO images",
+      "categories": {
+        "CHAIR": 2,
+        "HEADPHONES": 2,
+        "TABLE": 2,
+        "SHOES": 2,
+        "BACKPACK": 2
+      }
+    }
+  },
+  "parent_config_sha256": "5ddc460791f4ee6ccf4b207877dcd60c4c57cda666e956eef5b4e590454fdbe9",
+  "parent_adapter_sha256": "2c065406f846fb1efcb5a5283a09bf054028031eae1b4598e519f85bf75d03dd"
+}

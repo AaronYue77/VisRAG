@@ -1,0 +1,4 @@
+此 ZIP 按 VisRAG fork 根目录布局打包。解压后把 README.md 和 personal 目录中相应文件合入项目分支。
+README 和阶段文档的四张 Mermaid 图使用 GitHub 原生渲染。个人操作日志、全量数据库、模型权重和完整逐题原始输出留在本地。
+launch 目录提供 Kaggle Notebook 和启动源码。运行需要冻结证据包、官方 ABO 数据及图像、离线依赖和 Qwen3-VL-8B-Instruct 版本 1。
+本地工程保留 doc-vqa-assistant/upstream/VisRAG 布局；导出启动包时从本地工程根目录运行 scripts/export_kaggle_8b_formal.py --with-supplement <目标ZIP>。

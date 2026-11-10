@@ -61,13 +61,11 @@ def score(row, question):
 
 
 class Reader:
-    def __init__(self, max_tokens=160):
-        self.vlm = VLMReader(WORKSPACE / "models/Qwen3.5-2B", max_new_tokens=max_tokens)
+    def __init__(self, max_tokens=160, vlm=None):
+        self.vlm = vlm if vlm is not None else VLMReader(WORKSPACE / "models/Qwen3.5-2B", max_new_tokens=max_tokens)
         self.max_tokens = max_tokens
 
-    def read(self, question, request, pages, image_dir, max_pixels):
-        import torch
-        started = time.perf_counter()
+    def prepare(self, question, request, pages, image_dir, max_pixels, prompt_addition=""):
         image_dir.mkdir(parents=True, exist_ok=True)
         request={k:v for k,v in request.items() if k in ("skus","store_id","as_of")}
         content = [{"type":"text", "text":
@@ -77,7 +75,7 @@ class Reader:
             "只输出合法JSON：{\"action\":\"answer\",\"answer\":\"简短事实\",\"citations\":[\"P1\"]}。"
             "action仅answer或not_found。证据没有报告时输出{\"action\":\"not_found\",\"answer\":\"NOT_FOUND\",\"citations\":[]}。"
             "重要：P1、P2是本次图片的引用标签，不等于PDF物理页号。找到答案后核对该图片上方的标签，只引用实际包含该事实的图片。"
-            "不得伪造查询订单、价格或完成交易。页面编号只能引用本次标签。请求上下文："+json.dumps(request,ensure_ascii=False)}]
+            "不得伪造查询订单、价格或完成交易。页面编号只能引用本次标签。请求上下文："+json.dumps(request,ensure_ascii=False)+prompt_addition}]
         paths, sizes = [], []
         for i, page in enumerate(pages, 1):
             path = image_dir / f"{page['doc_id']}-{page['page']:04d}-{max_pixels}.png"
@@ -93,11 +91,17 @@ class Reader:
         content.append({"type":"text","text":"用户问题："+question})
         inputs = self.vlm.processor.apply_chat_template([{"role":"user","content":content}], tokenize=True,
                   add_generation_prompt=True, enable_thinking=False, return_dict=True, return_tensors="pt").to("cuda")
-        prepared = time.perf_counter()-started
         grid = inputs.get("image_grid_thw")
         grid_values = grid.tolist() if grid is not None else []
         merge = getattr(self.vlm.processor.image_processor,"merge_size",2)
         visual_tokens = sum(int(t*h*w)//(merge*merge) for t,h,w in grid_values)
+        return inputs, {"image_paths":paths,"image_sizes":sizes,"image_grid_thw":grid_values,"visual_tokens_from_grid":visual_tokens}
+
+    def read(self, question, request, pages, image_dir, max_pixels, prompt_addition=""):
+        import torch
+        started = time.perf_counter()
+        inputs, image_info = self.prepare(question, request, pages, image_dir, max_pixels, prompt_addition)
+        prepared = time.perf_counter()-started
         torch.cuda.synchronize();torch.cuda.reset_peak_memory_stats();started=time.perf_counter()
         with torch.inference_mode():
             output=self.vlm.model.generate(**inputs,max_new_tokens=self.max_tokens,do_sample=False)
@@ -106,7 +110,7 @@ class Reader:
         raw=self.vlm.processor.batch_decode(generated,skip_special_tokens=True)[0].strip()
         return {**decode_business_output(raw,pages),"raw_output":raw,"prepare_seconds":prepared,"generation_seconds":seconds,
                 "input_tokens":int(inputs["input_ids"].shape[1]),"output_tokens":int(generated.shape[1]),
-                "image_paths":paths,"image_sizes":sizes,"image_grid_thw":grid_values,"visual_tokens_from_grid":visual_tokens,
+                **image_info,
                 "peak_cuda_gib":torch.cuda.max_memory_allocated()/2**30}
 
 

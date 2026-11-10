@@ -1,0 +1,122 @@
+{
+  "test": {
+    "C0": {
+      "n": 210,
+      "strict": 195,
+      "correct_refusal": 26,
+      "unanswerable": 30,
+      "false_refusal": 0,
+      "answerable": 180
+    },
+    "C1": {
+      "n": 210,
+      "strict": 196,
+      "correct_refusal": 26,
+      "unanswerable": 30,
+      "false_refusal": 0,
+      "answerable": 180
+    },
+    "C2": {
+      "n": 210,
+      "strict": 199,
+      "correct_refusal": 26,
+      "unanswerable": 30,
+      "false_refusal": 0,
+      "answerable": 180
+    },
+    "paired": {
+      "C0→C1": {
+        "both_pass": 194,
+        "both_fail": 13,
+        "improved": 2,
+        "regressed": 1
+      },
+      "C1→C2": {
+        "both_pass": 196,
+        "both_fail": 11,
+        "improved": 3,
+        "regressed": 0
+      }
+    }
+  },
+  "photo": {
+    "C0": {
+      "n": 100,
+      "strict": 70,
+      "correct_refusal": 5,
+      "unanswerable": 6,
+      "false_refusal": 0,
+      "answerable": 94
+    },
+    "C1": {
+      "n": 100,
+      "strict": 70,
+      "correct_refusal": 5,
+      "unanswerable": 6,
+      "false_refusal": 0,
+      "answerable": 94
+    },
+    "C2": {
+      "n": 100,
+      "strict": 74,
+      "correct_refusal": 5,
+      "unanswerable": 6,
+      "false_refusal": 0,
+      "answerable": 94
+    },
+    "paired": {
+      "C0→C1": {
+        "both_pass": 69,
+        "both_fail": 29,
+        "improved": 1,
+        "regressed": 1
+      },
+      "C1→C2": {
+        "both_pass": 70,
+        "both_fail": 26,
+        "improved": 4,
+        "regressed": 0
+      }
+    }
+  },
+  "dev": {
+    "C0": {
+      "n": 25,
+      "strict": 23,
+      "correct_refusal": 4,
+      "unanswerable": 5,
+      "false_refusal": 0,
+      "answerable": 20
+    },
+    "C1": {
+      "n": 25,
+      "strict": 24,
+      "correct_refusal": 4,
+      "unanswerable": 5,
+      "false_refusal": 0,
+      "answerable": 20
+    },
+    "C2": {
+      "n": 25,
+      "strict": 24,
+      "correct_refusal": 4,
+      "unanswerable": 5,
+      "false_refusal": 0,
+      "answerable": 20
+    },
+    "paired": {
+      "C0→C1": {
+        "both_pass": 23,
+        "both_fail": 1,
+        "improved": 1,
+        "regressed": 0
+      },
+      "C1→C2": {
+        "both_pass": 24,
+        "both_fail": 1,
+        "improved": 0,
+        "regressed": 0
+      }
+    }
+  }
+}

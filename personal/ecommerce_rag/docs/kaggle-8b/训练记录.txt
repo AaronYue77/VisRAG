@@ -1,0 +1,15 @@
+{
+  "examples": 60,
+  "optimizer_updates": 30,
+  "mean_loss": 0.09700073619217922,
+  "seconds": 414.610825667,
+  "peak_cuda_gib": 10.235750675201416,
+  "trainable_parameters": 212992,
+  "targets": [
+    "model.language_model.layers.34.self_attn.q_proj",
+    "model.language_model.layers.34.self_attn.v_proj",
+    "model.language_model.layers.35.self_attn.q_proj",
+    "model.language_model.layers.35.self_attn.v_proj"
+  ],
+  "adapter_sha256": "2c065406f846fb1efcb5a5283a09bf054028031eae1b4598e519f85bf75d03dd"
+}

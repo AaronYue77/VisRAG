@@ -1,0 +1,245 @@
+{
+  "passes": true,
+  "by_category": {
+    "all": {
+      "n": 75,
+      "old": 44,
+      "new": 47,
+      "improved": 3,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "DRINKING_CUP": {
+      "n": 5,
+      "old": 4,
+      "new": 4,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "LAUNDRY_DETERGENT": {
+      "n": 5,
+      "old": 2,
+      "new": 2,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "AUTO_OIL": {
+      "n": 5,
+      "old": 3,
+      "new": 3,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "WRENCH": {
+      "n": 5,
+      "old": 1,
+      "new": 2,
+      "improved": 1,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "RECREATION_BALL": {
+      "n": 5,
+      "old": 4,
+      "new": 4,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "SHAMPOO": {
+      "n": 5,
+      "old": 4,
+      "new": 4,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "TOY_FIGURE": {
+      "n": 5,
+      "old": 0,
+      "new": 1,
+      "improved": 1,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "BABY_PRODUCT": {
+      "n": 5,
+      "old": 4,
+      "new": 4,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "FILE_FOLDER": {
+      "n": 5,
+      "old": 3,
+      "new": 3,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "PET_SUPPLIES": {
+      "n": 5,
+      "old": 3,
+      "new": 3,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "LIGHT_BULB": {
+      "n": 5,
+      "old": 3,
+      "new": 4,
+      "improved": 1,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "PLANTER": {
+      "n": 5,
+      "old": 2,
+      "new": 2,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "COFFEE": {
+      "n": 5,
+      "old": 4,
+      "new": 4,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "INSTRUMENT_PARTS_AND_ACCESSORIES": {
+      "n": 5,
+      "old": 4,
+      "new": 4,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    },
+    "FINEEARRING": {
+      "n": 5,
+      "old": 3,
+      "new": 3,
+      "improved": 0,
+      "regressed": 0,
+      "false_refusal": [
+        0,
+        0
+      ],
+      "unsupported_answer": [
+        0,
+        0
+      ]
+    }
+  }
+}
