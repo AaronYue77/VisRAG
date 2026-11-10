@@ -79,4 +79,4 @@ A 提供可追溯的商品库和证据格式。B 从全量库找商品并按问�
 
 ABO源数据/图片归Amazon.com，数据集作者署名和CC BY 4.0原文随本地数据保存。来源：[官方数据页](https://amazon-berkeley-objects.s3.us-east-1.amazonaws.com/index.html)。基础模型与上游成果归各原作者；本项目业务路由、资料转换、分块/引用实验、评测和记录按实际实现说明。
 
-当前开发分支 `feat/ecommerce-rag`；默认master仍保留上游基线。
+仓库默认分支为 `feat/ecommerce-rag`，`master` 保留上游基线。
