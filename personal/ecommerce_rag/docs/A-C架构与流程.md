@@ -11,8 +11,6 @@ flowchart TD
     store --> fts["FTS5 BM25<br/>名称、型号、类目和站点筛选"]
     store --> cards["按需生成派生 PDF<br/>属性、原图、原始产品要点"]
     cards --> pages["页号、商品身份、来源与 SHA256<br/>文字页抽取和图像输入"]
-    docs["历史 A 基线的派生资料卡"] --> text["原生文字块优先<br/>需要时用 RapidOCR"]
-    text --> blocks["块级 BM25 → 父页面去重"]
     query["用户问题"] --> intent{"先判断商品意图和范围"}
     intent -->|普通话题| chat["8B 开放对话 · 近期普通历史"]
     intent -->|按名称搜索| fts
@@ -20,9 +18,7 @@ flowchart TD
     fts --> select["候选排序 · 选商品或按身份限定"]
     select --> cards
     pages --> reader["证据 Reader · 直接字段或 8B 读页<br/>答案、引用、缺失处理"]
-    blocks --> legacy["历史 Reader 对照<br/>整页与文字块、引用标号"]
     reader --> audit["A 验收：字段、引用、边界<br/>保存逐题 TXT 和 JSONL"]
-    legacy --> audit
     audit --> next["交给 B：全量索引、页面和来源标识<br/>可复用 Reader 与回归数据"]
 ```
 
@@ -30,7 +26,7 @@ flowchart TD
 | --- | --- |
 | 全量导入、商品家族、站点身份和索引 | [full_catalog.py](../full_catalog.py)、[full_catalogue.py](../full_catalogue.py) |
 | 官方图像缓存、资料卡和来源信息 | [full_cards.py](../full_cards.py) |
-| 历史 A 分块、OCR、父页检索与 Reader | [stage_a_index.py](../stage_a_index.py)、[stage_a.py](../stage_a.py) |
+| 证据页选择、读图与引用解析 | [full_cards.py](../full_cards.py)、[stage_a.py](../stage_a.py)、[qwen8_runtime.py](../qwen8_runtime.py) |
 | 统一交互、路由和逐题记录 | [full_app.py](../full_app.py)、[full_conversation.py](../full_conversation.py)、[full_audit.py](../full_audit.py) |
 
 原 24 商品/152 题属于历史 A 基线。全量检索覆盖 147,702 条元数据，原图与派生页按使用需要生成。照片能提供哪些证据取决于源图实际展示的内容。

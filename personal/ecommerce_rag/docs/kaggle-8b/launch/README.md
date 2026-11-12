@@ -8,9 +8,11 @@
 - C 阶段候选训练使用 [kaggle_8b_upgrade.py](kaggle_8b_upgrade.py)，新增 15 类的两版对照使用 [kaggle_8b_breadth.py](kaggle_8b_breadth.py)。[120/50 训练和主集对照](https://www.kaggle.com/code/aaronyue77/abo-rag-8b-120-example-candidate) · [75 道跨类目照片对照](https://www.kaggle.com/code/aaronyue77/abo-rag-8b-breadth75)
 - 正式任务在 Tesla T4 上运行，挂载 Kaggle 官方模型 `qwen-lm/qwen-3-vl/transformers/8b-instruct/1`。需要匹配版本的证据夹具和离线运行依赖。交互初始化还使用 ABO 元数据、图像索引和字体。已跑任务及其夹具为私有输入，打开时需要相应账号权限。
 
+[清理后的 GPU 冒烟入口](kaggle_8b_smoke.py)使用原冻结 8B 夹具中的开发集双页题，验证开放对话、读图、单步 QLoRA 和重载适配器。复跑时挂载同版本 8B、离线运行依赖和用当前源码导出的 `abo-8b-formal.zip`。正式选版仍用上面的 120/50 任务。
+
 ## 本地工作区布局
 
-把本仓库放在项目根目录下的 `upstream/VisRAG`，将本目录的 PowerShell 启动文件放进项目根目录的 `scripts`。脚本使用项目根目录的 `.venv`，CPU 建索引用 SQLite FTS5，模型调用需要 CUDA 环境和官方 8B 快照。默认模型目录是 `models/Qwen3-VL-8B-Instruct`，也可通过 `ABO_QWEN8_MODEL_DIR` 指定。
+把本仓库放在项目根目录下的 `upstream/VisRAG`，将本目录的启动文件放进项目根目录的 `scripts`。脚本使用项目根目录的 `.venv`，CPU 建索引用 SQLite FTS5，模型调用需要 CUDA 环境和官方 8B 快照。默认模型目录是 `models/Qwen3-VL-8B-Instruct`，也可通过 `ABO_QWEN8_MODEL_DIR` 指定。
 
 将官方 ABO 商品归档 `archives/abo-listings.tar` 和图像索引 `images/metadata/images.csv.gz` 保存到 `data/ecommerce_rag/abo-source` 对应子目录。索引可从源文件重建，数据来源和署名见仓库首页。[官方 ABO 数据](https://amazon-berkeley-objects.s3.us-east-1.amazonaws.com/index.html)
 

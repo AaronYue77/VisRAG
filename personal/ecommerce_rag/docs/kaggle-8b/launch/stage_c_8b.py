@@ -1,22 +1,19 @@
 """Run an 8B fixed-evidence inference or one-step QLoRA check on a CUDA host."""
 import argparse
 import json
-import os
 from pathlib import Path
 import re
 import sys
-from types import SimpleNamespace
 
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "upstream/VisRAG/personal/ecommerce_rag"))
 
-from c_protocol import DATA, load
+from c8_protocol import DATA, GROUPS, load
 from common import file_hash, timestamp, write_json
 
 
-MODEL_ID = "Qwen/Qwen3-VL-8B-Instruct"
-REVISION = os.environ.get("ABO_QWEN8_REVISION", "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b")
+from qwen8_runtime import MODEL_ID, REVISION, Qwen8Runtime
 
 
 def run(args):
@@ -25,40 +22,22 @@ def run(args):
         print(f"{len(rows)} frozen questions, {MODEL_ID} revision {REVISION}")
         return
     import torch
-    from transformers import AutoProcessor, BitsAndBytesConfig, Qwen3VLForConditionalGeneration
 
     from audit import append_question
     from stage_a import Reader, snapshot
     from stage_c import PROMPT_C1, score, training_input
-    if args.extended:
-        from c_extended import load_extended
-
-        rows, protocol = load_extended()
-
-    if not torch.cuda.is_available():
-        raise RuntimeError("A CUDA GPU is required")
-    if not (args.model_dir / "config.json").is_file():
-        raise FileNotFoundError("Stage the pinned 8B model snapshot before running")
-    dtype = torch.bfloat16 if torch.cuda.is_bf16_supported(including_emulation=False) else torch.float16
-    quantization = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
-                                     bnb_4bit_use_double_quant=True, bnb_4bit_compute_dtype=dtype) if args.nf4 else None
-    torch.manual_seed(protocol["settings"]["seed"])
-    model = Qwen3VLForConditionalGeneration.from_pretrained(
-        args.model_dir, local_files_only=True, dtype=dtype, device_map={"": 0},
-        attn_implementation="sdpa", quantization_config=quantization).eval()
-    processor = AutoProcessor.from_pretrained(args.model_dir, local_files_only=True)
-    reader = Reader.__new__(Reader)
-    reader.vlm = SimpleNamespace(model=model, processor=processor)
-    cfg = protocol["settings"]
-    reader.max_tokens = cfg["max_tokens"]
+    torch.manual_seed(protocol["seed"])
+    runtime = Qwen8Runtime(args.model_dir, nf4=args.nf4)
+    model = runtime.model
+    cfg = protocol
+    reader = Reader(max_tokens=cfg["max_tokens"], vlm=runtime)
     out = ROOT / "reports/ecommerce_rag" / args.run_name
     out.mkdir(parents=True)
     source_sha = snapshot(out)
     adapter_sha = file_hash(args.adapter / "adapter_model.safetensors") if args.adapter else None
-    data = DATA.parent / "abo-stage-c-extended-v1" if args.extended else DATA
     write_json(out / "config.json", {"model": MODEL_ID, "expected_revision": REVISION,
-               "protocol_sha256": file_hash(data / "protocol.json"), "source_sha256": source_sha,
-               "runner_sha256": file_hash(Path(__file__)), "dtype": str(dtype), "nf4": args.nf4,
+               "protocol_sha256": file_hash(DATA / "protocol.json"), "source_sha256": source_sha,
+               "runner_sha256": file_hash(Path(__file__)), "dtype": str(runtime.dtype), "nf4": args.nf4,
                "gpu": torch.cuda.get_device_name(), "settings": cfg, "task": args.task,
                "adapter_sha256": adapter_sha})
     if args.task == "qlora-step":
@@ -75,7 +54,7 @@ def run(args):
         model.train()
         params = [p for p in model.parameters() if p.requires_grad]
         optimizer = torch.optim.AdamW(params, lr=cfg["learning_rate"])
-        row = next(r for r in rows if r["split"] == "train" and r["suite"] == "two_pages")
+        row = next(r for r in rows if r["split"] == "train" and r["suite"] == "double")
         torch.cuda.reset_peak_memory_stats()
         inputs, targets, positions, info = training_input(reader, row, out / "images", cfg)
         logits = model(**inputs, use_cache=False, logits_to_keep=positions).logits
@@ -96,8 +75,8 @@ def run(args):
     if args.adapter:
         import peft
         reader.vlm.model = peft.PeftModel.from_pretrained(model, args.adapter).eval()
-    split = "test" if args.extended else args.split
-    selected = [row for row in rows if row["split"] == split][:args.limit]
+    selected = [row for row in rows if row["split"] == args.split and
+                (args.suite is None or row["suite"] == args.suite)][:args.limit]
     config_sha = file_hash(out / "config.json")
     for row in selected:
         pages = row["retrieved_pages"]
@@ -116,20 +95,18 @@ def run(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("task", choices=("check-data", "infer", "qlora-step"))
-    parser.add_argument("--model-dir", type=Path, default=ROOT / "models/Qwen3-VL-8B-Instruct")
+    parser.add_argument("--model-dir", type=Path)
     parser.add_argument("--run-name", default="stage-c-qwen3vl8b-smoke")
     parser.add_argument("--split", choices=("dev", "test"), default="dev")
     parser.add_argument("--limit", type=int, default=3)
     parser.add_argument("--nf4", action="store_true")
     parser.add_argument("--adapter", type=Path)
-    parser.add_argument("--extended", action="store_true", help="Use the frozen 80-case held-out evaluation")
+    parser.add_argument("--suite", choices=GROUPS)
     args = parser.parse_args()
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}", args.run_name) or args.limit < 1:
         parser.error("Invalid run name or case count")
     if args.adapter and args.task != "infer":
         parser.error("--adapter is only for inference")
-    if args.extended and args.task != "infer":
-        parser.error("--extended is only for held-out inference")
     if args.task == "qlora-step" and not args.nf4:
         parser.error("Select --nf4 for the QLoRA check")
     run(args)

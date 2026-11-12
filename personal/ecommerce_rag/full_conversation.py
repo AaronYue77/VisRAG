@@ -1,6 +1,7 @@
 """Open conversation and routing for the full catalog, sharing the evidence VLM."""
 import json
 import re
+import time
 
 VERSION='full-conversation-v5'
 INTENTS={'general','catalog','search','fact','business','policy','clarify'}
@@ -97,20 +98,43 @@ def direct_business_request(text):
 class FullConversation:
     def __init__(self,evidence_reader):
         self.evidence_reader=evidence_reader
-        self.engine=None
 
-    def generate(self,messages,stage,trace,max_tokens):
-        # Reuse the fixed Reader's underlying Qwen. No second model remains on GPU.
-        if self.engine is None:
-            from dialogue_model import LocalDialogueModel
-            self.engine=LocalDialogueModel()
-        self.engine.reader=self.evidence_reader.ensure_reader().vlm
+    def generate(self, messages, stage, trace, max_tokens):
+        import torch
+        started = time.perf_counter()
+        runtime = self.evidence_reader.ensure_reader().vlm
+        entry = {"stage":stage,"raw_output":"","status":"started","load_seconds":0.0,"model_executed":False}
+        trace.append(entry)
         try:
-            value=self.engine.generate(messages,stage,trace,max_tokens)
-            if trace[-1]['status']!='ok' and not (stage=='full_open_conversation' and trace[-1]['status']=='partial' and value.strip()):
-                raise ValueError('Conversation generation ended before EOS')
-            return value
-        finally:self.engine.reader=None
+            inputs = runtime.processor.apply_chat_template(messages, tokenize=True, add_generation_prompt=True,
+                         enable_thinking=False, return_dict=True, return_tensors="pt").to("cuda")
+            if inputs["input_ids"].shape[1] > 7000: raise ValueError("Input exceeds dialogue token budget")
+            entry["prepare_seconds"] = time.perf_counter() - started
+            grid = inputs.get("image_grid_thw")
+            entry["image_grid_thw"] = grid.tolist() if grid is not None else []
+            merge = getattr(runtime.processor.image_processor,"merge_size",2)
+            entry["visual_tokens"] = sum(int(t*h*w)//(merge*merge) for t,h,w in entry["image_grid_thw"])
+            torch.cuda.synchronize(); torch.cuda.reset_peak_memory_stats(); gen_start=time.perf_counter()
+            entry['model_executed']=True
+            with torch.inference_mode():
+                output = runtime.model.generate(**inputs,max_new_tokens=max_tokens,do_sample=False,max_time=35.0)
+            torch.cuda.synchronize()
+            entry.update(generation_seconds=time.perf_counter()-gen_start,input_tokens=int(inputs["input_ids"].shape[1]),
+                         output_tokens=int(output.shape[1]-inputs["input_ids"].shape[1]),peak_cuda_gib=torch.cuda.max_memory_allocated()/2**30)
+            raw = runtime.processor.batch_decode(output[:,inputs["input_ids"].shape[1]:],skip_special_tokens=True)[0].strip()
+            eos=runtime.model.generation_config.eos_token_id
+            eos=eos if isinstance(eos,list) else [eos]
+            finished=int(output[0,-1].item()) in eos
+            entry.update(raw_output=raw,status="ok" if finished else 'partial',stop_reason='eos' if finished else 'token_or_time_budget',total_seconds=time.perf_counter()-started)
+        except KeyboardInterrupt:
+            entry.update(status='cancelled',total_seconds=time.perf_counter()-started)
+            raise
+        except Exception as error:
+            entry.update(status="error",error=type(error).__name__+": "+str(error),total_seconds=time.perf_counter()-started)
+            raise
+        if not finished and not (stage == 'full_open_conversation' and raw.strip()):
+            raise ValueError('Conversation generation ended before EOS')
+        return raw
 
     def route(self,text,selected,last_lane,history,trace,recent_tasks=None,last_task=None,selected_entities=None):
         certain=clear_route(text,selected,last_lane)

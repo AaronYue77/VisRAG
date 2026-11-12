@@ -4,7 +4,7 @@ param(
     [ValidateSet('auto', 'bm25', 'dense', 'hybrid', 'rerank')][string]$Mode = 'auto',
     [string]$Question = '', [string[]]$Sku = @(), [string]$Domain = '', [string]$Type = '',
     [switch]$Visual, [switch]$Retry, [switch]$LegacyEvidence, [int]$Port = 8768,
-    [ValidateSet('8b', '2b')][string]$Model = '8b', [string]$ModelDir = ''
+    [ValidateSet('8b')][string]$Model = '8b', [string]$ModelDir = ''
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'env.ps1')

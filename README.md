@@ -31,20 +31,11 @@ A 提供可追溯的商品库和证据格式。B 从全量库找商品并按问�
 
 576 类是全库查询范围。210 道问答的主商品覆盖 35 类，照片为 20 类抽样。Kaggle 日常演示使用 8B 底座和全量 BM25，C 阶段根据原题及跨类目增补题的配对结果选定适配器。[覆盖范围、抽样依据与选版结果](personal/ecommerce_rag/docs/kaggle-8b/覆盖与选版.md)
 
-## 历史 A 阶段真实数据基线
+## 运行与记录
 
-- 官方 Amazon Berkeley Objects（ABO）元数据/原图，24 个椅子商品，转换为48页来源可追溯PDF资料卡。转换PDF、152道题和开发/测试划分为本项目自建，不是官方问答基准或厂家原始手册。
-- 原生文字块/坐标 + 必要时 RapidOCR → BM25文字块检索 → 父页面去重 → 本地 Qwen3.5-2B 看页面图片 → 引用/拒答/逐题记录。
-- 商品编号、站点、快照日期范围规则路由；澄清、资料不足、需要实时工具、场外分支。当前没有执行订单、价格、库存或退款工具。
-- 两个单因素改进：整页→文字块（修复跨商品证据漏召回，也暴露引用退化）；再单独澄清引用标签与物理页码。全部收益与退化保留。
-- 冻结的12个独立商品测试组共76题：56道可回答题中55道满足答案及引用要求；12道未知题、8道业务边界题动作正确；零运行异常。一次裸No未满足JSON/引用协议，系统拒答，未追分修补。
-- 39项单元/回归检查通过；本地HTTP健康检查、输入校验、真实图片问答与2槽并发保护通过。
+交互、读图和 QLoRA 统一使用 Qwen3-VL-8B-Instruct。A/B 的 SQLite 检索可在 CPU 上运行，8B 生成和 C 阶段微调在 Kaggle 的 CUDA GPU 上运行。B 的稠密检索和可选重排继续使用各自的检索模型。[8B 启动与复现](personal/ecommerce_rag/docs/kaggle-8b/launch/README.md)
 
-这些是小型、自建、含字段提示的资料卡任务；单商品2页而Top-2全覆盖，高召回有任务设计因素。不能作为普遍真实客服准确率、线上A/B收益或生产上线证明。原始属性也有质量问题，出处可靠不代表每字段正确。
-
-## 运行与证据
-
-日常 8B 演示使用 Kaggle 交互 Notebook。运行环境、模型挂载及本地工作区布局见 [8B 启动说明](personal/ecommerce_rag/docs/kaggle-8b/launch/README.md)。以下 PowerShell 命令在配置好的本地工作区根目录运行。
+在已配置数据和环境的本地工作区根目录运行：
 
 ```powershell
 .\scripts\run_stage_a.ps1 -Command check
@@ -52,24 +43,9 @@ A 提供可追溯的商品库和证据格式。B 从全量库找商品并按问�
 .\scripts\run_stage_c.ps1 -Command cloud-status
 ```
 
-- [A阶段面试覆盖与代码对应](personal/ecommerce_rag/docs/A阶段实施与面试覆盖.txt)
-- [A阶段用法](personal/ecommerce_rag/README.md)
-- 本地连续操作和问题日志位于 `personal/a_baseline/docs/`。
-- 本地真实测试逐题TXT：`reports/ecommerce_rag/abo-a-test-final-v1/逐题结果.txt`；总表：`记录/逐题结果汇总.txt`。
-- 本地验收：`记录/A阶段完成情况与验收报告.txt`；数据来源与署名：`data/ecommerce_rag/abo-cards-v1/ATTRIBUTION.txt`。
-- 运行保留JSONL、原始输出、图片、配置/代码SHA、输入清单与代码快照；gold不进入正常Reader，oracle仅开发诊断。
+商品对话支持搜索、选中候选、连续追问和来源引用。普通对话也使用同一 8B，普通历史与商品证据分别维护。HTTP 客户端使用返回的 `session_id` 延续会话。
 
-## 终端连续聊天
-
-已补终端自然语言输入循环、问候、商品上下文、异常恢复和逐轮记录；同一进程复用模型。Windows PowerShell5.1下验证宽度25 inches后继续追问重量33 pounds，两次只加载一次模型。HTTP接口共用会话处理，使用返回的session_id继续。
-
-详见[连续聊天说明](personal/ecommerce_rag/docs/终端连续聊天.txt)。这是商品上下文管理，没有实现自主Agent或长期用户记忆。
-
-## 历史方案与回归
-
-历史 A 完成后提出 B 检索对照和 C 定向 LoRA，当前实现见上方 A→B→C 项目总图。
-
-旧的4份PDF/16题虚构路由器样例保留作功能回归，不能与真实ABO测试混报。原模拟应用的BM25+BGE/RRF和独立VisRAG视觉工具仍保留，不表示真实商品视觉融合已完成。
+本地运行目录保存配置、逐题 TXT 和 JSONL。早期小样本基线及旧模型成绩作为历史实验单独归档。公开仓库提供项目源码、启动文件和评测摘要。[代码阅读地图](personal/ecommerce_rag/docs/代码阅读地图.md)
 
 ## 来源
 

@@ -15,7 +15,7 @@ from full_retrieval import FullRetriever,MODES,exact_skus,expand
 from full_protocol import EVAL,SETTINGS,compact
 from common import WORKSPACE,write_json,file_hash,timestamp,operation,issue
 from audit import append_question,format_question
-from stage_a import Reader,MODEL_REVISION,snapshot
+from stage_a import Reader,snapshot
 from full_conversation import FullConversation,VERSION as CONVERSATION_VERSION,bound_history
 from full_catalogue import catalogue_request,category_search_request,continuation_request,overview_request,catalog_page,normalize_search,overview_chunk
 from full_reference import bare_category_choice,product_task,ordinal_choice
@@ -43,13 +43,17 @@ def boundary(question):
 
 class EvidenceReader:
     def __init__(self, model='8b', model_dir=None):
-        self.reader=None;self.load_count=0
-        self.backend=model;self.model_dir=model_dir
-        self.model_name,self.revision=(QWEN8,QWEN8_REVISION) if model=='8b' else ('Qwen/Qwen3.5-2B',MODEL_REVISION)
+        if model != '8b':
+            raise ValueError('The supported generation model is Qwen3-VL-8B-Instruct.')
+        self.reader = None
+        self.load_count = 0
+        self.model_dir = model_dir
+        self.model_name, self.revision = QWEN8, QWEN8_REVISION
+
     def ensure_reader(self):
         if self.reader is None:
-            runtime=Qwen8Runtime(self.model_dir) if self.backend=='8b' else None
-            self.reader=Reader(vlm=runtime);self.load_count+=1
+            self.reader = Reader(vlm=Qwen8Runtime(self.model_dir))
+            self.load_count += 1
         return self.reader
     def unload(self):
         self.reader=None;gc.collect()
@@ -71,7 +75,7 @@ class FullApplication:
         self.stage=stage;self.mode='bm25' if stage=='A' else (mode or selected_mode())
         self.visual=visual;self.retry=retry;self.legacy_evidence=legacy_evidence
         self.audit=audit
-        self.retriever=FullRetriever();self.reader=EvidenceReader(model,model_dir);self.sessions={};self.lock=threading.RLock()
+        self.reader=EvidenceReader(model,model_dir);self.retriever=FullRetriever();self.sessions={};self.lock=threading.RLock()
         self.conversation=FullConversation(self.reader)
         self.report_root=report_root or WORKSPACE/'reports/ecommerce_rag'
     def close(self,release_model=True):
@@ -118,7 +122,7 @@ class FullSession:
         self.out=app.report_root/name;self.out.mkdir(parents=True,exist_ok=False)
         config={'version':CONVERSATION_VERSION,'stage':app.stage,'mode':app.mode,'settings':SETTINGS,
           'active_model':app.reader.model_name,'active_model_revision':app.reader.revision,
-          'quantization':'nf4' if app.reader.backend=='8b' else None,
+          'quantization':'nf4',
           'evidence_version':'legacy' if app.legacy_evidence else EVIDENCE_VERSION,
           'evidence_source_sha256':file_hash(Path(__file__).with_name('full_evidence.py')),
           'policy_sha256':file_hash(POLICY_FILE) if not app.legacy_evidence and app.stage=='B' and POLICY_FILE.is_file() else None,
@@ -475,7 +479,7 @@ def main():
     parser.add_argument('--question',default='');parser.add_argument('--sku',action='append',default=[]);parser.add_argument('--domain');parser.add_argument('--type')
     parser.add_argument('--port',type=int,default=8768);parser.add_argument('--visual',action='store_true');parser.add_argument('--retry',action='store_true')
     parser.add_argument('--legacy-evidence',action='store_true')
-    parser.add_argument('--model',choices=['8b','2b'],default='8b');parser.add_argument('--model-dir',type=Path)
+    parser.add_argument('--model',choices=['8b'],default='8b');parser.add_argument('--model-dir',type=Path)
     args=parser.parse_args()
     app=FullApplication(args.stage,args.mode,visual=args.visual,retry=args.retry,legacy_evidence=args.legacy_evidence,
                         model=args.model,model_dir=args.model_dir)

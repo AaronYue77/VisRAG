@@ -12,7 +12,7 @@ from full_retrieval import FullRetriever,MODES
 from full_app import FullApplication,EvidenceReader
 from full_audit import append_record
 from common import WORKSPACE,read_jsonl,write_json,file_hash,operation,timestamp
-from stage_a import snapshot,MODEL_REVISION,percentile
+from stage_a import snapshot,percentile
 from audit import append_question
 
 REPORTS=WORKSPACE/'reports/ecommerce_rag'
@@ -87,28 +87,35 @@ def freeze():
 
 
 class CachedReader(EvidenceReader):
-    def predict(self,question,request,pages,image_dir):
+    def predict(self,question,request,pages,image_dir,prompt_addition=""):
+        code = Path(__file__).parent
         settings={'question':question,'request':request,'pages':[(p['page_id'],p['pdf_sha256']) for p in pages],
-          'reader_source':file_hash(Path(__file__).parent/'stage_a.py'),'revision':MODEL_REVISION,'pixels':786432,'output_tokens':160}
+          'reader_source':file_hash(code/'stage_a.py'),'runtime_source':file_hash(code/'qwen8_runtime.py'),
+          'model':self.model_name,'revision':self.revision,'model_dir':str(self.model_dir or ""),
+          'quantization':'nf4','pixels':786432,'output_tokens':160,'prompt_addition':prompt_addition}
         key=hashlib.sha256(json.dumps(settings,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
         folder=ROOT/'reader-cache';folder.mkdir(exist_ok=True);p=folder/(key+'.json')
         if p.exists():return {**json.loads(p.read_text('utf-8')),'prediction_cache_hit':True,'prediction_cache_key':key,'actual_generation_wall_seconds':0.0}
-        start=time.perf_counter();value=super().predict(question,request,pages,image_dir)
+        start=time.perf_counter();value=super().predict(question,request,pages,image_dir,prompt_addition)
         value.update(prediction_cache_hit=False,prediction_cache_key=key,actual_generation_wall_seconds=time.perf_counter()-start)
         write_json(p,value);return value
 
 
-def qa(only_split=None,only_stage=None):
-    proto=verify();cache=CachedReader()
+def qa(only_split=None,only_stage=None,model_dir=None):
+    proto=verify();cache=CachedReader(model_dir=model_dir)
     for split in ('dev','test'):
         if only_split and split!=only_split:continue
         for stage in ('A','B'):
             if only_stage and stage!=only_stage:continue
-            name=f'{PREFIX}-qa-{split}-{stage.lower()}-r2';out=REPORTS/name
+            name=f'{PREFIX}-qa-{split}-{stage.lower()}-8b';out=REPORTS/name
             if (out/'summary.json').exists():continue
             if out.exists():raise FileExistsError('Incomplete QA preserved; inspect before resuming')
-            out.mkdir();app=FullApplication(stage,report_root=out);app.reader=cache;session=app.session()
-            config={'protocol':proto,'stage':stage,'mode':app.mode,'source_sha256':snapshot(out),
+            out.mkdir()
+            app=FullApplication(stage,report_root=out,model_dir=model_dir)
+            app.reader=cache
+            app.conversation.evidence_reader=cache
+            session=app.session()
+            config={'protocol':proto,'stage':stage,'mode':app.mode,'model':cache.model_name,'model_revision':cache.revision,'source_sha256':snapshot(out),
                'note':'Explicit-SKU fields use exact identity + within-product page BM25 for both stages. Reader cache reuses identical evidence only; not a second independent prediction or global retrieval gain.'}
             write_json(out/'config.json',config);rows=[]
             with (out/'results.jsonl').open('w',encoding='utf-8') as f:
@@ -145,7 +152,7 @@ def qa(only_split=None,only_stage=None):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('command',choices=['retrieval','freeze','qa']);p.add_argument('--split',choices=['dev','test']);p.add_argument('--stage',choices=['A','B']);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('command',choices=['retrieval','freeze','qa']);p.add_argument('--split',choices=['dev','test']);p.add_argument('--stage',choices=['A','B']);p.add_argument('--model-dir',type=Path);a=p.parse_args()
     if a.command=='retrieval':retrieve(a.split or 'dev')
     elif a.command=='freeze':freeze()
-    else:qa(a.split,a.stage)
+    else:qa(a.split,a.stage,a.model_dir)

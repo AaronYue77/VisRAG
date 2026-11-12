@@ -1,6 +1,6 @@
 import unittest
 from retrieval import active, eligible, plan, rrf
-from run import decode_business_output
+from stage_a import decode_business_output
 
 OLD = {"sku": "DN-R100", "store_id": "demo_store", "valid_from": "2025-01-01", "valid_to": "2025-12-31", "doc_type": "product_manual"}
 NEW = {**OLD, "valid_from": "2026-01-01", "valid_to": None}

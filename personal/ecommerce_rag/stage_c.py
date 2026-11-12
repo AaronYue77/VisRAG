@@ -1,21 +1,10 @@
-"""Controlled prompt versus visual LoRA SFT experiment, using the same B evidence."""
-import argparse
+"""Shared evidence prompting, scoring and training input for the 8B experiments."""
 from collections import defaultdict
 import json
-import math
-import random
 import re
 import statistics
-import time
 
-import peft
-import torch
-import transformers
-
-from c_protocol import DATA, load, norm, prepare
-from common import WORKSPACE, file_hash, issue, operation, read_jsonl, write_json
-from audit import append_question
-from stage_a import MODEL_REVISION, PROMPT_VERSION, Reader, snapshot
+from common import write_json
 
 
 PROMPT_C1 = (
@@ -27,7 +16,7 @@ PROMPT_C1 = (
 
 
 def compact_answer(answer):
-    return norm(answer).replace("：", ":").replace("｜", "|")
+    return re.sub(r"\s+", "", answer).casefold().replace("：", ":").replace("｜", "|")
 
 
 def score(row, result, pages):
@@ -54,6 +43,8 @@ def score(row, result, pages):
 
 
 def training_input(reader, row, images, cfg):
+    import torch
+
     pages = row["retrieved_pages"]
     page_labels = {page["page_id"]: f"P{i}" for i, page in enumerate(pages, 1)}
     labels = [page_labels[page] for page in row["reference_pages"]]
@@ -72,135 +63,6 @@ def training_input(reader, row, images, cfg):
     # Predict response tokens only. The last prefix position predicts the first response token.
     positions = torch.arange(prefix - 1, inputs["input_ids"].shape[1] - 1, device="cuda")
     return inputs, target_ids, positions, info
-
-
-def train(out, rows, cfg):
-    torch.manual_seed(cfg["seed"])
-    eligible = [row for row in rows if row["split"] == "train"]
-    examples = [row for row in eligible if set(row["reference_pages"]) <=
-                {page["page_id"] for page in row["retrieved_pages"]}]
-    reader = Reader(cfg["max_tokens"])
-    model = reader.vlm.model
-    # Freeze the vision tower and early text layers. Fit query/value projections in the final two full-attention layers.
-    query_layers = [name for name, module in model.named_modules()
-                    if name.endswith(".self_attn.q_proj") and "language_model" in name]
-    if len(query_layers) < cfg["attention_layers"]:
-        raise RuntimeError("Base model does not have the expected attention projections")
-    targets = [name.removesuffix("q_proj") + proj for name in query_layers[-cfg["attention_layers"]:]
-               for proj in ("q_proj", "v_proj")]
-    model = peft.get_peft_model(model, peft.LoraConfig(r=cfg["lora_r"], lora_alpha=cfg["lora_alpha"],
-                                lora_dropout=0, target_modules=targets, bias="none"))
-    model.train()
-    params = [param for param in model.parameters() if param.requires_grad]
-    if not params or any("lora_" not in name for name, param in model.named_parameters() if param.requires_grad):
-        raise RuntimeError("Unexpected trainable parameter scope")
-    optimizer = torch.optim.AdamW(params, lr=cfg["learning_rate"])
-    details = {"targets": targets, "trainable_parameters": sum(p.numel() for p in params),
-               "total_parameters": sum(p.numel() for p in model.parameters()),
-               "training_questions": len(examples), "excluded_candidate_misses": sorted(
-                   {r["question_id"] for r in eligible} - {r["question_id"] for r in examples}),
-               "torch": torch.__version__, "transformers": transformers.__version__, "peft": peft.__version__,
-               "base_revision": MODEL_REVISION, "protocol_sha256": file_hash(DATA / "protocol.json"),
-               "gpu": torch.cuda.get_device_name(), "precision": "BF16 base, FP32 LoRA"}
-    write_json(out / "training-config.json", details)
-    print("Training settings:", json.dumps(details), flush=True)
-    torch.cuda.reset_peak_memory_stats()
-    started = time.perf_counter()
-    rng = random.Random(cfg["seed"])
-    training = []
-    accumulation = cfg["gradient_accumulation"]
-    for epoch in range(cfg["epochs"]):
-        rng.shuffle(examples)
-        for start in range(0, len(examples), accumulation):
-            batch = examples[start:start + accumulation]
-            optimizer.zero_grad(set_to_none=True)
-            for row in batch:
-                inputs, targets_ids, positions, info = training_input(reader, row, out / "images", cfg)
-                logits = model(**inputs, use_cache=False, logits_to_keep=positions).logits
-                loss = torch.nn.functional.cross_entropy(logits.float().flatten(0, 1), targets_ids.flatten())
-                value = loss.item()
-                if not math.isfinite(value):
-                    raise RuntimeError(f"Non-finite loss at {row['question_id']}")
-                (loss / len(batch)).backward()
-                record = {"epoch": epoch + 1, "example": len(training) + 1, "question_id": row["question_id"],
-                          "loss": value, "assistant_tokens": targets_ids.numel(),
-                          "visual_tokens": info["visual_tokens_from_grid"]}
-                training.append(record)
-                with (out / "training-loss.jsonl").open("a", encoding="utf-8") as stream:
-                    stream.write(json.dumps(record, ensure_ascii=False) + "\n")
-                del inputs, logits, loss
-            grad_norm = torch.nn.utils.clip_grad_norm_(params, 1.0, error_if_nonfinite=True).item()
-            optimizer.step()
-            if start == 0 or len(training) % 16 == 0:
-                print(f"Epoch {epoch + 1} examples={len(training)} loss={value:.4f} grad_norm={grad_norm:.3f} "
-                      f"peak_GiB={torch.cuda.max_memory_allocated() / 2**30:.2f}", flush=True)
-    torch.cuda.synchronize()
-    elapsed = time.perf_counter() - started
-    adapter = out / "adapter"
-    model.save_pretrained(adapter, save_embedding_layers=False)
-    result = {**details, "examples_seen": len(training), "gpu_seconds": elapsed, "gpu_hours": elapsed / 3600,
-              "peak_cuda_allocated_gib": torch.cuda.max_memory_allocated() / 2**30,
-              "peak_cuda_reserved_gib": torch.cuda.max_memory_reserved() / 2**30,
-              "epoch_loss": [statistics.mean(r["loss"] for r in training if r["epoch"] == epoch + 1)
-                             for epoch in range(cfg["epochs"])],
-              "adapter_sha256": file_hash(adapter / "adapter_model.safetensors")}
-    write_json(out / "training-summary.json", result)
-    (out / "训练记录.txt").write_text("冻结底座与视觉塔。监督损失只计算回答及结束 token。\n" +
-                                    json.dumps(result, ensure_ascii=False, indent=2) + "\n\n" +
-                                    (out / "training-loss.jsonl").read_text("utf-8"), "utf-8")
-    print(json.dumps(result, ensure_ascii=False), flush=True)
-
-
-def evaluate(out, rows, cfg, source_sha):
-    adapter = out / "adapter"
-    summary = json.loads((out / "training-summary.json").read_text("utf-8"))
-    if (summary["adapter_sha256"] != file_hash(adapter / "adapter_model.safetensors")
-            or summary["protocol_sha256"] != file_hash(DATA / "protocol.json")
-            or summary["base_revision"] != MODEL_REVISION):
-        raise ValueError("Adapter or frozen protocol identity differs from training")
-    reader = Reader(cfg["max_tokens"])
-    eval_rows = [row for row in rows if row["split"] != "train"]
-    # A previous interrupted evaluation can resume with the exact same immutable config.
-    result_file = out / "results.jsonl"
-    prior = read_jsonl(result_file) if result_file.exists() else []
-    completed = {(row["variant"], row["question_id"]): row for row in prior}
-    config_sha = file_hash(out / "config.json")
-    if len(prior) != len(completed) or any(row["config_sha256"] != config_sha or
-                                         row["source_sha256"] != source_sha for row in prior):
-        raise ValueError("Incompatible or duplicate previous evaluation records")
-
-    def run_variant(variant, suite, prompt, oracle=False):
-        for row in suite:
-            key = (variant, row["question_id"])
-            if key in completed:
-                continue
-            pages = row["gold_pages"] if oracle else row["retrieved_pages"]
-            result = reader.read(row["question"], row["request"], pages, out / "images", cfg["max_pixels"], prompt)
-            metrics = score(row, result, pages)
-            record = {**{k: v for k, v in row.items() if k != "gold_pages"}, **result,
-                      "run_name": out.name, "run_directory": str(out), "variant": variant,
-                      "routing": {"reason": variant, "prompt": PROMPT_VERSION if variant == "C0" else "stage-c-evidence-v1"},
-                      "retrieved_pages": pages, "retrieval_seconds": 0.0 if oracle else row["retrieval_seconds"],
-                      "diagnostic_oracle": oracle, "status": "ok", "metrics": metrics,
-                      "model": "Qwen/Qwen3.5-2B" + (" + LoRA" if variant == "C2" else ""),
-                      "model_revision": MODEL_REVISION + (" + " + summary["adapter_sha256"] if variant == "C2" else ""),
-                      "source_sha256": source_sha, "config_sha256": config_sha}
-            with result_file.open("a", encoding="utf-8") as stream:
-                stream.write(json.dumps(record, ensure_ascii=False) + "\n")
-            append_question(out, record)
-            completed[key] = record
-            count = len(completed)
-            if count == 1 or count % 8 == 0:
-                print(f"{variant} {count} evaluations recorded, latest={row['question_id']} strict={metrics['strict_pass']}", flush=True)
-
-    run_variant("C0", eval_rows, "")
-    run_variant("C1", eval_rows, PROMPT_C1)
-    oracle_rows = [row for row in eval_rows if row["split"] == "dev" and row["suite"] == "unit"
-                   and not completed[("C1", row["question_id"])]["metrics"]["strict_pass"]]
-    run_variant("oracle-dev", oracle_rows, PROMPT_C1, oracle=True)
-    reader.vlm.model = peft.PeftModel.from_pretrained(reader.vlm.model, adapter).eval()
-    run_variant("C2", eval_rows, PROMPT_C1)
-    report(out, completed)
 
 
 def report(out, completed):
@@ -238,44 +100,3 @@ def report(out, completed):
     for row in metrics:
         if row["suite"] == "all":
             print(row["variant"], row["split"], row["strict_pass"], flush=True)
-
-
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=("prepare", "train", "evaluate"))
-    parser.add_argument("--run-name", default="stage-c-lora-v1")
-    args = parser.parse_args()
-    if args.command == "prepare":
-        prepare()
-        return
-    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}", args.run_name):
-        parser.error("Invalid run name")
-    rows, protocol = load()
-    cfg = protocol["settings"]
-    out = WORKSPACE / "reports/ecommerce_rag" / args.run_name
-    started = time.perf_counter()
-    try:
-        if args.command == "train":
-            out.mkdir(parents=True)
-            source_sha = snapshot(out)
-            write_json(out / "config.json", {"settings": cfg, "prompt_version": PROMPT_VERSION,
-                      "prompt_addition": PROMPT_C1, "protocol_sha256": file_hash(DATA / "protocol.json"),
-                      "source_sha256": source_sha, "base_revision": MODEL_REVISION})
-            train(out, rows, cfg)
-        else:
-            config = json.loads((out / "config.json").read_text("utf-8"))
-            if config["settings"] != cfg or config["prompt_addition"] != PROMPT_C1:
-                raise ValueError("Evaluation settings differ from the frozen training configuration")
-            evaluate(out, rows, cfg, config["source_sha256"])
-    except Exception as error:
-        key = issue(f"C阶段 {args.command} 失败", str(error), "保留当前运行目录和已有结果，按错误定位。")
-        operation(f"C阶段 {args.command}", "按冻结协议执行独立训练或评测。", str(error), [out],
-                  status="失败", related_issues=key)
-        raise
-    operation(f"C阶段 {args.command}", "按冻结ABO协议使用同一Qwen3.5-2B与B召回页执行。",
-              f"完成，耗时 {time.perf_counter() - started:.1f} 秒", [out],
-              "训练见训练记录与adapter哈希，评测见三组对照与逐题TXT。")
-
-
-if __name__ == "__main__":
-    main()

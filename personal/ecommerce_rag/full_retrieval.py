@@ -26,6 +26,31 @@ def exact_skus(query):
     return list(dict.fromkeys(re.findall(r'(?<![A-Z0-9])(?:B[0-9][A-Z0-9]{8}|[0-9]{9}[0-9X])(?![A-Z0-9])',query.upper())))
 
 
+RERANKER_REVISION = '2cfc18c9415c912f9d8155881c133215df768a70'
+
+
+class CrossEncoder:
+    def __init__(self):
+        import torch
+        from transformers import AutoTokenizer,AutoModelForSequenceClassification
+        root=WORKSPACE/'models/bge-reranker-base'
+        manifest=json.loads((root/'download-manifest.json').read_text('utf-8'))
+        if manifest['revision']!=RERANKER_REVISION:raise ValueError('Wrong reranker revision')
+        self.tokenizer=AutoTokenizer.from_pretrained(root,local_files_only=True)
+        self.model=AutoModelForSequenceClassification.from_pretrained(root,local_files_only=True,dtype=torch.float32).to('cpu').eval()
+        torch.set_num_threads(4)
+
+    def score(self,query,texts):
+        import torch
+        values=[]
+        with torch.inference_mode():
+            for start in range(0,len(texts),4):
+                part=texts[start:start+4]
+                inputs=self.tokenizer([query]*len(part),part,padding=True,truncation=True,max_length=384,return_tensors='pt')
+                values.extend(self.model(**inputs).logits.reshape(-1).float().tolist())
+        return values
+
+
 class FullRetriever:
     def __init__(self):
         self.db=connect();self.encoder=None;self.vectors=None;self.reranker=None
@@ -104,7 +129,6 @@ class FullRetriever:
         else:order,scores=rrf([sparse_ids,dense_ids])
         before=list(order);rerank_seconds=0
         if mode=='rerank' and order:
-            from b_retrieval import CrossEncoder
             candidates=order[:20]
             if self.reranker is None:self.reranker=CrossEncoder()
             stamp=time.perf_counter();output=self.reranker.score(query,[self.row(i)['dense_text'] for i in candidates])
