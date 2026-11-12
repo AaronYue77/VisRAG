@@ -101,9 +101,12 @@ class FullConversation:
 
     def generate(self, messages, stage, trace, max_tokens):
         import torch
-        started = time.perf_counter()
+        initial_load_count = self.evidence_reader.load_count
+        load_started = time.perf_counter()
         runtime = self.evidence_reader.ensure_reader().vlm
-        entry = {"stage":stage,"raw_output":"","status":"started","load_seconds":0.0,"model_executed":False}
+        started = time.perf_counter()
+        load_seconds = started - load_started if self.evidence_reader.load_count > initial_load_count else 0.0
+        entry = {"stage":stage,"raw_output":"","status":"started","load_seconds":load_seconds,"model_executed":False}
         trace.append(entry)
         try:
             inputs = runtime.processor.apply_chat_template(messages, tokenize=True, add_generation_prompt=True,
